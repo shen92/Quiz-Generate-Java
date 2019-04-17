@@ -11,7 +11,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
     try {
       System.out.println("Hello World!");
-      System.out.println("!!!");
+      System.out.println("Do you like it?");
       BorderPane root = new BorderPane();
       Scene scene = new Scene(root, 400, 400);
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
