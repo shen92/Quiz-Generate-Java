@@ -82,17 +82,17 @@ public class Main extends Application {
               new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
           fileChooser.getExtensionFilters().add(extFilter);
           File file = fileChooser.showOpenDialog(primaryStage);
-          //TODO
+          // TODO
         }
       });
       leftMidButtonHBox.getChildren().add(lb1);
       Button lb2 = new Button("Select All");
-      //TODO
+      // TODO
       lb2.setPrefWidth(180);
       lb2.setPrefHeight(45);
       leftMidButtonHBox.getChildren().add(lb2);
       Button lb3 = new Button("Add Selected");
-      //TODO
+      // TODO
       lb3.setPrefWidth(180);
       lb3.setPrefHeight(45);
       leftMidButtonHBox.getChildren().add(lb3);
@@ -116,7 +116,7 @@ public class Main extends Application {
       searchHBox.getChildren().add(topicTextField);
       leftBottomVBox.getChildren().add(searchHBox);
       Button applyTopicButton = new Button("Find Question");
-      //TODO
+      // TODO
       applyTopicButton.setPrefWidth(180);
       applyTopicButton.setPrefHeight(45);
       leftBottomVBox.getChildren().add(applyTopicButton);
@@ -158,12 +158,12 @@ public class Main extends Application {
       // 3) Mid Buttons of the left VBox
       HBox rightMidButtonHBox = new HBox();
       Button rb1 = new Button("Select All");
-      //TODO
+      // TODO
       rb1.setPrefWidth(280);
       rb1.setPrefHeight(45);
       rightMidButtonHBox.getChildren().add(rb1);
       Button rb2 = new Button("Remove Selected");
-      //TODO
+      // TODO
       rb2.setPrefWidth(280);
       rb2.setPrefHeight(45);
       rightMidButtonHBox.getChildren().add(rb2);
@@ -178,7 +178,7 @@ public class Main extends Application {
       quizQuestionCountLabel.setFont(Font.font(18));
       rightBottomHBox.getChildren().add(quizQuestionCountLabel);
       Button startQuizButton = new Button("Start Quiz");
-      //TODO
+      // TODO
       startQuizButton.setPrefWidth(180);
       startQuizButton.setPrefHeight(45);
       rightBottomHBox.getChildren().add(startQuizButton);
