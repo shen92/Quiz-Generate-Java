@@ -51,19 +51,19 @@ public class Main extends Application {
       leftVBox.getChildren().add(questionListLabel);
 
       // 2) Mid table of the left VBox
-      TableView questionListTable = new TableView();
+      TableView questionListTable = new TableView<>();
       questionListTable.setEditable(true);
       // set table properties
       questionListTable.setPrefWidth(540);
       questionListTable.setPrefHeight(400);
       // add columns to the table
-      TableColumn questionListSelectCol = new TableColumn("Select");
+      TableColumn questionListSelectCol = new TableColumn<>("Select");
       questionListSelectCol.setPrefWidth(60);
       questionListSelectCol.setMinWidth(60);
       questionListSelectCol.setMaxWidth(60);
-      TableColumn questionListTopicCol = new TableColumn("Topic");
+      TableColumn questionListTopicCol = new TableColumn<>("Topic");
       questionListTopicCol.setPrefWidth(100);
-      TableColumn questionListContentCol = new TableColumn("Question");
+      TableColumn questionListContentCol = new TableColumn<>("Question");
       questionListContentCol.setPrefWidth(380);
       questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
           questionListContentCol);
@@ -79,18 +79,20 @@ public class Main extends Application {
         public void handle(ActionEvent arg0) {
           FileChooser fileChooser = new FileChooser();
           FileChooser.ExtensionFilter extFilter =
-              new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+              new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
           fileChooser.getExtensionFilters().add(extFilter);
           File file = fileChooser.showOpenDialog(primaryStage);
-          System.out.println(file);
+          //TODO
         }
       });
       leftMidButtonHBox.getChildren().add(lb1);
       Button lb2 = new Button("Select All");
+      //TODO
       lb2.setPrefWidth(180);
       lb2.setPrefHeight(45);
       leftMidButtonHBox.getChildren().add(lb2);
       Button lb3 = new Button("Add Selected");
+      //TODO
       lb3.setPrefWidth(180);
       lb3.setPrefHeight(45);
       leftMidButtonHBox.getChildren().add(lb3);
@@ -114,6 +116,7 @@ public class Main extends Application {
       searchHBox.getChildren().add(topicTextField);
       leftBottomVBox.getChildren().add(searchHBox);
       Button applyTopicButton = new Button("Find Question");
+      //TODO
       applyTopicButton.setPrefWidth(180);
       applyTopicButton.setPrefHeight(45);
       leftBottomVBox.getChildren().add(applyTopicButton);
@@ -134,19 +137,19 @@ public class Main extends Application {
       rightVBox.getChildren().add(quizListLabel);
 
       // 2) Mid table of the right VBox
-      TableView quizListTable = new TableView();
+      TableView quizListTable = new TableView<>();
       quizListTable.setEditable(true);
       // set table properties
       quizListTable.setPrefWidth(540);
       quizListTable.setPrefHeight(500);
       // add columns to the table
-      TableColumn quizListSelectCol = new TableColumn("Select");
+      TableColumn quizListSelectCol = new TableColumn<>("Select");
       quizListSelectCol.setPrefWidth(60);
       quizListSelectCol.setMinWidth(60);
       quizListSelectCol.setMaxWidth(60);
-      TableColumn quizTopicSelectCol = new TableColumn("Topic");
+      TableColumn quizTopicSelectCol = new TableColumn<>("Topic");
       quizTopicSelectCol.setPrefWidth(100);
-      TableColumn quizContentSelectCol = new TableColumn("Question");
+      TableColumn quizContentSelectCol = new TableColumn<>("Question");
       quizContentSelectCol.setPrefWidth(380);
       quizListTable.getColumns().addAll(quizListSelectCol, quizTopicSelectCol,
           quizContentSelectCol);
@@ -155,10 +158,12 @@ public class Main extends Application {
       // 3) Mid Buttons of the left VBox
       HBox rightMidButtonHBox = new HBox();
       Button rb1 = new Button("Select All");
+      //TODO
       rb1.setPrefWidth(280);
       rb1.setPrefHeight(45);
       rightMidButtonHBox.getChildren().add(rb1);
       Button rb2 = new Button("Remove Selected");
+      //TODO
       rb2.setPrefWidth(280);
       rb2.setPrefHeight(45);
       rightMidButtonHBox.getChildren().add(rb2);
@@ -173,6 +178,7 @@ public class Main extends Application {
       quizQuestionCountLabel.setFont(Font.font(18));
       rightBottomHBox.getChildren().add(quizQuestionCountLabel);
       Button startQuizButton = new Button("Start Quiz");
+      //TODO
       startQuizButton.setPrefWidth(180);
       startQuizButton.setPrefHeight(45);
       rightBottomHBox.getChildren().add(startQuizButton);
