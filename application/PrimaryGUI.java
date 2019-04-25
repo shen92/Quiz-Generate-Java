@@ -133,7 +133,7 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(questionDatabaseCountLabel);
     // 5) Filter by Topic
     VBox leftBottomVBox = new VBox();
-    leftBottomVBox.setPadding(new Insets(40.0, 0.0, 0.0, 0.0));
+    leftBottomVBox.setPadding(new Insets(50.0, 0.0, 0.0, 0.0));
     leftBottomVBox.setSpacing(10);
     HBox searchHBox = new HBox();
     searchHBox.setSpacing(30);
@@ -197,18 +197,18 @@ public class PrimaryGUI {
     Button rb1 = new Button("Select All");
     // TODO
     rb1.setPrefWidth(280);
-    rb1.setPrefHeight(45);
+    rb1.setPrefHeight(40);
     rightMidButtonHBox.getChildren().add(rb1);
     Button rb2 = new Button("Remove Selected");
     // TODO
     rb2.setPrefWidth(280);
-    rb2.setPrefHeight(45);
+    rb2.setPrefHeight(40);
     rightMidButtonHBox.getChildren().add(rb2);
     rightVBox.getChildren().add(rightMidButtonHBox);
 
     // 4) Bottom controllers and start quiz
     HBox rightBottomHBox = new HBox();
-    rightBottomHBox.setPadding(new Insets(40.0, 25.0, 40.0, 60.0));
+    rightBottomHBox.setPadding(new Insets(80.0, 25.0, 40.0, 60.0));
     rightBottomHBox.setSpacing(100);
     Label quizQuestionCountLabel = new Label();
     int questionCount = 0;
@@ -227,60 +227,64 @@ public class PrimaryGUI {
 
 
 
+    int indexOfQuestion = 1;
+    int totalNumOfQuestion = 20;
     // Title: Question 01/20
-    // Text questionLabel = new Text("Question " + indexOfQuestion + "/" + totalNumOfQuestion);
-    Text questionLabel = new Text("questionLabel");
-    questionLabel.setFont(Font.font(40));
     HBox titleHBox = new HBox();
-    titleHBox.setPrefHeight(100);
-    titleHBox.setPrefWidth(1200);
+    titleHBox.setPadding(new Insets(40.0, 25.0, 40.0, 60.0));
+    titleHBox.setPrefHeight(80);
     titleHBox.setAlignment(Pos.CENTER);
+    Text questionLabel = new Text("Question " + indexOfQuestion + "/" + totalNumOfQuestion);
+    questionLabel.setFont(Font.font(40));
     titleHBox.getChildren().add(questionLabel);
 
     // get questions from the question bank.
-    Text questionsText = new Text("questionsText");
-    questionsText.setFont(Font.font(20));
     HBox questionHBox = new HBox();
-    questionHBox.setPrefWidth(1200);
-    questionHBox.setPrefHeight(200);
-    questionHBox.setPadding(new Insets(25.0, 30.0, 40.0, 150.0));
+    questionHBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
+    questionHBox.setPrefHeight(150);
+    questionHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.setSpacing(100);
+    Text questionsText = new Text("1 + 1 = ?");
+    questionsText.setFont(Font.font(20));
     questionHBox.getChildren().add(questionsText);
 
-
-
     // choices: use for loop to get the choices
-    VBox VBoxAnswers = new VBox();
-    VBoxAnswers.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
-    VBoxAnswers.setSpacing(40);
-    VBoxAnswers.setPrefWidth(1200);
-    VBoxAnswers.setPrefHeight(600);
+    VBox answersVBox = new VBox();
+    answersVBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
+    answersVBox.setPrefHeight(400);
+    answersVBox.setAlignment(Pos.TOP_LEFT);
+    answersVBox.setSpacing(40);
     ToggleGroup group = new ToggleGroup();
     // total number of choices
     int size = 3;
     for (int i = 0; i < size; i++) {
-      RadioButton button = new RadioButton("QuestionClass.getAnswers");
+      RadioButton button = new RadioButton("" + (i + 1));
       button.setToggleGroup(group);
+      button.setFont(Font.font(18));
       button.setSelected(true);
-      VBoxAnswers.getChildren().add(button);
+      answersVBox.getChildren().add(button);
     }
 
 
     // previous and next button
-    Button toPreviousButton = new Button("Previous");
-    Button toNextButton = new Button("Next");
     HBox buttonHBox = new HBox();
-    buttonHBox.setPadding(new Insets(25, 0, 25, 300));
-    buttonHBox.setPrefWidth(1200);
-    buttonHBox.setPrefHeight(100);
+    buttonHBox.setPadding(new Insets(25.0, 40.0, 40.0, 80.0));
+    buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(300);
+    Button toPreviousButton = new Button("Previous");
+    toPreviousButton.setPrefWidth(135);
+    toPreviousButton.setPrefHeight(45);
     buttonHBox.getChildren().add(toPreviousButton);
+    Button toNextButton = new Button("Next");
+    toNextButton.setPrefWidth(135);
+    toNextButton.setPrefHeight(45);
     buttonHBox.getChildren().add(toNextButton);
+
 
 
     quizLayOut.getChildren().add(titleHBox);
     quizLayOut.getChildren().add(questionHBox);
-    quizLayOut.getChildren().add(VBoxAnswers);
+    quizLayOut.getChildren().add(answersVBox);
     quizLayOut.getChildren().add(buttonHBox);
 
 
