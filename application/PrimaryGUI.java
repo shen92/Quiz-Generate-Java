@@ -1,6 +1,10 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import org.json.simple.parser.ParseException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,9 +26,14 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
+  private QuestionDatabase questionDatabase;
+  private String testIO;
+
   public PrimaryGUI() {}
 
   public PrimaryGUI(Stage primaryStage) {
+    this.questionDatabase = new QuestionDatabase();
+
     // Start GUI of the program
     HBox startScene = new HBox();// structure of the main scene
     startScene.setPadding(new Insets(25.0, 40.0, 40.0, 40.0));
@@ -40,7 +49,7 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(questionListLabel);
 
     // 2) Mid table of the left VBox
-    TableView questionListTable = new TableView<>();
+    TableView<Question> questionListTable = new TableView<>();
     questionListTable.setEditable(true);
     // set table properties
     questionListTable.setPrefWidth(540);
@@ -67,12 +76,20 @@ public class PrimaryGUI {
     lb1.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-            new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(primaryStage);
-        // TODO
+        try {// TODO: Debug if occur @Bojun
+          FileChooser fileChooser = new FileChooser();
+          FileChooser.ExtensionFilter extFilter =
+              new FileChooser.ExtensionFilter("json files (*.json)", "*.json", "*.JSON");
+          fileChooser.getExtensionFilters().add(extFilter);
+          File jsonFile = fileChooser.showOpenDialog(primaryStage);
+          questionDatabase.loadQuestions(jsonFile);
+        } catch (FileNotFoundException e) {
+          e.printStackTrace();
+        } catch (IOException e) {
+          e.printStackTrace();
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
       }
     });
     leftMidButtonHBox.getChildren().add(lb1);
@@ -90,13 +107,33 @@ public class PrimaryGUI {
     leftMidButtonHBox.getChildren().add(lb3);
     // 3d) Save To File Button
     Button lb4 = new Button("Save To File");
-    // TODO
+    lb4.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter =
+            new FileChooser.ExtensionFilter("json files (*.json)", "*.json", "*.JSON");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+        if (file != null) {
+          // TODO Question content
+          saveTextToFile("", file);
+        }
+      }
+    });
     lb4.setPrefWidth(135);
     lb4.setPrefHeight(40);
     leftMidButtonHBox.getChildren().add(lb4);
     leftVBox.getChildren().add(leftMidButtonHBox);
 
-    // 4) Filter by Topic
+    // 4) Total Question Label
+    Label questionDatabaseCountLabel = new Label();
+    questionDatabaseCountLabel.setText("Total Questions: " + questionDatabase.getQuestionNum());
+    questionDatabaseCountLabel.setFont(Font.font(18));
+    leftVBox.getChildren().add(questionDatabaseCountLabel);
+
+    // 5) Filter by Topic
     VBox leftBottomVBox = new VBox();
     leftBottomVBox.setPadding(new Insets(40.0, 0.0, 0.0, 0.0));
     leftBottomVBox.setSpacing(10);
@@ -135,7 +172,7 @@ public class PrimaryGUI {
     rightVBox.getChildren().add(quizListLabel);
 
     // 2) Mid table of the right VBox
-    TableView quizListTable = new TableView<>();
+    TableView<Question> quizListTable = new TableView<>();
     quizListTable.setEditable(true);
     // set table properties
     quizListTable.setPrefWidth(540);
@@ -190,5 +227,15 @@ public class PrimaryGUI {
     primaryStage.setScene(primaryGUI);
     primaryStage.setTitle("Quiz Generator");
     primaryStage.show();
+  }
+
+  private void saveTextToFile(String content, File file) {
+    try {
+      PrintWriter writer;
+      writer = new PrintWriter(file);
+      writer.println(content);
+      writer.close();
+    } catch (IOException ex) {
+    }
   }
 }
