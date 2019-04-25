@@ -32,15 +32,10 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
-  // fields for quiz
-  private DisplayQuestion quizScene;
-  private LinkedList<QuestionNode> quizQuestionList;
 
   private QuestionDatabase questionDatabase;
 
-  public PrimaryGUI() {}
 
-  @SuppressWarnings("unchecked")
   public PrimaryGUI(Stage primaryStage) {
     this.questionDatabase = new QuestionDatabase();
 
@@ -79,15 +74,6 @@ public class PrimaryGUI {
     questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
         questionListContentCol);
     leftVBox.getChildren().add(questionListTable);
-
-    // TODO ADD NEW ROW TO TABLE
-    ListView<String> list = new ListView<>();
-    ObservableList<String> items = FXCollections.observableArrayList("Select", "Topic", "Question");
-    list.setItems(items);
-    list.setPrefWidth(100);
-    list.setPrefHeight(80);
-
-
 
     // 3) Mid Buttons of the left VBox
     HBox leftMidButtonHBox = new HBox();
@@ -262,7 +248,7 @@ public class PrimaryGUI {
       writer = new PrintWriter(file);
       writer.println(content);
       writer.close();
-    } catch (IOException ex) {
+    } catch (IOException e) {
     }
   }
 
