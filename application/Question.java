@@ -1,6 +1,7 @@
 package application;
 
 import java.util.HashMap;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Question {
   private String meta_data;
@@ -22,13 +23,23 @@ public class Question {
   public Question(String topic, String questionText) {
     this.topic = topic;
     this.questionText = questionText;
+    show();
+  }
+
+  private void show() {
+    System.out.println(this.topic);
+    System.out.println(this.questionText);
   }
 
   public void setMetaData(String metaData) {
-    meta_data = metaData;
+    this.meta_data = metaData;
   }
 
-  public void setContent(String questionText) {
+  public void setTopic(String topic) {
+    this.topic = topic;
+  }
+
+  public void setQuestionText(String questionText) {
     this.questionText = questionText;
   }
 
@@ -38,5 +49,25 @@ public class Question {
 
   public void setImage(String imageFile) {
     this.imageFile = imageFile;
+  }
+
+  public String getMetaData(String metaData) {
+    return this.meta_data;
+  }
+
+  public String getTopic(String topic) {
+    return this.topic;
+  }
+
+  public String getQuestionText(String questionText) {
+    return this.questionText;
+  }
+
+  public HashMap<String, String> getChoice(HashMap<String, String> answer) {
+    return this.answer;
+  }
+
+  public String getImage(String imageFile) {
+    return this.imageFile;
   }
 }

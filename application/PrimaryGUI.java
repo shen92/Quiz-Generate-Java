@@ -1,6 +1,8 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,9 +32,12 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
+  private QuestionDatabase questionDatabase;
 
   @SuppressWarnings("unchecked")
   public PrimaryGUI(Stage primaryStage) {
+    this.questionDatabase = new QuestionDatabase();
+
     // Start GUI of the program
     HBox startLayOut = new HBox();
     VBox quizLayOut = new VBox();
@@ -70,9 +75,7 @@ public class PrimaryGUI {
     questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
         questionListContentCol);
     ObservableList<Question> questions = FXCollections.observableArrayList();
-    questions.add(new Question("Math", "1+1 =?"));
-    questions.add(new Question("Math", "2+2 =?"));
-    questions.add(new Question("Math", "3+2 =?"));
+    questions.add(new Question("Math", "1+1 = ?"));
     questionListTable.setItems(questions);
     leftVBox.getChildren().add(questionListTable);
 
@@ -82,15 +85,21 @@ public class PrimaryGUI {
     Button lb1 = new Button("Load Data");
     lb1.setPrefWidth(135);
     lb1.setPrefHeight(40);
-    lb1.setOnAction(new EventHandler<ActionEvent>() {
+    lb1.setOnAction(new EventHandler<ActionEvent>() {// event for load data
       @Override
       public void handle(ActionEvent arg0) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter =
             new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
         fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(primaryStage);
+        File jsonFile = fileChooser.showOpenDialog(primaryStage);
         // TODO
+        try {
+          questionDatabase.loadQuestions(jsonFile);
+        } catch (IOException | ParseException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
     });
     leftMidButtonHBox.getChildren().add(lb1);
@@ -113,8 +122,12 @@ public class PrimaryGUI {
     lb4.setPrefHeight(40);
     leftMidButtonHBox.getChildren().add(lb4);
     leftVBox.getChildren().add(leftMidButtonHBox);
-
-    // 4) Filter by Topic
+    // 4) Total Question Label
+    Label questionDatabaseCountLabel = new Label();
+    questionDatabaseCountLabel.setText("Total Questions: " + questionDatabase.getQuestionNum());
+    questionDatabaseCountLabel.setFont(Font.font(18));
+    leftVBox.getChildren().add(questionDatabaseCountLabel);
+    // 5) Filter by Topic
     VBox leftBottomVBox = new VBox();
     leftBottomVBox.setPadding(new Insets(40.0, 0.0, 0.0, 0.0));
     leftBottomVBox.setSpacing(10);
@@ -272,5 +285,9 @@ public class PrimaryGUI {
     primaryStage.setScene(quizGeneratorScene);
     primaryStage.setTitle("Quiz Generator");
     primaryStage.show();
+  }
+
+  public void loadQuestion() {
+
   }
 }

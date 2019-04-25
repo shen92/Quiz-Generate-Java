@@ -44,7 +44,7 @@ public class QuestionDatabase {
         questionChoice.put(choiceText, correctness);
       }
 
-      newQuestion.setContent(questionText);
+      newQuestion.setQuestionText(questionText);
       newQuestion.setMetaData(meta_data);
       newQuestion.setChoice(questionChoice);
       newQuestion.setImage(image);
