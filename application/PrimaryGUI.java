@@ -96,7 +96,12 @@ public class PrimaryGUI {
           fileChooser.getExtensionFilters().add(extFilter);
           File jsonFile = fileChooser.showOpenDialog(primaryStage);
           // TODO
-          questionDatabase.loadQuestions(jsonFile);
+          questionDatabase.loadQuestions(jsonFile);  
+
+          for(int i = 0; i < questionDatabase.getAllQuestion().size(); i++) {
+            questionListTable.getItems().add(questionDatabase.getAllQuestion().get(i));
+          }
+  
           questionDatabaseSize = questionDatabase.getQuestionNum();
           System.out.println(questionDatabase.getQuestionNum());
         } catch (IOException | ParseException e) {
@@ -190,6 +195,8 @@ public class PrimaryGUI {
     quizListLine.add(new Question());
     quizListTable.setItems(quizListLine);
     rightVBox.getChildren().add(quizListTable);
+    quizListTable.getItems().remove(0);
+    quizListTable.getItems().add(new Question("Math", "1+1 = ?"));
 
     // 3) Mid Buttons of the left VBox
     HBox rightMidButtonHBox = new HBox();
