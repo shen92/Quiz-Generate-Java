@@ -26,6 +26,7 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
+  private DisplayQuestion quizScene;
   private QuestionDatabase questionDatabase;
   private String testIO;
 
@@ -213,7 +214,12 @@ public class PrimaryGUI {
     quizQuestionCountLabel.setFont(Font.font(18));
     rightBottomHBox.getChildren().add(quizQuestionCountLabel);
     Button startQuizButton = new Button("Start Quiz");
-    // TODO
+    startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+
+      }
+    });
     startQuizButton.setPrefWidth(180);
     startQuizButton.setPrefHeight(45);
     rightBottomHBox.getChildren().add(startQuizButton);
