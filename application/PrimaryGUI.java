@@ -16,6 +16,11 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * This class represents the start scene of the program
+ * 
+ * @author Yingjie Shen
+ */
 public class PrimaryGUI {
   public PrimaryGUI() {}
 
@@ -25,11 +30,7 @@ public class PrimaryGUI {
     startScene.setPadding(new Insets(25.0, 40.0, 40.0, 40.0));
     startScene.setSpacing(40);
 
-    Scene primaryGUI = new Scene(startScene, 1200, 800);
-    primaryGUI.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-    primaryStage.setScene(primaryGUI);
-    primaryStage.setTitle("Quiz Generator");
-    primaryStage.show();
+
     /* left part of the main scene */
     VBox leftVBox = new VBox();
 
@@ -59,9 +60,10 @@ public class PrimaryGUI {
 
     // 3) Mid Buttons of the left VBox
     HBox leftMidButtonHBox = new HBox();
-    Button lb1 = new Button("Load Question");
-    lb1.setPrefWidth(180);
-    lb1.setPrefHeight(45);
+    // 3a) Load Data Button
+    Button lb1 = new Button("Load Data");
+    lb1.setPrefWidth(135);
+    lb1.setPrefHeight(40);
     lb1.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -74,16 +76,24 @@ public class PrimaryGUI {
       }
     });
     leftMidButtonHBox.getChildren().add(lb1);
+    // 3b) Select All Button
     Button lb2 = new Button("Select All");
     // TODO
-    lb2.setPrefWidth(180);
-    lb2.setPrefHeight(45);
+    lb2.setPrefWidth(135);
+    lb2.setPrefHeight(40);
     leftMidButtonHBox.getChildren().add(lb2);
-    Button lb3 = new Button("Add Selected");
+    // 3c) Add Selected Question Button
+    Button lb3 = new Button("Add Question");
     // TODO
-    lb3.setPrefWidth(180);
-    lb3.setPrefHeight(45);
+    lb3.setPrefWidth(135);
+    lb3.setPrefHeight(40);
     leftMidButtonHBox.getChildren().add(lb3);
+    // 3d) Save To File Button
+    Button lb4 = new Button("Save To File");
+    // TODO
+    lb4.setPrefWidth(135);
+    lb4.setPrefHeight(40);
+    leftMidButtonHBox.getChildren().add(lb4);
     leftVBox.getChildren().add(leftMidButtonHBox);
 
     // 4) Filter by Topic
@@ -174,5 +184,11 @@ public class PrimaryGUI {
 
     // 5) Add the right part to the scene
     startScene.getChildren().add(rightVBox);
+
+    Scene primaryGUI = new Scene(startScene, 1200, 800);
+    primaryGUI.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+    primaryStage.setScene(primaryGUI);
+    primaryStage.setTitle("Quiz Generator");
+    primaryStage.show();
   }
 }
