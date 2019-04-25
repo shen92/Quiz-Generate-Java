@@ -33,10 +33,12 @@ import javafx.stage.Stage;
  */
 public class PrimaryGUI {
   private QuestionDatabase questionDatabase;
+  private int questionDatabaseSize;
 
   @SuppressWarnings("unchecked")
   public PrimaryGUI(Stage primaryStage) {
     this.questionDatabase = new QuestionDatabase();
+    this.questionDatabaseSize = questionDatabase.getQuestionNum();
 
     // Start GUI of the program
     HBox startLayOut = new HBox();
@@ -88,14 +90,16 @@ public class PrimaryGUI {
     lb1.setOnAction(new EventHandler<ActionEvent>() {// event for load data
       @Override
       public void handle(ActionEvent arg0) {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-            new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File jsonFile = fileChooser.showOpenDialog(primaryStage);
-        // TODO
         try {
+          FileChooser fileChooser = new FileChooser();
+          FileChooser.ExtensionFilter extFilter =
+              new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
+          fileChooser.getExtensionFilters().add(extFilter);
+          File jsonFile = fileChooser.showOpenDialog(primaryStage);
+          // TODO
           questionDatabase.loadQuestions(jsonFile);
+          questionDatabaseSize = questionDatabase.getQuestionNum();
+          System.out.println(questionDatabase.getQuestionNum());
         } catch (IOException | ParseException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -124,7 +128,7 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(leftMidButtonHBox);
     // 4) Total Question Label
     Label questionDatabaseCountLabel = new Label();
-    questionDatabaseCountLabel.setText("Total Questions: " + questionDatabase.getQuestionNum());
+    questionDatabaseCountLabel.setText("Total Questions: " + questionDatabaseSize);
     questionDatabaseCountLabel.setFont(Font.font(18));
     leftVBox.getChildren().add(questionDatabaseCountLabel);
     // 5) Filter by Topic
