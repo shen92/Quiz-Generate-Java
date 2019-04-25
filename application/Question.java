@@ -16,17 +16,19 @@ public class Question {
 
   }
 
+
   public void setMetaData(String metaData) {
     meta_data = metaData;
   }
+
   public void setContent(String text) {
     this.text = text;
   }
-  
+
   public void setChoice(HashMap<String, String> answer) {
     this.answer = answer;
   }
-  
+
   public void setImage(String imageFile) {
     this.imageFile = imageFile;
   }

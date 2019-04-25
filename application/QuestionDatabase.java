@@ -57,14 +57,17 @@ public class QuestionDatabase {
         questionBank.get(topic).add(newQuestion);
       }
     }
+    System.out.println(getQuestionNum());
   }
 
   public void getAllTopic() {
 
   }
+  
+  
 
   public int getQuestionNum() {
     return questionBank.size();
   }
-  
+
 }

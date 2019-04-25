@@ -4,16 +4,22 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import org.json.simple.parser.ParseException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -26,12 +32,19 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
+  // fields for quiz
   private DisplayQuestion quizScene;
+  private LinkedList<QuestionNode> quizQuestionList;
+
   private QuestionDatabase questionDatabase;
+
+
+
   private String testIO;
 
   public PrimaryGUI() {}
 
+  @SuppressWarnings("unchecked")
   public PrimaryGUI(Stage primaryStage) {
     this.questionDatabase = new QuestionDatabase();
 
@@ -56,17 +69,29 @@ public class PrimaryGUI {
     questionListTable.setPrefWidth(540);
     questionListTable.setPrefHeight(400);
     // add columns to the table
-    TableColumn questionListSelectCol = new TableColumn<>("Select");
+    TableColumn<Question, CheckBox> questionListSelectCol = new TableColumn<>("Select");
+    questionListSelectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     questionListSelectCol.setPrefWidth(60);
-    questionListSelectCol.setMinWidth(60);
-    questionListSelectCol.setMaxWidth(60);
-    TableColumn questionListTopicCol = new TableColumn<>("Topic");
+    TableColumn<Question, String> questionListTopicCol = new TableColumn<>("Topic");
+    questionListTopicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
+    questionListTopicCol.getCellValueFactory();
     questionListTopicCol.setPrefWidth(100);
-    TableColumn questionListContentCol = new TableColumn<>("Question");
+    TableColumn<Question, String> questionListContentCol = new TableColumn<>("Question");
+    questionListContentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+    questionListContentCol.getCellValueFactory();
     questionListContentCol.setPrefWidth(380);
     questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
         questionListContentCol);
     leftVBox.getChildren().add(questionListTable);
+
+    // TODO ADD NEW ROW TO TABLE
+    ListView<String> list = new ListView<>();
+    ObservableList<String> items = FXCollections.observableArrayList("Select", "Topic", "Question");
+    list.setItems(items);
+    list.setPrefWidth(100);
+    list.setPrefHeight(80);
+
+
 
     // 3) Mid Buttons of the left VBox
     HBox leftMidButtonHBox = new HBox();
@@ -179,13 +204,13 @@ public class PrimaryGUI {
     quizListTable.setPrefWidth(540);
     quizListTable.setPrefHeight(500);
     // add columns to the table
-    TableColumn quizListSelectCol = new TableColumn<>("Select");
+    TableColumn<Question, CheckBox> quizListSelectCol = new TableColumn<>("Select");
     quizListSelectCol.setPrefWidth(60);
     quizListSelectCol.setMinWidth(60);
     quizListSelectCol.setMaxWidth(60);
-    TableColumn quizTopicSelectCol = new TableColumn<>("Topic");
+    TableColumn<Question, String> quizTopicSelectCol = new TableColumn<>("Topic");
     quizTopicSelectCol.setPrefWidth(100);
-    TableColumn quizContentSelectCol = new TableColumn<>("Question");
+    TableColumn<Question, String> quizContentSelectCol = new TableColumn<>("Question");
     quizContentSelectCol.setPrefWidth(380);
     quizListTable.getColumns().addAll(quizListSelectCol, quizTopicSelectCol, quizContentSelectCol);
     rightVBox.getChildren().add(quizListTable);
@@ -244,4 +269,5 @@ public class PrimaryGUI {
     } catch (IOException ex) {
     }
   }
+
 }
