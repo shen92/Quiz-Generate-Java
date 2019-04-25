@@ -188,7 +188,7 @@ public class PrimaryGUI {
     Scene primaryGUI = new Scene(startScene, 1200, 800);
     primaryGUI.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     primaryStage.setScene(primaryGUI);
-    primaryStage.setTitle("Quiz Generator");
+    primaryStage.setTitle("Quiz Generator1");
     primaryStage.show();
   }
 }
