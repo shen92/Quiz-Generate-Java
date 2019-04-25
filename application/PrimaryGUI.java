@@ -1,25 +1,15 @@
 package application;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.LinkedList;
-import org.json.simple.parser.ParseException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -32,13 +22,9 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
-
-  private QuestionDatabase questionDatabase;
-
+  public PrimaryGUI() {}
 
   public PrimaryGUI(Stage primaryStage) {
-    this.questionDatabase = new QuestionDatabase();
-
     // Start GUI of the program
     HBox startScene = new HBox();// structure of the main scene
     startScene.setPadding(new Insets(25.0, 40.0, 40.0, 40.0));
@@ -54,22 +40,19 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(questionListLabel);
 
     // 2) Mid table of the left VBox
-    TableView<Question> questionListTable = new TableView<>();
+    TableView questionListTable = new TableView<>();
     questionListTable.setEditable(true);
     // set table properties
     questionListTable.setPrefWidth(540);
     questionListTable.setPrefHeight(400);
     // add columns to the table
-    TableColumn<Question, CheckBox> questionListSelectCol = new TableColumn<>("Select");
-    questionListSelectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+    TableColumn questionListSelectCol = new TableColumn<>("Select");
     questionListSelectCol.setPrefWidth(60);
-    TableColumn<Question, String> questionListTopicCol = new TableColumn<>("Topic");
-    questionListTopicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
-    questionListTopicCol.getCellValueFactory();
+    questionListSelectCol.setMinWidth(60);
+    questionListSelectCol.setMaxWidth(60);
+    TableColumn questionListTopicCol = new TableColumn<>("Topic");
     questionListTopicCol.setPrefWidth(100);
-    TableColumn<Question, String> questionListContentCol = new TableColumn<>("Question");
-    questionListContentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-    questionListContentCol.getCellValueFactory();
+    TableColumn questionListContentCol = new TableColumn<>("Question");
     questionListContentCol.setPrefWidth(380);
     questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
         questionListContentCol);
@@ -84,20 +67,12 @@ public class PrimaryGUI {
     lb1.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        try {// TODO: Debug if occur @Bojun
-          FileChooser fileChooser = new FileChooser();
-          FileChooser.ExtensionFilter extFilter =
-              new FileChooser.ExtensionFilter("json files (*.json)", "*.json", "*.JSON");
-          fileChooser.getExtensionFilters().add(extFilter);
-          File jsonFile = fileChooser.showOpenDialog(primaryStage);
-          questionDatabase.loadQuestions(jsonFile);
-        } catch (FileNotFoundException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
-        } catch (ParseException e) {
-          e.printStackTrace();
-        }
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter =
+            new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(primaryStage);
+        // TODO
       }
     });
     leftMidButtonHBox.getChildren().add(lb1);
@@ -115,33 +90,13 @@ public class PrimaryGUI {
     leftMidButtonHBox.getChildren().add(lb3);
     // 3d) Save To File Button
     Button lb4 = new Button("Save To File");
-    lb4.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent arg0) {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-            new FileChooser.ExtensionFilter("json files (*.json)", "*.json", "*.JSON");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file = fileChooser.showSaveDialog(primaryStage);
-        if (file != null) {
-          // TODO Question content
-          saveTextToFile("", file);
-        }
-      }
-    });
+    // TODO
     lb4.setPrefWidth(135);
     lb4.setPrefHeight(40);
     leftMidButtonHBox.getChildren().add(lb4);
     leftVBox.getChildren().add(leftMidButtonHBox);
 
-    // 4) Total Question Label
-    Label questionDatabaseCountLabel = new Label();
-    questionDatabaseCountLabel.setText("Total Questions: " + questionDatabase.getQuestionNum());
-    questionDatabaseCountLabel.setFont(Font.font(18));
-    leftVBox.getChildren().add(questionDatabaseCountLabel);
-
-    // 5) Filter by Topic
+    // 4) Filter by Topic
     VBox leftBottomVBox = new VBox();
     leftBottomVBox.setPadding(new Insets(40.0, 0.0, 0.0, 0.0));
     leftBottomVBox.setSpacing(10);
@@ -180,19 +135,19 @@ public class PrimaryGUI {
     rightVBox.getChildren().add(quizListLabel);
 
     // 2) Mid table of the right VBox
-    TableView<Question> quizListTable = new TableView<>();
+    TableView quizListTable = new TableView<>();
     quizListTable.setEditable(true);
     // set table properties
     quizListTable.setPrefWidth(540);
     quizListTable.setPrefHeight(500);
     // add columns to the table
-    TableColumn<Question, CheckBox> quizListSelectCol = new TableColumn<>("Select");
+    TableColumn quizListSelectCol = new TableColumn<>("Select");
     quizListSelectCol.setPrefWidth(60);
     quizListSelectCol.setMinWidth(60);
     quizListSelectCol.setMaxWidth(60);
-    TableColumn<Question, String> quizTopicSelectCol = new TableColumn<>("Topic");
+    TableColumn quizTopicSelectCol = new TableColumn<>("Topic");
     quizTopicSelectCol.setPrefWidth(100);
-    TableColumn<Question, String> quizContentSelectCol = new TableColumn<>("Question");
+    TableColumn quizContentSelectCol = new TableColumn<>("Question");
     quizContentSelectCol.setPrefWidth(380);
     quizListTable.getColumns().addAll(quizListSelectCol, quizTopicSelectCol, quizContentSelectCol);
     rightVBox.getChildren().add(quizListTable);
@@ -221,12 +176,7 @@ public class PrimaryGUI {
     quizQuestionCountLabel.setFont(Font.font(18));
     rightBottomHBox.getChildren().add(quizQuestionCountLabel);
     Button startQuizButton = new Button("Start Quiz");
-    startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent arg0) {
-
-      }
-    });
+    // TODO
     startQuizButton.setPrefWidth(180);
     startQuizButton.setPrefHeight(45);
     rightBottomHBox.getChildren().add(startQuizButton);
@@ -241,15 +191,4 @@ public class PrimaryGUI {
     primaryStage.setTitle("Quiz Generator");
     primaryStage.show();
   }
-
-  private void saveTextToFile(String content, File file) {
-    try {
-      PrintWriter writer;
-      writer = new PrintWriter(file);
-      writer.println(content);
-      writer.close();
-    } catch (IOException e) {
-    }
-  }
-
 }
