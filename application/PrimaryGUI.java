@@ -4,6 +4,7 @@ import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -24,6 +25,11 @@ public class PrimaryGUI {
     startScene.setPadding(new Insets(25.0, 40.0, 40.0, 40.0));
     startScene.setSpacing(40);
 
+    Scene primaryGUI = new Scene(startScene, 1200, 800);
+    primaryGUI.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+    primaryStage.setScene(primaryGUI);
+    primaryStage.setTitle("Quiz Generator");
+    primaryStage.show();
     /* left part of the main scene */
     VBox leftVBox = new VBox();
 
