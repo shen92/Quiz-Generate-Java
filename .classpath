@@ -4,6 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/syjack1997/Google Drive/UW Madison/Spring 2019/CS 400/Json Example/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/wudongxia/Desktop/github/p4_project/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
