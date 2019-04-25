@@ -72,14 +72,13 @@ public class PrimaryGUI {
     questionListTopicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
     questionListTopicCol.setPrefWidth(100);
     TableColumn<Question, String> questionListContentCol = new TableColumn<>("Question");
-    questionListTopicCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+    questionListContentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
     questionListContentCol.setPrefWidth(370);
     questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
         questionListContentCol);
-    ObservableList<Question> questions = FXCollections.observableArrayList();
-    questions.add(new Question("Math", "1+1 = ?"));
-    questionListTable.setItems(questions);
     leftVBox.getChildren().add(questionListTable);
+    questionListTable.getItems().add(new Question("Math", "1+1 = ?"));
+    
 
     // 3) Mid Buttons of the left VBox
     HBox leftMidButtonHBox = new HBox();
