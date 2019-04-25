@@ -38,10 +38,6 @@ public class PrimaryGUI {
 
   private QuestionDatabase questionDatabase;
 
-
-
-  private String testIO;
-
   public PrimaryGUI() {}
 
   @SuppressWarnings("unchecked")
