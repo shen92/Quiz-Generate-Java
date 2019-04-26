@@ -173,7 +173,7 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(leftMidButtonHBox);
     // 4) Total Question Label
     Label questionDatabaseCountLabel = new Label();
-    questionDatabaseCountLabel.setText("Total Questions: 4");
+    questionDatabaseCountLabel.setText("Total Questions: 0");
     questionDatabaseCountLabel.setFont(Font.font(18));
     leftVBox.getChildren().add(questionDatabaseCountLabel);
     // 5) Filter by Topic
