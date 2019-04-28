@@ -1,6 +1,7 @@
 package application;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import javafx.scene.control.CheckBox;
 
 public class Question {
@@ -9,7 +10,7 @@ public class Question {
   private String topic;
   private String questionText;
 
-  private HashMap<String, String> answer;
+  private LinkedHashMap<String, String> answer;
   private String imageFile;
 
   private CheckBox checkBox = new CheckBox();
@@ -51,7 +52,7 @@ public class Question {
     this.questionText = questionText;
   }
 
-  public void setChoice(HashMap<String, String> answer) {
+  public void setChoice(LinkedHashMap<String, String> answer) {
     this.answer = answer;
   }
 
@@ -75,7 +76,7 @@ public class Question {
     return this.questionText;
   }
 
-  public HashMap<String, String> getChoice() {
+  public LinkedHashMap<String, String> getChoice() {
     return this.answer;
   }
 

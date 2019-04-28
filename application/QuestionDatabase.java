@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -19,8 +22,46 @@ public class QuestionDatabase {
     questionBank = new HashMap<String, ArrayList<Question>>();
   }
 
+  @SuppressWarnings("unchecked")
+  public void writeQuestions(ArrayList<Question> question) throws FileNotFoundException {
+    JSONObject jo1 = new JSONObject();
+
+    JSONArray ja1 = new JSONArray();
+
+    for (int i = 0; i < question.size(); i++) {
+      JSONObject jo2 = new JSONObject();
+
+      jo2.put("meta-data", question.get(i).getMetaData());
+      jo2.put("questionText", question.get(i).getQuestionText());
+      jo2.put("topic", question.get(i).getTopic());
+      jo2.put("imageFilename", question.get(i).getImage());
+
+      JSONArray ja2 = new JSONArray();
+      Iterator<String> it = question.get(i).getChoice().keySet().iterator();
+      Map<String, String> questionChoice = new LinkedHashMap<String, String>();
+      while (it.hasNext()) {
+        String key = it.next();
+        questionChoice.put(key, question.get(i).getChoice().get(key));
+      }
+      ja2.add(questionChoice);
+      jo2.put("choiceArray", ja2);
+      ja1.add(jo2);
+    }
+    
+    jo1.put("questionArray", ja1);
+    
+    PrintWriter pw = new PrintWriter("JSONExample.json");
+    pw.write(jo1.toJSONString());
+    
+    pw.flush();
+    pw.close();
+  }
+
   public void loadQuestions(File jsonFile)
       throws FileNotFoundException, IOException, ParseException {
+
+    if (jsonFile == null)
+      return;
 
     Object obj1 = new JSONParser().parse(new FileReader(jsonFile));
 
@@ -35,14 +76,14 @@ public class QuestionDatabase {
       String meta_data = (String) jo2.get("meta-data");
       String questionText = (String) jo2.get("questionText");
       String topic = (String) jo2.get("topic");
-      String image = (String) jo2.get("image");
+      String image = (String) jo2.get("imageFilename");
       JSONArray choiceArray = (JSONArray) jo2.get("choiceArray");
-      HashMap<String, String> questionChoice = new HashMap<String, String>();
+      LinkedHashMap<String, String> questionChoice = new LinkedHashMap<String, String>();
       for (int j = 0; j < choiceArray.size(); j++) {
         Object obj3 = new JSONParser().parse(choiceArray.get(j).toString());
         JSONObject jo3 = (JSONObject) obj3;
-        String correctness = (String) jo3.get("iscorrect");
-        String choiceText = (String) jo3.get("choice");
+        String correctness = (String) jo3.get("isCorrect");
+        String choiceText = (String) jo3.get("choiceText");
         questionChoice.put(choiceText, correctness);
       }
 
@@ -62,32 +103,36 @@ public class QuestionDatabase {
     }
   }
 
-  //get all topics
+  // get all topics
   public Set<String> getAllTopic() {
     return questionBank.keySet();
   }
 
-  public ArrayList<ArrayList<Question>> getAllQuestionSets(){
+  public ArrayList<ArrayList<Question>> getAllQuestionSets() {
     ArrayList<ArrayList<Question>> allQuestionSet = new ArrayList<ArrayList<Question>>();
     Iterator<String> it = getAllTopic().iterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
       allQuestionSet.add(questionBank.get(it.next()));
     }
     return allQuestionSet;
   }
-  
+
   public ArrayList<Question> getAllQuestion() {
     ArrayList<Question> allQuestions = new ArrayList<Question>();
-    for(int i = 0; i < getAllQuestionSets().size(); i++) {
-      for(int j = 0; j < getAllQuestionSets().get(i).size(); j++) {
+    for (int i = 0; i < getAllQuestionSets().size(); i++) {
+      for (int j = 0; j < getAllQuestionSets().get(i).size(); j++) {
         allQuestions.add(getAllQuestionSets().get(i).get(j));
       }
     }
-    
+
     return allQuestions;
   }
-  
-  
+
+  public ArrayList<Question> filteredQuestionList(String filteredTopic) {
+    return questionBank.get(filteredTopic);
+  }
+
+
 
   public int getQuestionNum() {
     return questionBank.size();

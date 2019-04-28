@@ -1,19 +1,18 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Locale;
 import org.json.simple.parser.ParseException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -25,14 +24,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
  * This class represents the start scene of the program
@@ -72,8 +69,8 @@ public class PrimaryGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */
@@ -226,7 +223,24 @@ public class PrimaryGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO: SAVE TO FILE
-        test("Save To File");
+        if (questionList == null) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText("Cannot write the file!");
+          alert.setContentText("There is no questions in the question list!");
+          alert.showAndWait();
+          return;
+        } else
+          try {
+            questionList.writeQuestions(questionList.getAllQuestion());
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("File Written Complete!");
+            alert.setContentText("All questions have been successfully written");
+            alert.showAndWait();
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+          }
       }
     });
     addToQuizPane.getChildren().add(saveToFileButton);
@@ -262,7 +276,28 @@ public class PrimaryGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO Apply Filter
-        test("Apply Filter");
+        String filterTopic = topicTextField.getText();
+        if (questionList == null) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("There is no questions in the list!");
+          alert.showAndWait();
+          return;
+        }
+        if (questionList.getAllTopic().contains(filterTopic)) {
+          questionDatabaseTable.getItems().clear();
+          for (int i = 0; i < questionList.filteredQuestionList(filterTopic).size(); i++) {
+            questionDatabaseTable.getItems()
+                .add(questionList.filteredQuestionList(filterTopic).get(i));
+          }
+        } else {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Topic not found!");
+          alert.showAndWait();
+        }
       }
     });
     filterButtonHBox.getChildren().add(applyFilterButton);
@@ -272,7 +307,12 @@ public class PrimaryGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO Remove Filter
-        test("Remove Filter");
+        questionDatabaseTable.getItems().clear();
+        if (questionList == null)
+          return;
+        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+        }
       }
     });
     filterButtonHBox.getChildren().add(removeFilterButton);
@@ -622,30 +662,35 @@ public class PrimaryGUI {
           addQuestionToQuestionList(question);
           window.close();
         } else {
-          Stage window = new Stage();
-          window.setTitle("Warning");
-          window.setMinWidth(320);
-          window.setMinHeight(240);
-          VBox root = new VBox();
-          root.setAlignment(Pos.CENTER);
-          root.setSpacing(80);
-
-          Label warningLabel = new Label("Empty Field!");
-          root.getChildren().add(warningLabel);
-
-          Button closeButton = addButton("Got it", 135, 40);
-          closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent arg0) {
-              window.close();
-            }
-          });
-          root.getChildren().add(closeButton);
-
-          Scene scene = new Scene(root);
-
-          window.setScene(scene);
-          window.showAndWait();
+          // Stage window = new Stage();
+          // window.setTitle("Warning");
+          // window.setMinWidth(320);
+          // window.setMinHeight(240);
+          // VBox root = new VBox();
+          // root.setAlignment(Pos.CENTER);
+          // root.setSpacing(80);
+          //
+          // Label warningLabel = new Label("Empty Field!");
+          // root.getChildren().add(warningLabel);
+          //
+          // Button closeButton = addButton("Got it", 135, 40);
+          // closeButton.setOnAction(new EventHandler<ActionEvent>() {
+          // @Override
+          // public void handle(ActionEvent arg0) {
+          // window.close();
+          // }
+          // });
+          // root.getChildren().add(closeButton);
+          //
+          // Scene scene = new Scene(root);
+          //
+          // window.setScene(scene);
+          // window.showAndWait();
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("There are empty fields in the form!");
+          alert.showAndWait();
         }
       }
     });
