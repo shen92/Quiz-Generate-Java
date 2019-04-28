@@ -2,6 +2,8 @@ package application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import org.json.simple.parser.ParseException;
 import javafx.collections.FXCollections;
@@ -21,6 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -34,264 +38,302 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
-  private Scene primaryGUIScene;
+  private Scene primaryGUI;
 
-  private QuestionDatabase questionDatabase;
-  private int questionDatabaseSize;
+  private ArrayList<Question> allQuestions;
+  private LinkedList<Question> quizQuestions;
 
-  @SuppressWarnings("unchecked")
+  /**
+   * Constructor of the PrimaryGUI Object
+   * 
+   * @param Stage primaryStage
+   */
   public PrimaryGUI(Stage primaryStage) {
-    this.questionDatabase = new QuestionDatabase();
+    this.primaryGUI = quizGeneratorScene(primaryStage);
+  }
 
-    // Start GUI of the program
-    HBox primaryGUIScene = new HBox();
-    VBox quizLayOut = new VBox();
-    Scene quizGeneratorScene = new Scene(primaryGUIScene, 1200, 800);
-    Scene quizScene = new Scene(quizLayOut, 1200, 800);
+  /**
+   * This method returns the primaryGUI
+   * 
+   * @return Scene primaryGUI
+   */
+  public Scene getScene() {
+    return this.primaryGUI;
+  }
 
-    primaryGUIScene.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
-    primaryGUIScene.setSpacing(25);
+  /**
+   * This method adds a Button component to a scene
+   * 
+   * @param String name
+   * @param int width
+   * @param int height
+   * 
+   * @return Button button
+   */
+  private Button addButton(String name, int width, int height) {
+    Button button = new Button(name);
+    button.setPrefWidth(width);
+    button.setPrefHeight(height);
+    return button;
+  }
 
-    /* left part of the main scene */
-    VBox leftVBox = new VBox();
-    // 1) Top label of the left VBox
+  /**
+   * This method adds a Button component to a scene
+   * 
+   * @param int width
+   * @param int height
+   * 
+   * @return TableView<Question> table
+   */
+  private TableView<Question> addTableView(int width, int height) {
+    TableView<Question> table = new TableView<>();
+    table.setPrefWidth(width);
+    table.setPrefHeight(height);
+    return table;
+  }
+
+  /**
+   * This method generates Part I: Quiz Generator
+   * 
+   * @return Scene quizGeneratorScene
+   */
+  public Scene quizGeneratorScene(Stage primaryStage) {
+    HBox root = new HBox();
+    // Setups for the Quiz Generator Scene
+    root.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
+    root.setSpacing(25);
+    // Add components to the scene
+    root.getChildren().addAll(addQuestionList(), addQuizList(primaryStage));
+    primaryStage.setTitle("Quiz Generator");
+
+    Scene quizGeneratorScene = new Scene(root, 1200, 800);
+    return quizGeneratorScene;
+  }
+
+  private VBox addQuestionList() {
+    VBox root = new VBox();
+    // 1) Question List Label
     Label questionListLabel = new Label("Question List");
     questionListLabel.setFont(Font.font(20));
-    leftVBox.getChildren().add(questionListLabel);
+    root.getChildren().add(questionListLabel);
 
-    // 2) Mid table of the left VBox
-    TableView<Question> questionListTable = new TableView<>();
-    questionListTable.setEditable(true);
-    // set table properties
-    questionListTable.setPrefWidth(540);
-    questionListTable.setPrefHeight(400);
-    // add columns to the table
-    TableColumn<Question, CheckBox> questionListSelectCol = new TableColumn<>("Select");
-    questionListSelectCol
-        .setCellValueFactory(new PropertyValueFactory<Question, CheckBox>("select"));
-    questionListSelectCol.setPrefWidth(60);
-    TableColumn<Question, String> questionListTopicCol = new TableColumn<>("Topic");
-    questionListTopicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
-    questionListTopicCol.setPrefWidth(100);
-    TableColumn<Question, String> questionListContentCol = new TableColumn<>("Question");
-    questionListContentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-    questionListContentCol.setPrefWidth(370);
-    questionListTable.getColumns().addAll(questionListSelectCol, questionListTopicCol,
-        questionListContentCol);
-    leftVBox.getChildren().add(questionListTable);
 
-    // 3) Mid Buttons of the left VBox
-    HBox leftMidButtonHBox = new HBox();
-    // 3a) Load Data Button
-    Button lb1 = new Button("Load Data");
-    lb1.setPrefWidth(135);
-    lb1.setPrefHeight(40);
-    lb1.setOnAction(new EventHandler<ActionEvent>() {// event for load data
+    // 2) Question Database TableView
+    TableView<Question> questionDatabaseTable = addTableView(540, 400);
+    questionDatabaseTable.setEditable(true);
+    TableColumn<Question, CheckBox> selectCol = new TableColumn<>("Select");
+    selectCol.setCellValueFactory(new PropertyValueFactory<Question, CheckBox>("select"));
+    selectCol.setPrefWidth(60);
+    questionDatabaseTable.getColumns().add(selectCol);
+    TableColumn<Question, String> topicCol = new TableColumn<>("Topic");
+    topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
+    topicCol.setPrefWidth(100);
+    questionDatabaseTable.getColumns().add(topicCol);
+    TableColumn<Question, String> contentCol = new TableColumn<>("Question");
+    contentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+    contentCol.setPrefWidth(370);
+    questionDatabaseTable.getColumns().add(contentCol);
+    root.getChildren().add(questionDatabaseTable);
+
+
+    // 3) Buttons HBox
+    HBox buttonsHBox = new HBox();
+    Button loadDataButton = addButton("Load Data", 135, 40);
+    loadDataButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        try {
-          FileChooser fileChooser = new FileChooser();
-          FileChooser.ExtensionFilter extFilter =
-              new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
-          fileChooser.getExtensionFilters().add(extFilter);
-          File jsonFile = fileChooser.showOpenDialog(primaryStage);
-          // TODO
-          questionDatabase.loadQuestions(jsonFile);
-
-          for (int i = 0; i < questionDatabase.getAllQuestion().size(); i++) {
-            questionListTable.getItems().add(questionDatabase.getAllQuestion().get(i));
-          }
-
-          System.out.println(questionDatabase.getQuestionNum());
-        } catch (IOException | ParseException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
+        // TODO Load Data
+        test("Load Data");
       }
     });
-    leftMidButtonHBox.getChildren().add(lb1);
-    // 3b) Select All Button
-    Button lb2 = new Button("Select All");
-    // TODO
-    lb2.setPrefWidth(135);
-    lb2.setPrefHeight(40);
-    leftMidButtonHBox.getChildren().add(lb2);
-    // 3c) Add Selected Question Button
-    Button lb3 = new Button("Add Question");
-    // TODO
-    lb3.setPrefWidth(135);
-    lb3.setPrefHeight(40);
-    lb3.setOnAction(new EventHandler<ActionEvent>() {
+    buttonsHBox.getChildren().add(loadDataButton);
+
+    Button addQuestionButton = addButton("Add Question", 135, 40);
+    addQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        System.out.print(1);
-        Stage window = new Stage();
-        window.setTitle("Add question");
-        window.setMinWidth(400);
-        window.setMinHeight(200);
-
-        Button button = new Button("finish");
-        button.setOnAction(e -> window.close());
-
-        Label message = new Label("input your question");
-
-        VBox layout = new VBox(10);
-
-        HBox hbox1 = new HBox(10);
-        Label label1 = new Label("topic:      ");
-        TextField input1 = new TextField();
-        hbox1.getChildren().addAll(label1, input1);
-        hbox1.setAlignment(Pos.CENTER);
-
-        HBox hbox2 = new HBox(10);
-        Label label2 = new Label("question:");
-        TextField input2 = new TextField();
-        hbox2.getChildren().addAll(label2, input2);
-        hbox2.setAlignment(Pos.CENTER);
-
-        HBox hbox3 = new HBox(10);
-        Label label3 = new Label("answer:  ");
-        TextField input3 = new TextField();
-        hbox3.getChildren().addAll(label3, input3);
-        hbox3.setAlignment(Pos.CENTER);
-
-        layout.getChildren().addAll(message, hbox1, hbox2, hbox3, button);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
-
+        // TODO Add User Question
+        test("Add Question");
       }
-
     });
-    leftMidButtonHBox.getChildren().add(lb3);
-    // 3d) Save To File Button
-    Button lb4 = new Button("Save To File");
-    // TODO
-    lb4.setPrefWidth(135);
-    lb4.setPrefHeight(40);
-    leftMidButtonHBox.getChildren().add(lb4);
-    leftVBox.getChildren().add(leftMidButtonHBox);
-    // 4) Total Question Label
+    buttonsHBox.getChildren().add(addQuestionButton);
+
+    Button addToQuizButton = addButton("Add To Quiz", 135, 40);
+    addToQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Add Selected Question to Quiz List
+        test("Add To Quiz");
+      }
+    });
+    buttonsHBox.getChildren().add(addToQuizButton);
+
+    Button saveToFileButton = addButton("Save To File", 135, 40);
+    saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Add Selected Question to Quiz List
+        test("Save To File");
+      }
+    });
+    buttonsHBox.getChildren().add(saveToFileButton);
+    root.getChildren().add(buttonsHBox);
+
+    // 4) Question Count Label
     Label questionDatabaseCountLabel = new Label();
     questionDatabaseCountLabel.setText("Total Questions: 0");
     questionDatabaseCountLabel.setFont(Font.font(18));
-    leftVBox.getChildren().add(questionDatabaseCountLabel);
-    // 5) Filter by Topic
-    VBox leftBottomVBox = new VBox();
-    leftBottomVBox.setPadding(new Insets(50.0, 0.0, 0.0, 0.0));
-    leftBottomVBox.setSpacing(10);
-    HBox searchHBox = new HBox();
+    root.getChildren().add(questionDatabaseCountLabel);
+
+    // 5) Search By Topic VBox
+    VBox filterVBox = new VBox();
+    filterVBox.setPadding(new Insets(50.0, 0.0, 0.0, 0.0));
+    filterVBox.setSpacing(10);
+    Label filterLabel = new Label("Filter By Topic");
+    filterLabel.setFont(Font.font(20));
+    filterVBox.getChildren().add(filterLabel);
+    HBox searchHBox = new HBox();// Filter Box
     searchHBox.setSpacing(30);
-    Label searchOptionLabel = new Label("Search By Topic");
-    searchOptionLabel.setFont(Font.font(20));
-    leftBottomVBox.getChildren().add(searchOptionLabel);
-    Label searchLabel = new Label();
-    searchLabel.setText("Topic:");
-    searchLabel.setFont(Font.font(18));
-    searchHBox.getChildren().add(searchLabel);
+    Label topicLabel = new Label("Topic:");
+    topicLabel.setFont(Font.font(18));
+    searchHBox.getChildren().add(topicLabel);
     TextField topicTextField = new TextField();
     topicTextField.setPrefWidth(200);
     searchHBox.getChildren().add(topicTextField);
-    leftBottomVBox.getChildren().add(searchHBox);
-    Button applyTopicButton = new Button("Find Question");
-    // TODO
-    applyTopicButton.setPrefWidth(180);
-    applyTopicButton.setPrefHeight(45);
-    leftBottomVBox.getChildren().add(applyTopicButton);
-    leftVBox.getChildren().add(leftBottomVBox);
+    filterVBox.getChildren().add(searchHBox);
+    HBox filterButtonHBox = new HBox();// Button Box
+    filterButtonHBox.setSpacing(180);
+    Button applyFilterButton = addButton("Apply Filter", 135, 40);
+    applyFilterButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Apply Filter
+        test("Apply Filter");
+      }
+    });
+    filterButtonHBox.getChildren().add(applyFilterButton);
+    Button removeFilterButton = addButton("Remove Filter", 135, 40);
+    removeFilterButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Remove Filter
+        test("Remove Filter");
+      }
+    });
+    filterButtonHBox.getChildren().add(removeFilterButton);
+    filterVBox.getChildren().add(filterButtonHBox);
+    root.getChildren().add(filterVBox);
 
-    // 5) Add the left part to the scene
-    primaryGUIScene.getChildren().add(leftVBox);
 
-    /* right part of the main scene */
-    VBox rightVBox = new VBox();
+    return root;
+  }
 
-    // 1) Top label of the right VBox
+  private VBox addQuizList(Stage primaryStage) {
+    VBox root = new VBox();
+    // 1) Quiz List Label
     Label quizListLabel = new Label("Quiz List");
     quizListLabel.setFont(Font.font(20));
-    rightVBox.getChildren().add(quizListLabel);
+    root.getChildren().add(quizListLabel);
 
-    // 2) Mid table of the right VBox
-    TableView<Question> quizListTable = new TableView<>();
-    quizListTable.setEditable(true);
-    // set table properties
-    quizListTable.setPrefWidth(540);
-    quizListTable.setPrefHeight(500);
-    // add columns to the table
-    TableColumn<Question, CheckBox> quizListSelectCol = new TableColumn<>("Select");
-    quizListSelectCol.setCellValueFactory(new PropertyValueFactory<Question, CheckBox>("select"));
-    quizListSelectCol.setPrefWidth(60);
-    TableColumn<Question, String> quizListTopicCol = new TableColumn<>("Topic");
-    quizListTopicCol.setCellValueFactory(new PropertyValueFactory<Question, String>("Topic"));
-    quizListTopicCol.setPrefWidth(100);
-    TableColumn<Question, String> quizListContentCol = new TableColumn<>("Question");
-    quizListContentCol
-        .setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
-    quizListContentCol.setPrefWidth(390);
-    quizListTable.getColumns().addAll(quizListSelectCol, quizListTopicCol, quizListContentCol);
-    rightVBox.getChildren().add(quizListTable);
+    // 2) Question Database TableView
+    TableView<Question> quizQuestionTable = addTableView(540, 500);
+    quizQuestionTable.setEditable(true);
+    TableColumn<Question, CheckBox> selectCol = new TableColumn<>("Select");
+    selectCol.setCellValueFactory(new PropertyValueFactory<Question, CheckBox>("select"));
+    selectCol.setPrefWidth(60);
+    quizQuestionTable.getColumns().add(selectCol);
+    TableColumn<Question, String> topicCol = new TableColumn<>("Topic");
+    topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
+    topicCol.setPrefWidth(100);
+    quizQuestionTable.getColumns().add(topicCol);
+    TableColumn<Question, String> contentCol = new TableColumn<>("Question");
+    contentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+    contentCol.setPrefWidth(370);
+    quizQuestionTable.getColumns().add(contentCol);
+    root.getChildren().add(quizQuestionTable);
 
-    // 3) Mid Buttons of the left VBox
-    HBox rightMidButtonHBox = new HBox();
-    Button rb1 = new Button("Select All");
-    // TODO
-    rb1.setPrefWidth(280);
-    rb1.setPrefHeight(40);
-    rightMidButtonHBox.getChildren().add(rb1);
-    Button rb2 = new Button("Remove Selected");
-    // TODO
-    rb2.setPrefWidth(280);
-    rb2.setPrefHeight(40);
-    rightMidButtonHBox.getChildren().add(rb2);
-    rightVBox.getChildren().add(rightMidButtonHBox);
+    // 3) Buttons HBox
+    HBox buttonsHBox = new HBox();
+    Button loadDataButton = addButton("Select All", 270, 40);
+    loadDataButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Load Data
+        test("Select All");
+      }
+    });
+    buttonsHBox.getChildren().add(loadDataButton);
 
-    // 4) Bottom controllers and start quiz
-    HBox rightBottomHBox = new HBox();
-    rightBottomHBox.setPadding(new Insets(80.0, 25.0, 40.0, 60.0));
-    rightBottomHBox.setSpacing(100);
+    Button addQuestionButton = addButton("Remove Selected", 270, 40);
+    addQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Add User Question
+        test("Remove Selected");
+      }
+    });
+    buttonsHBox.getChildren().add(addQuestionButton);
+    root.getChildren().add(buttonsHBox);
+
+    // 4) Quiz question Count Label
     Label quizQuestionCountLabel = new Label();
     quizQuestionCountLabel.setText("Total Questions: 0");
     quizQuestionCountLabel.setFont(Font.font(18));
-    rightBottomHBox.getChildren().add(quizQuestionCountLabel);
-    Button startQuizButton = new Button("Start Quiz");
-    startQuizButton.setOnAction(e -> primaryStage.setScene(quizScene));
-    startQuizButton.setPrefWidth(180);
-    startQuizButton.setPrefHeight(45);
-    rightBottomHBox.getChildren().add(startQuizButton);
-    rightVBox.getChildren().add(rightBottomHBox);
+    root.getChildren().add(quizQuestionCountLabel);
 
-    // 5) Add the right part to the scene
-    primaryGUIScene.getChildren().add(rightVBox);
+    // 5) Start Quiz Button
+    BorderPane startQuizPane = new BorderPane();
+    startQuizPane.setPadding(new Insets(50.0, 0.0, 0.0, 0.0));
+    Button startQuizButton = addButton("Start Quiz", 270, 40);
+    startQuizPane.setCenter(startQuizButton);
+    startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Add User Question
+        primaryStage.setScene(quizQuestionsScene(primaryStage));
+        primaryStage.setTitle("Quiz");
+      }
+    });
+    root.getChildren().add(startQuizPane);
 
-    int indexOfQuestion = 1;
-    int totalNumOfQuestion = 20;
-    // Title: Question 01/20
-    HBox titleHBox = new HBox();
-    titleHBox.setPadding(new Insets(40.0, 25.0, 40.0, 60.0));
-    titleHBox.setPrefHeight(80);
-    titleHBox.setAlignment(Pos.CENTER);
-    Text questionLabel = new Text("Question " + indexOfQuestion + "/" + totalNumOfQuestion);
+    return root;
+  }
+
+
+  /**
+   * This method generates Part I: Quiz Generator
+   * 
+   * @return quizQuestionsScene
+   */
+  public Scene quizQuestionsScene(Stage primaryStage) {
+    VBox root = new VBox();
+    // 1) Quiz Title Label
+    BorderPane titlePane = new BorderPane();
+    titlePane.setPadding(new Insets(20.0, 40.0, 20.0, 0));
+    Text questionLabel = new Text("Question 1 of 1");
     questionLabel.setFont(Font.font(40));
-    titleHBox.getChildren().add(questionLabel);
+    titlePane.setCenter(questionLabel);
+    root.getChildren().add(titlePane);
 
-    // get questions from the question bank.
+
+    // 2) Question Text
     HBox questionHBox = new HBox();
-    questionHBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
+    questionHBox.setPadding(new Insets(80.0, 40.0, 40.0, 150.0));
     questionHBox.setPrefHeight(150);
     questionHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.setSpacing(100);
     Text questionsText = new Text("1 + 1 = ?");
     questionsText.setFont(Font.font(20));
     questionHBox.getChildren().add(questionsText);
+    root.getChildren().add(questionHBox);
 
-    // choices: use for loop to get the choices
-    VBox answersVBox = new VBox();
-    answersVBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
-    answersVBox.setPrefHeight(400);
-    answersVBox.setAlignment(Pos.TOP_LEFT);
-    answersVBox.setSpacing(40);
+
+    // 3) Choice VBox
+    VBox choiceVBox = new VBox();
+    choiceVBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
+    choiceVBox.setPrefHeight(400);
+    choiceVBox.setAlignment(Pos.TOP_LEFT);
+    choiceVBox.setSpacing(40);
     ToggleGroup group = new ToggleGroup();
     // total number of choices
     int size = 3;
@@ -300,36 +342,96 @@ public class PrimaryGUI {
       button.setToggleGroup(group);
       button.setFont(Font.font(18));
       button.setSelected(true);
-      answersVBox.getChildren().add(button);
+      choiceVBox.getChildren().add(button);
     }
+    root.getChildren().add(choiceVBox);
 
-    // previous and next button
+
+    // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
     buttonHBox.setPadding(new Insets(25.0, 40.0, 40.0, 80.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(300);
-    Button toPreviousButton = new Button("Previous");
-    toPreviousButton.setPrefWidth(135);
-    toPreviousButton.setPrefHeight(45);
-    buttonHBox.getChildren().add(toPreviousButton);
-    Button toNextButton = new Button("Next");
-    toNextButton.setPrefWidth(135);
-    toNextButton.setPrefHeight(45);
-    buttonHBox.getChildren().add(toNextButton);
+    Button prevButton = addButton("Previous", 270, 40);
+    prevButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO While has prev, goto previous scene
+        test("Previous");
+      }
+    });
+    buttonHBox.getChildren().add(prevButton);
+    Button nextButton = addButton("Next", 270, 40);
+    nextButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO While has prev, goto previous scene,
+        // else to to quiz results
+        primaryStage.setScene(quizResultsScene(primaryStage));
+        primaryStage.setTitle("Quiz Results");
+      }
+    });
+    buttonHBox.getChildren().add(nextButton);
+    root.getChildren().add(buttonHBox);
 
-    quizLayOut.getChildren().add(titleHBox);
-    quizLayOut.getChildren().add(questionHBox);
-    quizLayOut.getChildren().add(answersVBox);
-    quizLayOut.getChildren().add(buttonHBox);
-
-    quizGeneratorScene.getStylesheets()
-        .add(getClass().getResource("application.css").toExternalForm());
-    primaryStage.setScene(quizGeneratorScene);
-    primaryStage.setTitle("Quiz Generator");
-    primaryStage.show();
+    Scene quizQuestionsScene = new Scene(root, 1200, 800);
+    return quizQuestionsScene;
   }
 
-  public Scene getScene() {
-    return this.primaryGUIScene;
+  /**
+   * This method generates Part I: Quiz Generator
+   * 
+   * @return quizQuestionsScene
+   */
+  public Scene quizResultsScene(Stage primaryStage) {
+    VBox root = new VBox();
+    // 1) Quiz Result Title Label
+    BorderPane titlePane = new BorderPane();
+    titlePane.setPadding(new Insets(20.0, 40.0, 40.0, 0));
+    Text questionLabel = new Text("Quiz Results");
+    questionLabel.setFont(Font.font(40));
+    titlePane.setCenter(questionLabel);
+    root.getChildren().add(titlePane);
+
+
+    // 3) Start Quiz Button
+    BorderPane finishQuizPane = new BorderPane();
+    finishQuizPane.setPadding(new Insets(50.0, 0.0, 0.0, 0.0));
+    Button finishQuizButton = addButton("Finish", 270, 40);
+    finishQuizPane.setCenter(finishQuizButton);
+    finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO Add User Question
+        primaryStage.setScene(quizGeneratorScene(primaryStage));
+        primaryStage.setTitle("Quiz Generator");
+      }
+    });
+    root.getChildren().add(finishQuizPane);
+
+    Scene quizResultsScene = new Scene(root, 1200, 800);
+    return quizResultsScene;
   }
+
+  /**
+   * WARNING: Developer use only.
+   */
+  private void test(String func) {
+    Stage window = new Stage();
+    window.setTitle(func);
+    window.setMinWidth(400);
+    window.setMinHeight(200);
+
+    Button button = new Button("Close");
+    button.setOnAction(e -> window.close());
+
+    BorderPane layout = new BorderPane();
+
+    layout.setCenter(button);
+
+    Scene scene = new Scene(layout);
+    window.setScene(scene);
+    window.showAndWait();
+  }
+
 }
