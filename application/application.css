@@ -1,1 +1,17 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.background{
+	-fx-background-color: #FEFFC0;
+}
+.label-title{
+	-fx-font-size: 20.0pt;
+}
+.label-count{
+	-fx-font-size: 18.0pt;
+}
+.label-filter{
+	-fx-font-size: 18.0pt;
+}
+.button{
+	-fx-background-color: #C0E4FF
+	
+}

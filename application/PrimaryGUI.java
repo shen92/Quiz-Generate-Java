@@ -34,6 +34,8 @@ import javafx.stage.Stage;
  * @author Yingjie Shen
  */
 public class PrimaryGUI {
+  private Scene primaryGUIScene;
+
   private QuestionDatabase questionDatabase;
   private int questionDatabaseSize;
 
@@ -42,13 +44,13 @@ public class PrimaryGUI {
     this.questionDatabase = new QuestionDatabase();
 
     // Start GUI of the program
-    HBox startLayOut = new HBox();
+    HBox primaryGUIScene = new HBox();
     VBox quizLayOut = new VBox();
-    Scene quizGeneratorScene = new Scene(startLayOut, 1200, 800);
+    Scene quizGeneratorScene = new Scene(primaryGUIScene, 1200, 800);
     Scene quizScene = new Scene(quizLayOut, 1200, 800);
 
-    startLayOut.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
-    startLayOut.setSpacing(25);
+    primaryGUIScene.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
+    primaryGUIScene.setSpacing(25);
 
     /* left part of the main scene */
     VBox leftVBox = new VBox();
@@ -201,7 +203,7 @@ public class PrimaryGUI {
     leftVBox.getChildren().add(leftBottomVBox);
 
     // 5) Add the left part to the scene
-    startLayOut.getChildren().add(leftVBox);
+    primaryGUIScene.getChildren().add(leftVBox);
 
     /* right part of the main scene */
     VBox rightVBox = new VBox();
@@ -261,7 +263,7 @@ public class PrimaryGUI {
     rightVBox.getChildren().add(rightBottomHBox);
 
     // 5) Add the right part to the scene
-    startLayOut.getChildren().add(rightVBox);
+    primaryGUIScene.getChildren().add(rightVBox);
 
     int indexOfQuestion = 1;
     int totalNumOfQuestion = 20;
@@ -327,7 +329,7 @@ public class PrimaryGUI {
     primaryStage.show();
   }
 
-  public void loadQuestion() {
-
+  public Scene getScene() {
+    return this.primaryGUIScene;
   }
 }
