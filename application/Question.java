@@ -1,6 +1,7 @@
 package application;
 
 import java.util.HashMap;
+import javafx.scene.control.CheckBox;
 
 public class Question {
   private String meta_data;
@@ -8,20 +9,29 @@ public class Question {
   private String topic;
   private String questionText;
 
-
   private HashMap<String, String> answer;
   private String imageFile;
+
+  private CheckBox checkBox = new CheckBox();
+
 
   /**
    * Default no-arg constructor
    */
   public Question() {
-
+    this.meta_data = null;
+    this.topic = null;
+    this.questionText = null;
+    this.answer = null;
+    this.imageFile = null;
+    this.checkBox.setSelected(false);
   }
 
-  public Question(String topic, String questionText) {
+  public Question(String topic, String questionText, String imageFile) {
     this.topic = topic;
     this.questionText = questionText;
+    this.imageFile = imageFile;
+    this.checkBox.setSelected(false);
   }
 
   private void show() {
@@ -49,23 +59,35 @@ public class Question {
     this.imageFile = imageFile;
   }
 
+  public void setSelected(Boolean select) {
+    this.checkBox.setSelected(select);
+  }
+
   public String getMetaData() {
-    return meta_data;
+    return this.meta_data;
   }
 
   public String getTopic() {
-    return topic;
+    return this.topic;
   }
 
   public String getQuestionText() {
-    return questionText;
+    return this.questionText;
   }
 
   public HashMap<String, String> getChoice() {
-    return answer;
+    return this.answer;
   }
 
   public String getImage() {
-    return imageFile;
+    return this.imageFile;
+  }
+
+  public CheckBox getCheckBox() {
+    return this.checkBox;
+  }
+
+  public boolean getSelected() {
+    return this.checkBox.isSelected();
   }
 }
