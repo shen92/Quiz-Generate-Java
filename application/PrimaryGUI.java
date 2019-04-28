@@ -40,7 +40,7 @@ import javafx.stage.Window;
  */
 public class PrimaryGUI {
   private Scene primaryGUI;
-  QuestionDatabase newQuestionList;
+  private QuestionDatabase questionList;
 
   private ArrayList<Question> allQuestions;
   private LinkedList<Question> quizQuestions;
@@ -151,17 +151,17 @@ public class PrimaryGUI {
         fileChooser.getExtensionFilters().add(extFilter);
         File jsonFile = fileChooser.showOpenDialog(primaryStage);
         // TODO
-        newQuestionList = new QuestionDatabase();
+        questionList = new QuestionDatabase();
         try {
-          
-          newQuestionList.loadQuestions(jsonFile);
+
+          questionList.loadQuestions(jsonFile);
         } catch (IOException | ParseException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
-          
-        for (int i = 0; i < newQuestionList.getAllQuestion().size(); i++) {
-          questionDatabaseTable.getItems().add(newQuestionList.getAllQuestion().get(i));
+
+        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          questionDatabaseTable.getItems().add(questionList.getAllQuestion().get(i));
         }
       }
     });
@@ -412,6 +412,7 @@ public class PrimaryGUI {
     titlePane.setCenter(questionLabel);
     root.getChildren().add(titlePane);
 
+    // 2) Quiz Results Label VBox
 
     // 3) Start Quiz Button
     BorderPane finishQuizPane = new BorderPane();
