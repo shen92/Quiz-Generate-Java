@@ -31,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * This class represents the start scene of the program
@@ -39,6 +40,7 @@ import javafx.stage.Stage;
  */
 public class PrimaryGUI {
   private Scene primaryGUI;
+  QuestionDatabase newQuestionList;
 
   private ArrayList<Question> allQuestions;
   private LinkedList<Question> quizQuestions;
@@ -103,14 +105,14 @@ public class PrimaryGUI {
     root.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
     root.setSpacing(25);
     // Add components to the scene
-    root.getChildren().addAll(addQuestionList(), addQuizList(primaryStage));
+    root.getChildren().addAll(addQuestionList(primaryStage), addQuizList(primaryStage));
     primaryStage.setTitle("Quiz Generator");
 
     Scene quizGeneratorScene = new Scene(root, 1200, 800);
     return quizGeneratorScene;
   }
 
-  private VBox addQuestionList() {
+  private VBox addQuestionList(Stage primaryStage) {
     VBox root = new VBox();
     // 1) Question List Label
     Label questionListLabel = new Label("Question List");
@@ -143,7 +145,24 @@ public class PrimaryGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO Load Data
-        test("Load Data");
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter =
+            new FileChooser.ExtensionFilter("JSON files (*.JSON)", "*.JSON");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File jsonFile = fileChooser.showOpenDialog(primaryStage);
+        // TODO
+        newQuestionList = new QuestionDatabase();
+        try {
+          
+          newQuestionList.loadQuestions(jsonFile);
+        } catch (IOException | ParseException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+          
+        for (int i = 0; i < newQuestionList.getAllQuestion().size(); i++) {
+          questionDatabaseTable.getItems().add(newQuestionList.getAllQuestion().get(i));
+        }
       }
     });
     buttonsHBox.getChildren().add(loadDataButton);
