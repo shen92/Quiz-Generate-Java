@@ -479,7 +479,81 @@ public class PrimaryGUI {
 
     VBox root = new VBox();
 
+    VBox getQuestionVBox = new VBox();
+    getQuestionVBox.setPadding(new Insets(18.0, 0.0, 0.0, 25.0));
+    getQuestionVBox.setSpacing(10);
+
+    HBox h1 = new HBox();
+    h1.setPadding(new Insets(0.0, 60.0, 0.0, 0.0));
+    h1.setSpacing(10);
+    h1.setAlignment(Pos.CENTER_RIGHT);
+    Label questionLabel = new Label();
+    questionLabel.setText("Question:");
+    questionLabel.setFont(Font.font(18));
+    h1.getChildren().add(questionLabel);
+    TextArea questionTextArea = new TextArea();
+    questionTextArea.setPrefWidth(450);
+    questionTextArea.setPrefHeight(75);
+    h1.getChildren().add(questionTextArea);
+    getQuestionVBox.getChildren().add(h1);
+
+    HBox h2 = new HBox();
+    h2.setSpacing(10);
+    h2.setPadding(new Insets(0.0, 60.0, 0.0, 0.0));
+    h2.setAlignment(Pos.CENTER_RIGHT);
+    Label topicLabel = new Label();
+    topicLabel.setText("Topic:");
+    topicLabel.setFont(Font.font(18));
+    h2.getChildren().add(topicLabel);
+    TextField topicTextField = new TextField();
+    topicTextField.setPrefWidth(450);
+    h2.getChildren().add(topicTextField);
+    getQuestionVBox.getChildren().add(h2);
+
+    HBox h3 = new HBox();
+    h3.setSpacing(10);
+    h3.setPadding(new Insets(0.0, 60.0, 0.0, 0.0));
+    h3.setAlignment(Pos.CENTER_RIGHT);
+    Label imageLabel = new Label();
+    imageLabel.setText("Image:");
+    imageLabel.setFont(Font.font(18));
+    h3.getChildren().add(imageLabel);
+    TextField imageField = new TextField();
+    imageField.setPrefWidth(450);
+    h3.getChildren().add(imageField);
+    getQuestionVBox.getChildren().add(h3);
+
+    Label choiceLabel = new Label();
+    choiceLabel.setText("Choice: (Toggle to set answer)");
+    choiceLabel.setFont(Font.font(18));
+    choiceLabel.setPadding(new Insets(0, 0, 0, 27));
+    getQuestionVBox.getChildren().add(choiceLabel);
+
+    ToggleGroup group = new ToggleGroup();
+
+    for (int i = 0; i < 5; i++) {
+      HBox choice = new HBox();
+      choice.setSpacing(10);
+      choice.setPadding(new Insets(0.0, 60.0, 0.0, 0.0));
+      choice.setAlignment(Pos.CENTER_RIGHT);
+      RadioButton choiceButton = new RadioButton();
+      choiceButton.setToggleGroup(group);
+      choiceButton.setSelected(false);
+      choice.getChildren().add(choiceButton);
+      Label choiceALabel = new Label();
+      choiceALabel.setText((char) ('A' + i) + ": ");
+      choiceALabel.setFont(Font.font(18));
+      choice.getChildren().add(choiceALabel);
+      TextField choiceATextField = new TextField();
+      choiceATextField.setPrefWidth(450);
+      choice.getChildren().add(choiceATextField);
+      getQuestionVBox.getChildren().add(choice);
+    }
+
+    root.getChildren().add(getQuestionVBox);
+
     HBox buttonHBox = new HBox();
+    buttonHBox.setPadding(new Insets(20.0, 0.0, 0.0, 0.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(80);
 
@@ -487,7 +561,7 @@ public class PrimaryGUI {
     confirmButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
+        // TODO add Question
         window.close();
       }
     });
