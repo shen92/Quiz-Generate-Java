@@ -43,7 +43,6 @@ public class PrimaryGUI {
   private Scene primaryGUI;
   private QuestionDatabase questionList;
 
-  private ArrayList<Question> allQuestions;
   private LinkedList<Question> quizQuestions;
 
   private Label questionDatabaseCountLabel = new Label();
@@ -96,7 +95,6 @@ public class PrimaryGUI {
     root.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
     root.setSpacing(25);
 
-
     // Add components to the scene
     root.getChildren().addAll(addQuestionList(primaryStage), addQuizList(primaryStage));
     primaryStage.setTitle("Quiz Generator");
@@ -143,7 +141,7 @@ public class PrimaryGUI {
     loadDataButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        try {
+        try {// TODO: DUPLICATE QUESTIONS
           FileChooser fileChooser = new FileChooser();
           FileChooser.ExtensionFilter extFilter =
               new FileChooser.ExtensionFilter("json files (*.json)", "*.json");
@@ -176,6 +174,7 @@ public class PrimaryGUI {
     selectAllButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
+        // TODO BUG: TOGGLE LEFT&RIGHT
         for (Question question : questionDatabaseTable.getItems()) {
           question.setSelected(true);
         }
@@ -187,6 +186,7 @@ public class PrimaryGUI {
     unselectAllButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
+        // TODO: BUG TOGGLE LEFT&RIGHT
         for (Question question : questionDatabaseTable.getItems()) {
           question.setSelected(false);
         }
@@ -210,7 +210,7 @@ public class PrimaryGUI {
     addToQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO BUG
+        // TODO: BUG CHECKBOX DISAPPEAR
         for (Question question : questionDatabaseTable.getItems()) {
           if (question.getSelected() == true) {
             quizQuestionTable.getItems().add(question);
@@ -225,7 +225,7 @@ public class PrimaryGUI {
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
+        // TODO: SAVE TO FILE
         test("Save To File");
       }
     });
@@ -331,7 +331,7 @@ public class PrimaryGUI {
     addQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO BUG
+        // TODO BUG: REMOVE ONE BY ONE
         for (Question question : quizQuestionTable.getItems()) {
           if (question.getSelected() == true) {
             quizQuestionTable.getItems().remove(question);
@@ -357,6 +357,7 @@ public class PrimaryGUI {
     startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
+        // TODO BUG UNKNOWN
         for (Question question : quizQuestionTable.getItems()) {
           quizQuestions.add(question);
         }
@@ -371,7 +372,7 @@ public class PrimaryGUI {
 
 
   /**
-   * This method generates Part I: Quiz Generator
+   * This method generates Part II: Quiz
    * 
    * @return quizQuestionsScene
    */
@@ -476,17 +477,17 @@ public class PrimaryGUI {
     resultsLabelVBox.setSpacing(10);
 
     Label totalQuestionLabel = new Label();
-    totalQuestionLabel.setText("Total Questions: ");
+    totalQuestionLabel.setText("Total Questions: "/* TODO */);
     totalQuestionLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(totalQuestionLabel);
 
     Label correctQuestionLabel = new Label();
-    correctQuestionLabel.setText("Correct Questions: ");
+    correctQuestionLabel.setText("Correct Questions: "/* TODO */);
     correctQuestionLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(correctQuestionLabel);
 
     Label quizScoreLabel = new Label();
-    quizScoreLabel.setText("Quiz Score: ");
+    quizScoreLabel.setText("Quiz Score: "/* TODO */);
     quizScoreLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(quizScoreLabel);
     root.getChildren().add(resultsLabelVBox);
@@ -501,7 +502,7 @@ public class PrimaryGUI {
     finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO Add User Question
+        // TODO RESET NEEDED
         primaryStage.setScene(quizGeneratorScene(primaryStage));
         primaryStage.setTitle("Quiz Generator");
       }
@@ -606,7 +607,7 @@ public class PrimaryGUI {
     confirmButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO add Question
+        // TODO add Question, BUG EXIST
         Question question = new Question();
         String questionText = null;
         String topic = null;
