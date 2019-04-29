@@ -4,18 +4,15 @@ import java.util.LinkedList;
 
 public class Quiz {
   private LinkedList<Question> quizQuestions;
-  private int correct;
+  private LinkedList<Boolean> quizCorrectness;
 
   public Quiz() {
     this.quizQuestions = new LinkedList<>();
-    this.correct = 0;
+    this.quizCorrectness = new LinkedList<>();
   }
 
   public int size() {
     return quizQuestions.size();
   }
-  
-  
-
 
 }

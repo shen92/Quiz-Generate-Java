@@ -20,10 +20,10 @@ public class SceneTest extends Application {
   @Override
   public void start(Stage primaryStage) {
     try {
-      this.primaryGUI = new PrimaryGUI(primaryStage);
+      setup(primaryStage);
       // TODO TEST Scene here:
       /* To test, change the *.getScene() */
-      primaryStage.setScene(primaryGUI.getScene());
+      primaryStage.setScene(showQuestionGUI.getScene());
       primaryStage.show();
     } catch (Exception e) {
       e.printStackTrace();

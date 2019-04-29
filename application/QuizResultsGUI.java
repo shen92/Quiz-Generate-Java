@@ -32,7 +32,7 @@ public class QuizResultsGUI {
     VBox root = new VBox();
     // 1) Quiz Result Title Label
     BorderPane titlePane = new BorderPane();
-    titlePane.setPadding(new Insets(20.0, 40.0, 100.0, 0));
+    titlePane.setPadding(new Insets(20.0, 0.0, 100.0, 0));
 
     Text quizResultsLabel = new Text("Quiz Results");
     quizResultsLabel.setFont(Font.font(40));
@@ -65,7 +65,7 @@ public class QuizResultsGUI {
     // 3) Finish Quiz Button HBox
     HBox finishQuizHBox = new HBox();
     finishQuizHBox.setAlignment(Pos.CENTER);
-    finishQuizHBox.setSpacing(120);
+    finishQuizHBox.setSpacing(300);
     finishQuizHBox.setPadding(new Insets(150.0, 0.0, 0.0, 0.0));
 
     Button saveToFileButton = addButton("Save to File", 270, 40);

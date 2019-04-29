@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +22,7 @@ public class ShowQuestionGUI {
 
   // JavaFX Components
   // TODO
+  Text questionNumLabel = new Text();
 
   // Back-End Fields
   // TODO
@@ -32,37 +35,48 @@ public class ShowQuestionGUI {
     VBox root = new VBox();
     // 1) Quiz Title Label
     BorderPane titlePane = new BorderPane();
-    titlePane.setPadding(new Insets(20.0, 40.0, 20.0, 0));
+    titlePane.setPadding(new Insets(20.0, 0.0, 0.0, 0));
 
-    Text questionLabel = new Text("Question 1 of 1");
-    questionLabel.setFont(Font.font(40));
-    titlePane.setCenter(questionLabel);
+    questionNumLabel.setText("Question 1 of " + "20");
+    questionNumLabel.setFont(Font.font(40));
+    titlePane.setCenter(questionNumLabel);
     root.getChildren().add(titlePane);
 
 
-    // 2) Question Text
+    // 2) Question Text/ImageView
     HBox questionHBox = new HBox();
-    questionHBox.setPadding(new Insets(80.0, 40.0, 40.0, 150.0));
-    questionHBox.setPrefHeight(150);
-    questionHBox.setAlignment(Pos.TOP_LEFT);
-    questionHBox.setSpacing(100);
+    questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
+    questionHBox.setSpacing(10);
 
-    Text questionsText = new Text("1 + 1 = ?");
-    questionsText.setFont(Font.font(20));
-    questionHBox.getChildren().add(questionsText);
+    HBox questionTextHBox = new HBox();
+    questionTextHBox.setAlignment(Pos.TOP_LEFT);
+    questionHBox.getChildren().add(questionTextHBox);
+    Text questionText = new Text();
+    questionText.setText(
+        "The _____ command will copy files from a local repository to a remote repository.");
+    questionText.setFont(Font.font(20));
+    questionTextHBox.getChildren().add(questionText);
+
+    HBox questionImageHBox = new HBox();
+    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
+    questionHBox.getChildren().add(questionImageHBox);
+    Image img = new Image("image.jpg");
+    ImageView questionImageView = new ImageView();
+    // questionImageView.setAlignment(Pos.TOP_RIGHT);
+    questionImageView.setImage(img);
+    questionImageHBox.getChildren().add(questionImageView);
     root.getChildren().add(questionHBox);
-
 
     // 3) Choice VBox
     VBox choiceVBox = new VBox();
-    choiceVBox.setPadding(new Insets(25.0, 40.0, 40.0, 150.0));
-    choiceVBox.setPrefHeight(400);
+    choiceVBox.setPadding(new Insets(0.0, 40.0, 0.0, 150.0));
+    choiceVBox.setPrefHeight(360);
     choiceVBox.setAlignment(Pos.TOP_LEFT);
-    choiceVBox.setSpacing(40);
+    choiceVBox.setSpacing(25);
 
     ToggleGroup group = new ToggleGroup();
     // total number of choices
-    int size = 3;
+    int size = 5;
     for (int i = 0; i < size; i++) {
       RadioButton button = new RadioButton("" + (i + 1));
       button.setToggleGroup(group);
@@ -75,7 +89,7 @@ public class ShowQuestionGUI {
 
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
-    buttonHBox.setPadding(new Insets(25.0, 40.0, 40.0, 80.0));
+    buttonHBox.setPadding(new Insets(0.0, 40.0, 40.0, 80.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(300);
 
