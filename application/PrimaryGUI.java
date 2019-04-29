@@ -125,10 +125,6 @@ public class PrimaryGUI {
     topicCol.setPrefWidth(100);
     questionDatabaseTable.getColumns().add(topicCol);
 
-    TableColumn<Question, String> contentCol = new TableColumn<>("Question");
-    contentCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-    contentCol.setPrefWidth(370);
-    questionDatabaseTable.getColumns().add(contentCol);
     root.getChildren().add(questionDatabaseTable);
 
 

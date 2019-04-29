@@ -1,13 +1,17 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.json.simple.parser.ParseException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -141,7 +146,7 @@ public class QuizGeneratorGUI {
         // TODO Unfinished
         // Add questions to the question list table
         for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          // addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
         }
       }
     });
@@ -169,6 +174,11 @@ public class QuizGeneratorGUI {
     root.getChildren().add(buttonsHBox);
 
     return root;
+  }
+
+  private void addQuestionToQuestionList(Question question) {
+    topicListTable.getItems().add(question);
+    questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
   }
 
   /**
@@ -228,6 +238,18 @@ public class QuizGeneratorGUI {
     h3.getChildren().add(imageTextField);
     getQuestionVBox.getChildren().add(h3);
 
+    HBox h4 = new HBox();
+    h4.setSpacing(10);
+    h4.setAlignment(Pos.CENTER_RIGHT);
+    Label metaDataLabel = new Label();
+    metaDataLabel.setText("Meta-data:");
+    metaDataLabel.setFont(Font.font(18));
+    h4.getChildren().add(metaDataLabel);
+    TextField metaDataTextField = new TextField();
+    metaDataTextField.setPrefWidth(450);
+    h4.getChildren().add(metaDataTextField);
+    getQuestionVBox.getChildren().add(h4);
+
     Label choicePromptLabel = new Label();
     choicePromptLabel.setText("Choice: (Toggle to set answer)");
     choicePromptLabel.setFont(Font.font(18));
@@ -237,7 +259,6 @@ public class QuizGeneratorGUI {
 
     TextField[] choiceTextFields = new TextField[5];
     RadioButton[] choiceButtons = new RadioButton[5];
-
     for (int i = 0; i < 5; i++) {
       HBox choice = new HBox();
       choice.setSpacing(10);
@@ -268,7 +289,76 @@ public class QuizGeneratorGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO
-        test("Confirm");
+        Question newQuestion = new Question();
+        if (questionTextArea.getText().isEmpty()) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter the question content!");
+          alert.showAndWait();
+          return;
+        }
+        if (metaDataTextField.getText().isEmpty()) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter the meta-data!");
+          alert.showAndWait();
+          return;
+        }
+        if (topicTextField.getText().isEmpty()) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Please enter the question topic!");
+          alert.showAndWait();
+          return;
+        }
+        newQuestion.setQuestionText(questionTextArea.getText());
+        newQuestion.setMetaData(metaDataTextField.getText());
+        newQuestion.setTopic(topicTextField.getText());
+        if (imageTextField.getText().isEmpty())
+          newQuestion.setImage("None");
+        else
+          newQuestion.setImage(imageTextField.getText());
+        LinkedHashMap<String, String> choices = new LinkedHashMap<String, String>();
+        int choiceEmptyCount = 0;
+        for (int i = 0; i < 5; i++) {
+          if (!choiceTextFields[i].getText().isEmpty()) {
+            if (choiceButtons[i].hasProperties() == true)
+              choices.put("T", choiceTextFields[i].getText());
+            else {
+              choices.put("F", choiceTextFields[i].getText());
+            }
+          } else {
+            choiceEmptyCount++;
+          }
+          if (choiceEmptyCount > 3) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("You must enter at least two choices!");
+            alert.showAndWait();
+            return;
+          }
+          if (group.getSelectedToggle() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("You must select one correct answer!");
+            alert.showAndWait();
+            return;
+          }
+        }
+        newQuestion.setChoice(choices);
+        if (questionList == null) {
+          questionList = new QuestionDatabase();
+          questionList.addQuestion(newQuestion);
+          addQuestionToQuestionList(newQuestion);
+        } else {
+          questionList.addQuestion(newQuestion);
+          addQuestionToQuestionList(newQuestion);
+        }
       }
     });
     buttonHBox.getChildren().add(confirmButton);
@@ -318,7 +408,24 @@ public class QuizGeneratorGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO
-        test("Save to File");
+        if (questionList == null) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText("Cannot write the file!");
+          alert.setContentText("There is no questions in the question list!");
+          alert.showAndWait();
+          return;
+        } else
+          try {
+            questionList.writeQuestions(questionList.getAllQuestion());
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("File Written Complete!");
+            alert.setContentText("All questions have been successfully written");
+            alert.showAndWait();
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+          }
       }
     });
 
@@ -354,8 +461,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */

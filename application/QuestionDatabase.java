@@ -22,6 +22,16 @@ public class QuestionDatabase {
     questionBank = new HashMap<String, ArrayList<Question>>();
   }
 
+  public void addQuestion(Question question) {
+    if (questionBank.containsKey(question.getTopic()))
+      questionBank.get(question.getTopic()).add(question);
+    else {
+      ArrayList<Question> newQuestionList = new ArrayList<Question>();
+      newQuestionList.add(question);
+      questionBank.put(question.getTopic(), newQuestionList);
+    }
+  }
+
   @SuppressWarnings("unchecked")
   public void writeQuestions(ArrayList<Question> question) throws FileNotFoundException {
     JSONObject jo1 = new JSONObject();
@@ -47,12 +57,12 @@ public class QuestionDatabase {
       jo2.put("choiceArray", ja2);
       ja1.add(jo2);
     }
-    
+
     jo1.put("questionArray", ja1);
-    
+
     PrintWriter pw = new PrintWriter("JSONExample.json");
     pw.write(jo1.toJSONString());
-    
+
     pw.flush();
     pw.close();
   }
