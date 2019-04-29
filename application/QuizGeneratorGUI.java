@@ -103,13 +103,14 @@ public class QuizGeneratorGUI {
 
     // 3) Question Count Label
     questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
+    questionDatabaseCountLabel.setPadding(new Insets(10, 0, 0, 0));
     questionDatabaseCountLabel.setFont(Font.font(18));
     root.getChildren().add(questionDatabaseCountLabel);
 
     HBox searchHBox = new HBox();// Filter Box
 
     searchHBox.setSpacing(20);
-    Label topicLabel = new Label("Number of Questions On Quiz:");
+    Label topicLabel = new Label("Number of Questions In Quiz:");
     topicLabel.setFont(Font.font(18));
     searchHBox.getChildren().add(topicLabel);
 
@@ -120,7 +121,7 @@ public class QuizGeneratorGUI {
 
     // 5) Buttons HBox
     HBox buttonsHBox = new HBox();
-    buttonsHBox.setPadding(new Insets(25, 0, 0, 0));
+    buttonsHBox.setPadding(new Insets(15, 0, 0, 0));
 
     Button loadDataButton = addButton("Load Data", 180, 40);
     loadDataButton.setOnAction(new EventHandler<ActionEvent>() {
