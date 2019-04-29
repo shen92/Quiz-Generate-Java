@@ -58,7 +58,7 @@ public class QuizGeneratorGUI {
 
     VBox lower = new VBox();
     lower.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
-    lower.getChildren().addAll(addStartQuizComponent());
+    lower.getChildren().addAll(addStartQuizComponent(primaryStage));
     root.getChildren().add(lower);
 
     primaryStage.setTitle("Quiz Generator");
@@ -151,8 +151,8 @@ public class QuizGeneratorGUI {
     selectAllButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        for (Question question: questionList.getAllQuestion())
-        	question.getCheckBox().setSelected(true);
+    	  for (Question question: questionList.getAllQuestion())
+          	question.getCheckBox().setSelected(true);
       }
     });
     buttonsHBox.getChildren().add(selectAllButton);
@@ -162,7 +162,7 @@ public class QuizGeneratorGUI {
       @Override
       public void handle(ActionEvent arg0) {
     	  for (Question question: questionList.getAllQuestion())
-          	question.getCheckBox().setSelected(false);
+            	question.getCheckBox().setSelected(false);
       }
     });
     buttonsHBox.getChildren().add(unselectAllButton);
@@ -285,7 +285,15 @@ public class QuizGeneratorGUI {
     return root;
   }
 
-  private VBox addStartQuizComponent() {
+  /**
+   * This method adds save to file and start quiz to the quizGeneratorScene
+   * 
+   * @param Stage primaryStage
+   * 
+   * @return VBox
+   * 
+   */
+  private VBox addStartQuizComponent(Stage primaryStage) {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setPadding(new Insets(40, 0, 0, 0));
@@ -298,7 +306,6 @@ public class QuizGeneratorGUI {
     Tooltip saveToFileTooltip = new Tooltip();
     saveToFileTooltip.setText("Save all questions in topic list to file");
     saveToFileButton.setTooltip(saveToFileTooltip);
-    
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -318,6 +325,9 @@ public class QuizGeneratorGUI {
       public void handle(ActionEvent arg0) {
         // TODO
         test("Start Quiz");
+        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage);
+        primaryStage.setScene(showQuestionGUI.getScene());
+        primaryStage.setTitle("Quiz");
       }
     });
     buttonHBox.getChildren().add(startQuizButton);
