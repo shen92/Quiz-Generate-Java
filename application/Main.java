@@ -2,27 +2,29 @@ package application;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
 /**
- * This is the main class of the program.
+ * This class tests the scene of the program
  * 
  * @author Yingjie Shen
  */
 
 public class Main extends Application {
-  private PrimaryGUI primaryGUI;
+  private QuizGeneratorGUI quizGeneratorGUI;
 
   @Override
   public void start(Stage primaryStage) {
     try {
-      this.primaryGUI = new PrimaryGUI(primaryStage);
-      primaryStage.setScene(primaryGUI.getScene());
+      setup(primaryStage);
+      primaryStage.setScene(quizGeneratorGUI.getScene());
       primaryStage.show();
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void setup(Stage primaryStage) {
+    this.quizGeneratorGUI = new QuizGeneratorGUI(primaryStage);
   }
 
   public static void main(String[] args) {
