@@ -144,9 +144,14 @@ public class QuizGeneratorGUI {
         }
         // Add topics to topic list
         topicListTable.getItems().clear();
+        ArrayList<String> currentTopicInList = new ArrayList<String>();
         for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          if(currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
+            continue;
           addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+          currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
         }
+        questionDatabaseCountLabel.setText("Total Questions: " + questionList.getAllQuestion().size());
       }
     });
     buttonsHBox.getChildren().add(loadDataButton);
@@ -177,7 +182,7 @@ public class QuizGeneratorGUI {
 
   private void addQuestionToQuestionList(Question question) {
     topicListTable.getItems().add(question);
-    questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
+
   }
 
   /**
@@ -454,8 +459,10 @@ public class QuizGeneratorGUI {
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         // TODO
         for(int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          if(questionList.getAllQuestion().get(i).getSelected())
+          if(questionList.getAllQuestion().get(i).getSelected()) {
+            questionList.checkUnselected(questionList.getAllQuestion().get(i).getTopic());
             allSelectedTopicQues.add(questionList.getAllQuestion().get(i));
+          }
         }
         int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
         Random rand = new Random();

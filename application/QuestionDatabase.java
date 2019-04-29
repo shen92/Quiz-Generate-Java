@@ -35,6 +35,11 @@ public class QuestionDatabase {
     }
   }
   
+  public void checkUnselected(String topic) {
+    for(int i = 0; i < questionBank.get(topic).size(); i++){
+      questionBank.get(topic).get(i).setSelected(true);
+    }
+  }
   private int getQuestionAmountForSpecificTopic(String topic) {
     return questionBank.get(topic).size();
   }

@@ -34,229 +34,182 @@ public class ShowQuestionGUI {
 
 
   public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
-	loadQuiz( primaryStage, quizQuestions);
+    loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
   }
 
-   public void loadQuiz(Stage primaryStage, LinkedList<Question> quizQuestions) {
-	   this.questionIndex = 1;
-	   this.quizQuestions = new LinkedList<>();
-	   this.quizQuestions = quizQuestions;	  
-   }
-   
+  public void loadQuiz(Stage primaryStage, LinkedList<Question> quizQuestions) {
+    this.questionIndex = 1;
+    this.quizQuestions = new LinkedList<>();
+    this.quizQuestions = quizQuestions;
+  }
+
 
   private void setup(Stage primaryStage) {
-	    
-	    VBox root = new VBox();
-	    // 1) Quiz Title Label
-	    BorderPane titlePane = new BorderPane();
-	    titlePane.setPadding(new Insets(20.0, 0.0, 0.0, 0));
-	    
-	    questionIndexLabel.setText("Question " + this.questionIndex + " of " + this.quizQuestions.size());
-	    
-//	    questionIndexLabel.setText("Question 1 of 20");
-	    questionIndexLabel.setFont(Font.font(40));
-	    titlePane.setCenter(questionIndexLabel);
-	    root.getChildren().add(titlePane);
 
-	    // test
-	    if (this.quizQuestions.isEmpty()) {
-		    // 2) Question Text/ImageView
-		    HBox questionHBox = new HBox();
-		    questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
-		    questionHBox.setSpacing(10);
-		
-		    HBox questionTextHBox = new HBox();
-		    questionTextHBox.setAlignment(Pos.TOP_LEFT);
-		    questionHBox.getChildren().add(questionTextHBox);
-		    Text questionText = new Text();
-		    questionText.setText(
-		        "The _____ command will copy files from a local repository to a remote repository.");
-		    questionText.setFont(Font.font(20));
-		    questionTextHBox.getChildren().add(questionText);
-		
-		    HBox questionImageHBox = new HBox();
-		    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
-		    questionHBox.getChildren().add(questionImageHBox);
-		    Image img = new Image("image.jpg");
-		    ImageView questionImageView = new ImageView();
-		    // questionImageView.setAlignment(Pos.TOP_RIGHT);
-		    questionImageView.setImage(img);
-		    questionImageHBox.getChildren().add(questionImageView);
-		    root.getChildren().add(questionHBox);
-		
-		    // 3) Choice VBox
-		    VBox choiceVBox = new VBox();
-		    choiceVBox.setPadding(new Insets(0.0, 40.0, 0.0, 150.0));
-		    choiceVBox.setPrefHeight(360);
-		    choiceVBox.setAlignment(Pos.TOP_LEFT);
-		    choiceVBox.setSpacing(25);
-		
-		    ToggleGroup group = new ToggleGroup();
-		    // total number of choices
-		    int size = 5;
-		    for (int i = 0; i < size; i++) {
-		      RadioButton button = new RadioButton("" + (i + 1));
-		      button.setToggleGroup(group);
-		      button.setFont(Font.font(18));
-		      button.setSelected(true);
-		      choiceVBox.getChildren().add(button);
-		    }
-		    root.getChildren().add(choiceVBox);
-	    } 
-	    
-	    // actucal
-	    else {
-	    	Question thisQuestion = quizQuestions.get(questionIndex-1);
-	    	
-	    	HBox questionHBox = new HBox();
-		    questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
-		    questionHBox.setSpacing(10);
-		
-		    HBox questionTextHBox = new HBox();
-		    questionTextHBox.setAlignment(Pos.TOP_LEFT);
-		    questionHBox.getChildren().add(questionTextHBox);
-		    Text questionText = new Text();
-		    questionText.setText(thisQuestion.getQuestionText());
-		    questionText.setFont(Font.font(20));
-		    questionTextHBox.getChildren().add(questionText);
-		
-		    HBox questionImageHBox = new HBox();
-		    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
-		    questionHBox.getChildren().add(questionImageHBox);
-		    if (!thisQuestion.getImage().equals("none")) {
-			    Image img = new Image(thisQuestion.getImage());
-			    ImageView questionImageView = new ImageView();
-			    // questionImageView.setAlignment(Pos.TOP_RIGHT);
-			    questionImageView.setImage(img);
-			    questionImageHBox.getChildren().add(questionImageView);
-		    }
-		    root.getChildren().add(questionHBox);
-		
-		    // 3) Choice VBox
-		    VBox choiceVBox = new VBox();
-		    choiceVBox.setPadding(new Insets(0.0, 40.0, 0.0, 150.0));
-		    choiceVBox.setPrefHeight(360);
-		    choiceVBox.setAlignment(Pos.TOP_LEFT);
-		    choiceVBox.setSpacing(25);
-		
-		    ToggleGroup group = new ToggleGroup();
-		    // total number of choices
-		    int size = thisQuestion.getChoice().size();
-		    for (String choice : thisQuestion.getChoice().keySet()) {
-		    	RadioButton button = new RadioButton(choice);
-			      button.setToggleGroup(group);
-			      button.setFont(Font.font(18));
-			      choiceVBox.getChildren().add(button);
-		    	
-		    }
-		    root.getChildren().add(choiceVBox);
-	    
-	    }
+    VBox root = new VBox();
+    // 1) Quiz Title Label
+    BorderPane titlePane = new BorderPane();
+    titlePane.setPadding(new Insets(20.0, 0.0, 0.0, 0));
 
-	    // 4) Previous and Next Buttons
-	    HBox buttonHBox = new HBox();
-	    buttonHBox.setPadding(new Insets(0.0, 40.0, 40.0, 80.0));
-	    buttonHBox.setAlignment(Pos.CENTER);
-	    buttonHBox.setSpacing(300);
+    questionIndexLabel
+        .setText("Question " + this.questionIndex + " of " + this.quizQuestions.size());
 
-	    Button prevButton = addButton("Previous", 270, 40);
-	    prevButton.setOnAction(new EventHandler<ActionEvent>() {
-	      @Override
-	      public void handle(ActionEvent arg0) {
-	        // TODO While has prev, goto previous scene
-	        
-	        if (questionIndex == 1) {
-	        	Stage window = new Stage();
-	    	    window.setTitle("First Question");
-	    	    window.setMinWidth(400);
-	    	    window.setMinHeight(200);
-	    	    
-	    	    Text remind = new Text("This is the first Question!");
-	    	    remind.setFont(Font.font(20));
-	    	    Button closeButton = new Button("Close");
-	    	    closeButton.setOnAction(e -> window.close());
-	    	    
-	    	    VBox vb = new VBox();
-	    	    vb.getChildren().addAll(remind, closeButton);
-	    	    vb.setAlignment(Pos.CENTER);
-	    	    
-	    	    vb.setSpacing(40);
-	    	    BorderPane layout = new BorderPane();
-	    	    layout.setCenter(vb);
+    // questionIndexLabel.setText("Question 1 of 20");
+    questionIndexLabel.setFont(Font.font(40));
+    titlePane.setCenter(questionIndexLabel);
+    root.getChildren().add(titlePane);
 
-	    	    Scene scene = new Scene(layout);
-	    	    window.setScene(scene);
-	    	    window.showAndWait();
-	    	    
-	        }
-	        else {
-	        	questionIndex--;
-	        	setup(primaryStage);
-	        	
-	        }
-	        	
-	      }
-	    });
-	    buttonHBox.getChildren().add(prevButton);
+    // actucal
 
-	    Button nextButton = addButton("Next", 270, 40);
-	    nextButton.setOnAction(new EventHandler<ActionEvent>() {
-	      @Override
-	      public void handle(ActionEvent arg0) {
-	        // TODO While has prev, goto previous scene,
-	        // else to to quiz results
-	    	if (questionIndex == quizQuestions.size()) {
-	    		Stage window = new Stage();
-	    	    window.setTitle("Last question");
-	    	    window.setMinWidth(400);
-	    	    window.setMinHeight(200);
-	    	    Text remind = new Text("This is the the last question, would you like to submit?");
-	    	    remind.setFont(Font.font(20));
-	    	    Button confirmButton = new Button("confirm");
-	    	    
-	    	    confirmButton.setOnAction(e-> {
-	    	    	window.close();
-	    	    	QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage);
-	    	        primaryStage.setScene(quizResultsGUI.getScene());
-	    	        primaryStage.setTitle("Quiz Results");
-	    	    	
-	    	    });
-	    	    
-	    	    Button cancelButton = new Button("Cancel");
-	    	    cancelButton.setOnAction(e -> window.close());
-	    	    
-	    	    HBox buttonBox = new HBox();
-	    	    buttonBox.setAlignment(Pos.CENTER);
-	    	    buttonBox.setSpacing(50);
-	    	    buttonBox.getChildren().addAll(confirmButton ,cancelButton);
-	    	    
-	    	    VBox vb = new VBox();
-	    	    vb.getChildren().addAll(remind, buttonBox);
-	    	    vb.setAlignment(Pos.CENTER);
-	    	    vb.setSpacing(50);
-	    	    
-	    	    BorderPane layout = new BorderPane();
-	    	    layout.setCenter(vb);
+    Question thisQuestion = quizQuestions.get(questionIndex - 1);
 
-	    	    Scene scene = new Scene(layout);
-	    	    window.setScene(scene);
-	    	    window.showAndWait();
-	    		
-	    	} 
-	    	else {
-	    		questionIndex++;
-	    		setup(primaryStage);
-	    	}
+    HBox questionHBox = new HBox();
+    questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
+    questionHBox.setSpacing(10);
 
-	      }
-	    });
-	    buttonHBox.getChildren().add(nextButton);
-	    root.getChildren().add(buttonHBox);
-	    
-	    this.quizQuestionsScene = new Scene(root, 1200, 800);
-	    primaryStage.setScene(this.quizQuestionsScene);
-	    
+    HBox questionTextHBox = new HBox();
+    questionTextHBox.setAlignment(Pos.TOP_LEFT);
+    questionHBox.getChildren().add(questionTextHBox);
+    Text questionText = new Text();
+    questionText.setText(thisQuestion.getQuestionText());
+    questionText.setFont(Font.font(20));
+    questionTextHBox.getChildren().add(questionText);
+
+    HBox questionImageHBox = new HBox();
+    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
+    questionHBox.getChildren().add(questionImageHBox);
+    if (!thisQuestion.getImage().equals("none")) {
+      Image img = new Image(thisQuestion.getImage());
+      ImageView questionImageView = new ImageView();
+      // questionImageView.setAlignment(Pos.TOP_RIGHT);
+      questionImageView.setImage(img);
+      questionImageHBox.getChildren().add(questionImageView);
+    }
+    root.getChildren().add(questionHBox);
+
+    // 3) Choice VBox
+    VBox choiceVBox = new VBox();
+    choiceVBox.setPadding(new Insets(0.0, 40.0, 0.0, 150.0));
+    choiceVBox.setPrefHeight(360);
+    choiceVBox.setAlignment(Pos.TOP_LEFT);
+    choiceVBox.setSpacing(25);
+
+    ToggleGroup group = new ToggleGroup();
+    // total number of choices
+    int size = thisQuestion.getChoice().size();
+    for (String choice : thisQuestion.getChoice().keySet()) {
+      RadioButton button = new RadioButton(choice);
+      button.setToggleGroup(group);
+      button.setFont(Font.font(18));
+      choiceVBox.getChildren().add(button);
+
+    }
+    root.getChildren().add(choiceVBox);
+
+
+
+    // 4) Previous and Next Buttons
+    HBox buttonHBox = new HBox();
+    buttonHBox.setPadding(new Insets(0.0, 40.0, 40.0, 80.0));
+    buttonHBox.setAlignment(Pos.CENTER);
+    buttonHBox.setSpacing(300);
+
+    Button prevButton = addButton("Previous", 270, 40);
+    prevButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO While has prev, goto previous scene
+
+        if (questionIndex == 1) {
+          Stage window = new Stage();
+          window.setTitle("First Question");
+          window.setMinWidth(400);
+          window.setMinHeight(200);
+
+          Text remind = new Text("This is the first Question!");
+          remind.setFont(Font.font(20));
+          Button closeButton = new Button("Close");
+          closeButton.setOnAction(e -> window.close());
+
+          VBox vb = new VBox();
+          vb.getChildren().addAll(remind, closeButton);
+          vb.setAlignment(Pos.CENTER);
+
+          vb.setSpacing(40);
+          BorderPane layout = new BorderPane();
+          layout.setCenter(vb);
+
+          Scene scene = new Scene(layout);
+          window.setScene(scene);
+          window.showAndWait();
+
+        } else {
+          questionIndex--;
+          setup(primaryStage);
+
+        }
+
+      }
+    });
+    buttonHBox.getChildren().add(prevButton);
+
+    Button nextButton = addButton("Next", 270, 40);
+    nextButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO While has prev, goto previous scene,
+        // else to to quiz results
+        if (questionIndex == quizQuestions.size()) {
+          Stage window = new Stage();
+          window.setTitle("Last question");
+          window.setMinWidth(400);
+          window.setMinHeight(200);
+          Text remind = new Text("This is the the last question, would you like to submit?");
+          remind.setFont(Font.font(20));
+          Button confirmButton = new Button("confirm");
+
+          confirmButton.setOnAction(e -> {
+            window.close();
+            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage);
+            primaryStage.setScene(quizResultsGUI.getScene());
+            primaryStage.setTitle("Quiz Results");
+
+          });
+
+          Button cancelButton = new Button("Cancel");
+          cancelButton.setOnAction(e -> window.close());
+
+          HBox buttonBox = new HBox();
+          buttonBox.setAlignment(Pos.CENTER);
+          buttonBox.setSpacing(50);
+          buttonBox.getChildren().addAll(confirmButton, cancelButton);
+
+          VBox vb = new VBox();
+          vb.getChildren().addAll(remind, buttonBox);
+          vb.setAlignment(Pos.CENTER);
+          vb.setSpacing(50);
+
+          BorderPane layout = new BorderPane();
+          layout.setCenter(vb);
+
+          Scene scene = new Scene(layout);
+          window.setScene(scene);
+          window.showAndWait();
+
+        } else {
+          questionIndex++;
+          setup(primaryStage);
+        }
+
+      }
+    });
+    buttonHBox.getChildren().add(nextButton);
+    root.getChildren().add(buttonHBox);
+
+    this.quizQuestionsScene = new Scene(root, 1200, 800);
+    primaryStage.setScene(this.quizQuestionsScene);
+
   }
 
   public Scene getScene() {
@@ -267,8 +220,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */
