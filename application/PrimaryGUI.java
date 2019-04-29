@@ -69,8 +69,8 @@ public class PrimaryGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */

@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -61,20 +62,33 @@ public class QuizResultsGUI {
     root.getChildren().add(resultsLabelVBox);
 
 
-    // 3) Start Quiz Button
-    BorderPane finishQuizPane = new BorderPane();
-    finishQuizPane.setPadding(new Insets(150.0, 0.0, 0.0, 0.0));
+    // 3) Finish Quiz Button HBox
+    HBox finishQuizHBox = new HBox();
+    finishQuizHBox.setAlignment(Pos.CENTER);
+    finishQuizHBox.setSpacing(120);
+    finishQuizHBox.setPadding(new Insets(150.0, 0.0, 0.0, 0.0));
 
-    Button finishQuizButton = addButton("Finish", 270, 40);
-    finishQuizPane.setCenter(finishQuizButton);
-    finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+    Button saveToFileButton = addButton("Save to File", 270, 40);
+    saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO RESET NEEDED
+        primaryStage.setTitle("Save to File");
+      }
+    });
+    finishQuizHBox.getChildren().add(saveToFileButton);
+
+    Button finishQuizButton = addButton("Finish", 270, 40);
+    finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        QuizGeneratorGUI quizGeneratorGUI = new QuizGeneratorGUI(primaryStage);
+        primaryStage.setScene(quizGeneratorGUI.getScene());
         primaryStage.setTitle("Quiz Generator");
       }
     });
-    root.getChildren().add(finishQuizPane);
+    finishQuizHBox.getChildren().add(finishQuizButton);
+    root.getChildren().add(finishQuizHBox);
 
     this.quizResultScene = new Scene(root, 1200, 800);
   }
