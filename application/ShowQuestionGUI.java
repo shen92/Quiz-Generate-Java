@@ -1,5 +1,7 @@
 package application;
 
+import java.util.LinkedList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,14 +24,22 @@ public class ShowQuestionGUI {
 
   // JavaFX Components
   // TODO
-  Text questionNumLabel = new Text();
+  private Text questionIndexLabel = new Text();
 
   // Back-End Fields
   // TODO
+  private int questionIndex;
+  private LinkedList<Question> quizQuestions;
+
 
   public ShowQuestionGUI(Stage primaryStage) {
     setup(primaryStage);
   }
+
+  // public void loadQuiz(Stage primaryStage) {
+  // this.questionIndex = 1;
+  // this.quizQuestions = new LinkedList<>();
+  // }
 
   private void setup(Stage primaryStage) {
     VBox root = new VBox();
@@ -37,9 +47,10 @@ public class ShowQuestionGUI {
     BorderPane titlePane = new BorderPane();
     titlePane.setPadding(new Insets(20.0, 0.0, 0.0, 0));
 
-    questionNumLabel.setText("Question 1 of " + "20");
-    questionNumLabel.setFont(Font.font(40));
-    titlePane.setCenter(questionNumLabel);
+    // questionIndexLabel.setText("Question " + questionIndex + " of " + quizQuestions.size());
+    questionIndexLabel.setText("Question 1 of 20");
+    questionIndexLabel.setFont(Font.font(40));
+    titlePane.setCenter(questionIndexLabel);
     root.getChildren().add(titlePane);
 
 

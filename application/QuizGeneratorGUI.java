@@ -323,7 +323,6 @@ public class QuizGeneratorGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO
-        test("Start Quiz");
         ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
