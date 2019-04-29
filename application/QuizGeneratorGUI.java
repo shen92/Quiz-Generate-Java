@@ -227,28 +227,31 @@ public class QuizGeneratorGUI {
     h3.getChildren().add(imageTextField);
     getQuestionVBox.getChildren().add(h3);
 
-    Label choiceLabel = new Label();
-    choiceLabel.setText("Choice: (Toggle to set answer)");
-    choiceLabel.setFont(Font.font(18));
-    getQuestionVBox.getChildren().add(choiceLabel);
+    Label choicePromptLabel = new Label();
+    choicePromptLabel.setText("Choice: (Toggle to set answer)");
+    choicePromptLabel.setFont(Font.font(18));
+    getQuestionVBox.getChildren().add(choicePromptLabel);
 
     ToggleGroup group = new ToggleGroup();
+
+    TextField[] choiceTextFields = new TextField[5];
+    RadioButton[] choiceButtons = new RadioButton[5];
 
     for (int i = 0; i < 5; i++) {
       HBox choice = new HBox();
       choice.setSpacing(10);
       choice.setAlignment(Pos.CENTER_RIGHT);
-      RadioButton choiceButton = new RadioButton();
-      choiceButton.setToggleGroup(group);
-      choiceButton.setSelected(false);
-      choice.getChildren().add(choiceButton);
-      Label choiceALabel = new Label();
-      choiceALabel.setText((char) ('A' + i) + ": ");
-      choiceALabel.setFont(Font.font(18));
-      choice.getChildren().add(choiceALabel);
-      TextField choiceATextField = new TextField();
-      choiceATextField.setPrefWidth(450);
-      choice.getChildren().add(choiceATextField);
+      choiceButtons[i] = new RadioButton();
+      choiceButtons[i].setToggleGroup(group);
+      choiceButtons[i].setSelected(false);
+      choice.getChildren().add(choiceButtons[i]);
+      Label choiceLabel = new Label();
+      choiceLabel.setText((char) ('A' + i) + ": ");
+      choiceLabel.setFont(Font.font(18));
+      choice.getChildren().add(choiceLabel);
+      choiceTextFields[i] = new TextField();
+      choiceTextFields[i].setPrefWidth(450);
+      choice.getChildren().add(choiceTextFields[i]);
       getQuestionVBox.getChildren().add(choice);
     }
 
@@ -273,8 +276,13 @@ public class QuizGeneratorGUI {
     resetButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
-        test("Reset");
+        questionTextArea.clear();
+        topicTextField.clear();
+        imageTextField.clear();
+        for (int i = 0; i < 5; i++) {
+          choiceButtons[i].setSelected(false);
+          choiceTextFields[i].clear();
+        }
       }
     });
     buttonHBox.getChildren().add(resetButton);
@@ -323,6 +331,7 @@ public class QuizGeneratorGUI {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO
+        test("Start Quiz");
         ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
