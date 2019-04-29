@@ -1,6 +1,5 @@
 package application;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import javafx.scene.control.CheckBox;
 
@@ -25,7 +24,6 @@ public class Question {
     this.questionText = null;
     this.answer = null;
     this.imageFile = null;
-    this.checkBox.setSelected(false);
   }
 
   public Question(String topic, String questionText, String imageFile) {
@@ -33,11 +31,6 @@ public class Question {
     this.questionText = questionText;
     this.imageFile = imageFile;
     this.checkBox.setSelected(false);
-  }
-
-  private void show() {
-    System.out.println(this.topic);
-    System.out.println(this.questionText);
   }
 
   public void setMetaData(String metaData) {

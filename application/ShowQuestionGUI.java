@@ -33,36 +33,15 @@ public class ShowQuestionGUI {
   private LinkedList<Question> quizQuestions;
 
 
-  public ShowQuestionGUI(Stage primaryStage) {
-	loadQuiz( primaryStage);
+  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
+	loadQuiz( primaryStage, quizQuestions);
     setup(primaryStage);
   }
 
-   public void loadQuiz(Stage primaryStage) {
+   public void loadQuiz(Stage primaryStage, LinkedList<Question> quizQuestions) {
 	   this.questionIndex = 1;
 	   this.quizQuestions = new LinkedList<>();
-	   
-	   // test
-	   Question q1 = new Question();
-	   Question q2 = new Question();
-	   q1.setQuestionText("111");
-	   q2.setQuestionText("222");
-	   
-	   LinkedHashMap<String, String> a1 = new LinkedHashMap<String, String>();
-	   LinkedHashMap<String, String> a2 = new LinkedHashMap<String, String>();
-	   
-	   a1.put("hello", "1");
-	   a1.put("world", "1");
-	   
-	   a2.put("h", "1");
-	   a2.put("w", "1");
-	   
-	   q1.setChoice(a1);
-	   q2.setChoice(a2);
-	   
-	   quizQuestions.add(q1);
-	   quizQuestions.add(q2);
-	  
+	   this.quizQuestions = quizQuestions;	  
    }
    
 
@@ -145,7 +124,7 @@ public class ShowQuestionGUI {
 		    HBox questionImageHBox = new HBox();
 		    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
 		    questionHBox.getChildren().add(questionImageHBox);
-		    if (thisQuestion.getImage() != null) {
+		    if (!thisQuestion.getImage().equals("none")) {
 			    Image img = new Image(thisQuestion.getImage());
 			    ImageView questionImageView = new ImageView();
 			    // questionImageView.setAlignment(Pos.TOP_RIGHT);

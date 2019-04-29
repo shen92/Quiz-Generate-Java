@@ -3,9 +3,13 @@ package application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.Random;
 import org.json.simple.parser.ParseException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -37,6 +41,7 @@ public class QuizGeneratorGUI {
   // JavaFX Components
   private TableView<Question> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
+  private LinkedList<Question> quizQuestions;
 
   // Back-End Fields
   private QuestionDatabase questionList;
@@ -52,6 +57,7 @@ public class QuizGeneratorGUI {
    */
   private void setup(Stage primaryStage) {
     VBox root = new VBox();
+    questionList = new QuestionDatabase();
 
     // Setups for the Quiz Generator Scene
     HBox upper = new HBox();
@@ -102,8 +108,14 @@ public class QuizGeneratorGUI {
 
     TableColumn<Question, String> topicCol = new TableColumn<>("Topic");
     topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
-    topicCol.setPrefWidth(480);
+    topicCol.setPrefWidth(300);
     topicListTable.getColumns().add(topicCol);
+  
+    TableColumn<Question, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
+    topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>("/*TODO NUM FIELD*/"
+        + ""));
+    topicQuestionAmountCol.setPrefWidth(180);
+    topicListTable.getColumns().add(topicQuestionAmountCol);
     root.getChildren().add(topicListTable);
 
     // 3) Question Count Label
@@ -112,19 +124,7 @@ public class QuizGeneratorGUI {
     questionDatabaseCountLabel.setFont(Font.font(18));
     root.getChildren().add(questionDatabaseCountLabel);
 
-    HBox searchHBox = new HBox();// Filter Box
-
-    searchHBox.setSpacing(20);
-    Label topicLabel = new Label("Number of Questions In Quiz:");
-    topicLabel.setFont(Font.font(18));
-    searchHBox.getChildren().add(topicLabel);
-
-    TextField topicTextField = new TextField();
-    topicTextField.setPrefWidth(200);
-    searchHBox.getChildren().add(topicTextField);
-    root.getChildren().add(searchHBox);
-
-    // 5) Buttons HBox
+    // 4) Buttons HBox
     HBox buttonsHBox = new HBox();
     buttonsHBox.setPadding(new Insets(25, 0, 0, 0));
 
@@ -138,13 +138,12 @@ public class QuizGeneratorGUI {
               new FileChooser.ExtensionFilter("json files (*.json)", "*.json");
           fileChooser.getExtensionFilters().add(extFilter);
           File jsonFile = fileChooser.showOpenDialog(primaryStage);
-          questionList = new QuestionDatabase();
           questionList.loadQuestions(jsonFile);
         } catch (IOException | ParseException e) {
           e.printStackTrace();
         }
-        // TODO Unfinished
-        // Add questions to the question list table
+        // Add topics to topic list
+        topicListTable.getItems().clear();
         for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
           addQuestionToQuestionList(questionList.getAllQuestion().get(i));
         }
@@ -280,7 +279,7 @@ public class QuizGeneratorGUI {
     root.getChildren().add(getQuestionVBox);
 
     HBox buttonHBox = new HBox();
-    buttonHBox.setPadding(new Insets(30.0, 0.0, 0.0, 0.0));
+    buttonHBox.setPadding(new Insets(1.4, 0.0, 0.0, 0.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(80);
 
@@ -400,6 +399,19 @@ public class QuizGeneratorGUI {
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(120);
 
+    HBox searchHBox = new HBox();// Filter Box
+
+    searchHBox.setSpacing(20);
+    searchHBox.setAlignment(Pos.TOP_LEFT);
+    Label numOfQuestionLabel = new Label("Number of Questions In Quiz:");
+    numOfQuestionLabel.setFont(Font.font(18));
+    searchHBox.getChildren().add(numOfQuestionLabel);
+
+    TextField numQuestionTextField = new TextField();
+    numQuestionTextField.setPrefWidth(200);
+    searchHBox.getChildren().add(numQuestionTextField);
+    root.getChildren().add(searchHBox);
+
     Button saveToFileButton = addButton("Save to File", 180, 40);
     Tooltip saveToFileTooltip = new Tooltip();
     saveToFileTooltip.setText("Save all questions in topic list to file");
@@ -438,9 +450,24 @@ public class QuizGeneratorGUI {
     startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
+        quizQuestions = new LinkedList<Question>();
+        ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         // TODO
-        test("Start Quiz");
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage);
+        for(int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          if(questionList.getAllQuestion().get(i).getSelected())
+            allSelectedTopicQues.add(questionList.getAllQuestion().get(i));
+        }
+        int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+        Random rand = new Random();
+        if(quizQuestionAmount > allSelectedTopicQues.size())
+          quizQuestionAmount = allSelectedTopicQues.size();
+        for(int i = 0; i < quizQuestionAmount; i++) {
+          int randomIndex = rand.nextInt(allSelectedTopicQues.size());
+          quizQuestions.add(allSelectedTopicQues.get(randomIndex));
+          allSelectedTopicQues.remove(randomIndex);
+        }
+          
+        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }
@@ -461,8 +488,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */
