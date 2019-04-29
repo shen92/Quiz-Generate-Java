@@ -44,8 +44,8 @@ public class QuestionDatabase {
       jo2.put("meta-data", question.get(i).getMetaData());
       jo2.put("questionText", question.get(i).getQuestionText());
       jo2.put("topic", question.get(i).getTopic());
-      jo2.put("imageFilename", question.get(i).getImage());
-
+      jo2.put("image", question.get(i).getImage());
+      
       JSONArray ja2 = new JSONArray();
       Iterator<String> it = question.get(i).getChoice().keySet().iterator();
       Map<String, String> questionChoice = new LinkedHashMap<String, String>();
@@ -53,6 +53,7 @@ public class QuestionDatabase {
         String key = it.next();
         questionChoice.put(key, question.get(i).getChoice().get(key));
       }
+      
       ja2.add(questionChoice);
       jo2.put("choiceArray", ja2);
       ja1.add(jo2);
@@ -86,14 +87,14 @@ public class QuestionDatabase {
       String meta_data = (String) jo2.get("meta-data");
       String questionText = (String) jo2.get("questionText");
       String topic = (String) jo2.get("topic");
-      String image = (String) jo2.get("imageFilename");
+      String image = (String) jo2.get("image");
       JSONArray choiceArray = (JSONArray) jo2.get("choiceArray");
       LinkedHashMap<String, String> questionChoice = new LinkedHashMap<String, String>();
       for (int j = 0; j < choiceArray.size(); j++) {
         Object obj3 = new JSONParser().parse(choiceArray.get(j).toString());
         JSONObject jo3 = (JSONObject) obj3;
         String correctness = (String) jo3.get("isCorrect");
-        String choiceText = (String) jo3.get("choiceText");
+        String choiceText = (String) jo3.get("choice");
         questionChoice.put(choiceText, correctness);
       }
 
