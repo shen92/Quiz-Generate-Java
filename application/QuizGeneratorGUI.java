@@ -108,7 +108,7 @@ public class QuizGeneratorGUI {
 
     // 3) Question Count Label
     questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
-    questionDatabaseCountLabel.setPadding(new Insets(10, 0, 0, 0));
+    questionDatabaseCountLabel.setPadding(new Insets(25, 0, 10, 0));
     questionDatabaseCountLabel.setFont(Font.font(18));
     root.getChildren().add(questionDatabaseCountLabel);
 
@@ -126,7 +126,7 @@ public class QuizGeneratorGUI {
 
     // 5) Buttons HBox
     HBox buttonsHBox = new HBox();
-    buttonsHBox.setPadding(new Insets(15, 0, 0, 0));
+    buttonsHBox.setPadding(new Insets(25, 0, 0, 0));
 
     Button loadDataButton = addButton("Load Data", 180, 40);
     loadDataButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -394,7 +394,7 @@ public class QuizGeneratorGUI {
   private VBox addStartQuizComponent(Stage primaryStage) {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
-    root.setPadding(new Insets(40, 0, 0, 0));
+    root.setPadding(new Insets(20, 0, 0, 0));
 
     HBox buttonHBox = new HBox();
     buttonHBox.setAlignment(Pos.CENTER);
@@ -461,8 +461,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */
