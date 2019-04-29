@@ -1,9 +1,17 @@
 package application;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class QuizResultsGUI {
@@ -20,7 +28,55 @@ public class QuizResultsGUI {
   }
 
   private void setup(Stage primaryStage) {
+    VBox root = new VBox();
+    // 1) Quiz Result Title Label
+    BorderPane titlePane = new BorderPane();
+    titlePane.setPadding(new Insets(20.0, 40.0, 100.0, 0));
 
+    Text quizResultsLabel = new Text("Quiz Results");
+    quizResultsLabel.setFont(Font.font(40));
+    titlePane.setCenter(quizResultsLabel);
+    root.getChildren().add(titlePane);
+
+    // 2) Quiz Results Label VBox
+    VBox resultsLabelVBox = new VBox();
+    resultsLabelVBox.setPadding(new Insets(120.0, 40.0, 120.0, 0));
+    resultsLabelVBox.setAlignment(Pos.CENTER);
+    resultsLabelVBox.setSpacing(10);
+
+    Label totalQuestionLabel = new Label();
+    totalQuestionLabel.setText("Total Questions: "/* TODO */);
+    totalQuestionLabel.setFont(Font.font(25));
+    resultsLabelVBox.getChildren().add(totalQuestionLabel);
+
+    Label correctQuestionLabel = new Label();
+    correctQuestionLabel.setText("Correct Questions: "/* TODO */);
+    correctQuestionLabel.setFont(Font.font(25));
+    resultsLabelVBox.getChildren().add(correctQuestionLabel);
+
+    Label quizScoreLabel = new Label();
+    quizScoreLabel.setText("Quiz Score: "/* TODO */);
+    quizScoreLabel.setFont(Font.font(25));
+    resultsLabelVBox.getChildren().add(quizScoreLabel);
+    root.getChildren().add(resultsLabelVBox);
+
+
+    // 3) Start Quiz Button
+    BorderPane finishQuizPane = new BorderPane();
+    finishQuizPane.setPadding(new Insets(150.0, 0.0, 0.0, 0.0));
+
+    Button finishQuizButton = addButton("Finish", 270, 40);
+    finishQuizPane.setCenter(finishQuizButton);
+    finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        // TODO RESET NEEDED
+        primaryStage.setTitle("Quiz Generator");
+      }
+    });
+    root.getChildren().add(finishQuizPane);
+
+    this.quizResultScene = new Scene(root, 1200, 800);
   }
 
   public Scene getScene() {
@@ -42,7 +98,7 @@ public class QuizResultsGUI {
     button.setPrefHeight(height);
     return button;
   }
-  
+
   /**
    * WARNING: Developer use only.
    */
