@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -57,7 +58,7 @@ public class QuizGeneratorGUI {
 
     VBox lower = new VBox();
     lower.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
-    lower.getChildren().addAll(addStartQuizComponent(primaryStage));
+    lower.getChildren().addAll(addStartQuizComponent());
     root.getChildren().add(lower);
 
     primaryStage.setTitle("Quiz Generator");
@@ -150,8 +151,8 @@ public class QuizGeneratorGUI {
     selectAllButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
-        test("Select All");
+        for (Question question: questionList.getAllQuestion())
+        	question.getCheckBox().setSelected(true);
       }
     });
     buttonsHBox.getChildren().add(selectAllButton);
@@ -160,8 +161,8 @@ public class QuizGeneratorGUI {
     unselectAllButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
-        test("Unselect All");
+    	  for (Question question: questionList.getAllQuestion())
+          	question.getCheckBox().setSelected(false);
       }
     });
     buttonsHBox.getChildren().add(unselectAllButton);
@@ -284,15 +285,7 @@ public class QuizGeneratorGUI {
     return root;
   }
 
-  /**
-   * This method adds save to file and start quiz to the quizGeneratorScene
-   * 
-   * @param Stage primaryStage
-   * 
-   * @return VBox
-   * 
-   */
-  private VBox addStartQuizComponent(Stage primaryStage) {
+  private VBox addStartQuizComponent() {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
     root.setPadding(new Insets(40, 0, 0, 0));
@@ -302,6 +295,10 @@ public class QuizGeneratorGUI {
     buttonHBox.setSpacing(120);
 
     Button saveToFileButton = addButton("Save to File", 180, 40);
+    Tooltip saveToFileTooltip = new Tooltip();
+    saveToFileTooltip.setText("Save all questions in topic list to file");
+    saveToFileButton.setTooltip(saveToFileTooltip);
+    
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -313,14 +310,14 @@ public class QuizGeneratorGUI {
     buttonHBox.getChildren().add(saveToFileButton);
 
     Button startQuizButton = addButton("Start Quiz", 180, 40);
+    Tooltip startQuizTooltip = new Tooltip();
+    startQuizTooltip.setText("Add selected topic questions and start quiz");
+    startQuizButton.setTooltip(startQuizTooltip);
     startQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
         // TODO
         test("Start Quiz");
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage);
-        primaryStage.setScene(showQuestionGUI.getScene());
-        primaryStage.setTitle("Quiz");
       }
     });
     buttonHBox.getChildren().add(startQuizButton);
