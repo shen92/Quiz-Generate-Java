@@ -110,10 +110,10 @@ public class QuizGeneratorGUI {
     topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
     topicCol.setPrefWidth(300);
     topicListTable.getColumns().add(topicCol);
-  
+
     TableColumn<Question, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
-    topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>("/*TODO NUM FIELD*/"
-        + ""));
+    topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>(/* TODO NUM FIELD */
+        ""));
     topicQuestionAmountCol.setPrefWidth(180);
     topicListTable.getColumns().add(topicQuestionAmountCol);
     root.getChildren().add(topicListTable);
@@ -146,12 +146,13 @@ public class QuizGeneratorGUI {
         topicListTable.getItems().clear();
         ArrayList<String> currentTopicInList = new ArrayList<String>();
         for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          if(currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
+          if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
             continue;
           addQuestionToQuestionList(questionList.getAllQuestion().get(i));
           currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
         }
-        questionDatabaseCountLabel.setText("Total Questions: " + questionList.getAllQuestion().size());
+        questionDatabaseCountLabel
+            .setText("Total Questions: " + questionList.getAllQuestion().size());
       }
     });
     buttonsHBox.getChildren().add(loadDataButton);
@@ -458,22 +459,22 @@ public class QuizGeneratorGUI {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         // TODO
-        for(int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          if(questionList.getAllQuestion().get(i).getSelected()) {
+        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          if (questionList.getAllQuestion().get(i).getSelected()) {
             questionList.checkUnselected(questionList.getAllQuestion().get(i).getTopic());
             allSelectedTopicQues.add(questionList.getAllQuestion().get(i));
           }
         }
         int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
         Random rand = new Random();
-        if(quizQuestionAmount > allSelectedTopicQues.size())
+        if (quizQuestionAmount > allSelectedTopicQues.size())
           quizQuestionAmount = allSelectedTopicQues.size();
-        for(int i = 0; i < quizQuestionAmount; i++) {
+        for (int i = 0; i < quizQuestionAmount; i++) {
           int randomIndex = rand.nextInt(allSelectedTopicQues.size());
           quizQuestions.add(allSelectedTopicQues.get(randomIndex));
           allSelectedTopicQues.remove(randomIndex);
         }
-          
+
         ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
@@ -495,8 +496,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */

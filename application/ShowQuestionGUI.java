@@ -50,14 +50,16 @@ public class ShowQuestionGUI {
 
   private void setup(Stage primaryStage) {
     VBox questionDisplay = new VBox();
-    questionDisplay.setPrefWidth(1200);
-    questionDisplay.setPrefHeight(800);
+    // questionDisplay.setPrefWidth(1200);
+    // questionDisplay.setPrefHeight(800);
     questionDisplay.setAlignment(Pos.CENTER);
+
     ScrollPane scrollPane = new ScrollPane();
     scrollPane.setPrefWidth(1200);
     scrollPane.setPrefHeight(800);
-    // scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+    scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
     scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+
     VBox root = new VBox();
     scrollPane.setContent(root);
     questionDisplay.getChildren().add(scrollPane);
