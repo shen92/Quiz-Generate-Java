@@ -78,7 +78,7 @@ public class ShowQuestionGUI {
 
     // actucal
 
-    Question thisQuestion = quizQuestions.get(questionIndex - 1);
+    Question currentQuestion = quizQuestions.get(questionIndex - 1);
 
     VBox questionHBox = new VBox();
     questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
@@ -89,15 +89,15 @@ public class ShowQuestionGUI {
     questionHBox.getChildren().add(questionTextHBox);
     Label questionText = new Label();
     questionText.setWrapText(true);
-    questionText.setText(thisQuestion.getQuestionText());
+    questionText.setText(currentQuestion.getQuestionText());
     questionText.setFont(Font.font(20));
     questionTextHBox.getChildren().add(questionText);
 
     HBox questionImageHBox = new HBox();
     questionImageHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionImageHBox);
-    if (!thisQuestion.getImage().equals("none")) {
-      Image img = new Image(thisQuestion.getImage());
+    if (!currentQuestion.getImage().equals("none")) {
+      Image img = new Image(currentQuestion.getImage());
       ImageView questionImageView = new ImageView();
       // questionImageView.setAlignment(Pos.TOP_RIGHT);
       questionImageView.setImage(img);
@@ -112,15 +112,29 @@ public class ShowQuestionGUI {
     choiceVBox.setAlignment(Pos.TOP_LEFT);
     choiceVBox.setSpacing(25);
 
+    // TODO Choice class added
     ToggleGroup group = new ToggleGroup();
-    // total number of choices
-    int size = thisQuestion.getChoice().size();
-    for (String choice : thisQuestion.getChoice().keySet()) {
-      RadioButton button = new RadioButton(choice);
-      button.setToggleGroup(group);
-      button.setFont(Font.font(18));
-      choiceVBox.getChildren().add(button);
+    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
+    for (int i = 0; i < currentQuestion.getChoice().size(); i++) {
+      choiceButton[i].setText(currentQuestion.getChoice().keySet().get(i));
+      choiceButton[i].setToggleGroup(group);
+      choiceButton[i].setFont(Font.font(18));
+      choiceButton[i].setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent arg0) {
+          choiceButton[i].setSelected(true);
+        }
+      });
+      choiceVBox.getChildren().add(choiceButton[i]);
     }
+    // total number of choices
+    // int size = currentQuestion.getChoice().size();
+    // for (String choice : currentQuestion.getChoice().keySet()) {
+    // RadioButton button = new RadioButton(choice);
+    // button.setToggleGroup(group);
+    // button.setFont(Font.font(18));
+    // choiceVBox.getChildren().add(button);
+    // }
     root.getChildren().add(choiceVBox);
 
 

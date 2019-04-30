@@ -295,6 +295,7 @@ public class QuizGeneratorGUI {
       public void handle(ActionEvent arg0) {
         // TODO
         Question newQuestion = new Question();
+        // Check question text is not null
         if (questionTextArea.getText().isEmpty()) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
@@ -303,6 +304,7 @@ public class QuizGeneratorGUI {
           alert.showAndWait();
           return;
         }
+        // Check meat data is not null
         if (metaDataTextField.getText().isEmpty()) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
@@ -311,6 +313,7 @@ public class QuizGeneratorGUI {
           alert.showAndWait();
           return;
         }
+        // check topic is not null
         if (topicTextField.getText().isEmpty()) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
@@ -319,6 +322,7 @@ public class QuizGeneratorGUI {
           alert.showAndWait();
           return;
         }
+        // all required fields are filled
         newQuestion.setQuestionText(questionTextArea.getText());
         newQuestion.setMetaData(metaDataTextField.getText());
         newQuestion.setTopic(topicTextField.getText());
@@ -362,9 +366,13 @@ public class QuizGeneratorGUI {
           questionList = new QuestionDatabase();
           questionList.addQuestion(newQuestion);
           addQuestionToQuestionList(newQuestion);
+          questionDatabaseCountLabel
+              .setText("Total Questions: " + questionList.getAllQuestion().size());
         } else {
           questionList.addQuestion(newQuestion);
           addQuestionToQuestionList(newQuestion);
+          questionDatabaseCountLabel
+              .setText("Total Questions: " + questionList.getAllQuestion().size());
         }
       }
     });
