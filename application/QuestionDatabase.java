@@ -20,7 +20,7 @@ import javafx.scene.control.CheckBox;
 public class QuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;
   private CheckBox checkBox = new CheckBox();
-  private LinkedList<TopicRow> topicRows;
+  private LinkedList<TopicRow> topicRows = topicRows = new LinkedList<TopicRow>();
 
   public QuestionDatabase() {
     questionBank = new HashMap<String, ArrayList<Question>>();
@@ -35,6 +35,8 @@ public class QuestionDatabase {
       newQuestionList.add(question);
       questionBank.put(question.getTopic(), newQuestionList);
     }
+
+    updateTopicRow(question);
   }
   
   public void checkUnselected(String topic) {
@@ -125,6 +127,7 @@ public class QuestionDatabase {
         questionBank.put(topic, questionList);
         questionBank.get(topic).add(newQuestion);
       }
+      updateTopicRow(newQuestion);
     }
   }
 
@@ -162,15 +165,20 @@ public class QuestionDatabase {
     return questionBank.size();
   }
   
-  public void buildTopicRow() {
-	  topicRows = new LinkedList<TopicRow>();
-	  for (String topic : questionBank.keySet()) {
-		  TopicRow tr = new TopicRow();
-		  tr.setTopic(topic);
-		  tr.setNumQuestions(questionBank.get(topic).size());
-		  tr.setSelect(false);  
-		  topicRows.add(tr);
-	  }
+  public void updateTopicRow( Question question) {
+	    for (TopicRow tr : topicRows) {
+	    	if (tr.getTopic().equals(question.getTopic())) {
+	    		tr.setNumQuestions(tr.getNumQuestions()+1);
+	    		return;
+	    	}
+
+	    }
+	    
+	    TopicRow tr = new TopicRow();
+		tr.setTopic(question.getTopic());
+	    tr.setNumQuestions(1);
+	    tr.setSelect(false);  
+	    topicRows.add(tr);
   }
   
   public LinkedList<TopicRow> getTopicRows() {
