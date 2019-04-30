@@ -128,7 +128,6 @@ public class QuestionDatabase {
     }
   }
 
-  // get all topics
   public Set<String> getAllTopic() {
     return questionBank.keySet();
   }
