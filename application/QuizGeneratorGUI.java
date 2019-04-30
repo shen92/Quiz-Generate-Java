@@ -143,14 +143,14 @@ public class QuizGeneratorGUI {
           e.printStackTrace();
         }
         // Add topics to topic list
-//        topicListTable.getItems().clear();
-//        ArrayList<String> currentTopicInList = new ArrayList<String>();
-//        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
-//          if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
-//            continue;
-//          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
-//          currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
-//        }
+        // topicListTable.getItems().clear();
+        // ArrayList<String> currentTopicInList = new ArrayList<String>();
+        // for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+        // if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
+        // continue;
+        // addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+        // currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
+        // }
         addTopicRow();
         questionDatabaseCountLabel
             .setText("Total Questions: " + questionList.getAllQuestion().size());
@@ -183,9 +183,9 @@ public class QuizGeneratorGUI {
   }
 
   private void addTopicRow() {
-	topicListTable.getItems().clear();
-	for (TopicRow topicrow : questionList.getTopicRows())
-		topicListTable.getItems().add(topicrow);
+    topicListTable.getItems().clear();
+    for (TopicRow topicrow : questionList.getTopicRows())
+      topicListTable.getItems().add(topicrow);
 
   }
 

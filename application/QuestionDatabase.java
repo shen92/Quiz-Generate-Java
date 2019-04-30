@@ -15,16 +15,14 @@ import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
-import javafx.scene.control.CheckBox;
 
 public class QuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;
-  private CheckBox checkBox = new CheckBox();
-  private LinkedList<TopicRow> topicRows = topicRows = new LinkedList<TopicRow>();
+  private LinkedList<TopicRow> topicRows;
 
   public QuestionDatabase() {
-    questionBank = new HashMap<String, ArrayList<Question>>();
-    this.checkBox.setSelected(false);
+    this.questionBank = new HashMap<String, ArrayList<Question>>();
+    this.topicRows = new LinkedList<TopicRow>();
   }
 
   public void addQuestion(Question question) {
@@ -35,7 +33,6 @@ public class QuestionDatabase {
       newQuestionList.add(question);
       questionBank.put(question.getTopic(), newQuestionList);
     }
-
     updateTopicRow(question);
   }
 
