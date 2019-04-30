@@ -323,7 +323,7 @@ public class QuizGeneratorGUI {
         newQuestion.setMetaData(metaDataTextField.getText());
         newQuestion.setTopic(topicTextField.getText());
         if (imageTextField.getText().isEmpty())
-          newQuestion.setImage("None");
+          newQuestion.setImage("none");
         else
           newQuestion.setImage(imageTextField.getText());
         LinkedHashMap<String, String> choices = new LinkedHashMap<String, String>();
@@ -331,9 +331,11 @@ public class QuizGeneratorGUI {
         for (int i = 0; i < 5; i++) {
           if (!choiceTextFields[i].getText().isEmpty()) {
             if (choiceButtons[i].hasProperties() == true)
-              choices.put("T", choiceTextFields[i].getText());
+            	
+              choices.put(choiceTextFields[i].getText(), "T");
+            
             else {
-              choices.put("F", choiceTextFields[i].getText());
+              choices.put(choiceTextFields[i].getText(), "F");
             }
           } else {
             choiceEmptyCount++;

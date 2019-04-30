@@ -2,6 +2,10 @@ package application;
 
 import javafx.scene.control.CheckBox;
 
+/**
+  This class counts the number of questions in a topic
+*/
+
 public class TopicRow {
   private CheckBox checkBox;
   private String topic;
