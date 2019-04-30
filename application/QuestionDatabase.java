@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import org.json.simple.JSONArray;
@@ -19,6 +20,7 @@ import javafx.scene.control.CheckBox;
 public class QuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;
   private CheckBox checkBox = new CheckBox();
+  private LinkedList<TopicRow> topicRows;
 
   public QuestionDatabase() {
     questionBank = new HashMap<String, ArrayList<Question>>();
@@ -126,7 +128,6 @@ public class QuestionDatabase {
     }
   }
 
-  // get all topics
   public Set<String> getAllTopic() {
     return questionBank.keySet();
   }
@@ -159,6 +160,21 @@ public class QuestionDatabase {
 
   public int getQuestionNum() {
     return questionBank.size();
+  }
+  
+  public void buildTopicRow() {
+	  topicRows = new LinkedList<TopicRow>();
+	  for (String topic : questionBank.keySet()) {
+		  TopicRow tr = new TopicRow();
+		  tr.setTopic(topic);
+		  tr.setNumQuestions(questionBank.get(topic).size());
+		  tr.setSelect(false);  
+		  topicRows.add(tr);
+	  }
+  }
+  
+  public LinkedList<TopicRow> getTopicRows() {
+	  return topicRows;
   }
 
 }
