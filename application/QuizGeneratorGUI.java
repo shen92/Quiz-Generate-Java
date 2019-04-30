@@ -112,8 +112,7 @@ public class QuizGeneratorGUI {
     topicListTable.getColumns().add(topicCol);
 
     TableColumn<Question, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
-    topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>(/* TODO NUM FIELD */
-        ""));
+    topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>("numQuestions"));
     topicQuestionAmountCol.setPrefWidth(180);
     topicListTable.getColumns().add(topicQuestionAmountCol);
     root.getChildren().add(topicListTable);
@@ -335,9 +334,9 @@ public class QuizGeneratorGUI {
         for (int i = 0; i < 5; i++) {
           if (!choiceTextFields[i].getText().isEmpty()) {
             if (choiceButtons[i].hasProperties() == true)
-            	
+
               choices.put(choiceTextFields[i].getText(), "T");
-            
+
             else {
               choices.put(choiceTextFields[i].getText(), "F");
             }

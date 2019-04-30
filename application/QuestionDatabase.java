@@ -26,7 +26,7 @@ public class QuestionDatabase {
     questionBank = new HashMap<String, ArrayList<Question>>();
     this.checkBox.setSelected(false);
   }
-  
+
   public void addQuestion(Question question) {
     if (questionBank.containsKey(question.getTopic()))
       questionBank.get(question.getTopic()).add(question);
@@ -38,12 +38,13 @@ public class QuestionDatabase {
 
     updateTopicRow(question);
   }
-  
+
   public void checkUnselected(String topic) {
-    for(int i = 0; i < questionBank.get(topic).size(); i++){
+    for (int i = 0; i < questionBank.get(topic).size(); i++) {
       questionBank.get(topic).get(i).setSelected(true);
     }
   }
+
   private int getQuestionAmountForSpecificTopic(String topic) {
     return questionBank.get(topic).size();
   }
@@ -61,7 +62,7 @@ public class QuestionDatabase {
       jo2.put("questionText", question.get(i).getQuestionText());
       jo2.put("topic", question.get(i).getTopic());
       jo2.put("image", question.get(i).getImage());
-      
+
       JSONArray ja2 = new JSONArray();
       Iterator<String> it = question.get(i).getChoice().keySet().iterator();
       Map<String, String> questionChoice = new LinkedHashMap<String, String>();
@@ -69,7 +70,7 @@ public class QuestionDatabase {
         String key = it.next();
         questionChoice.put(key, question.get(i).getChoice().get(key));
       }
-      
+
       ja2.add(questionChoice);
       jo2.put("choiceArray", ja2);
       ja1.add(jo2);
@@ -164,25 +165,25 @@ public class QuestionDatabase {
   public int getQuestionNum() {
     return questionBank.size();
   }
-  
-  public void updateTopicRow( Question question) {
-	    for (TopicRow tr : topicRows) {
-	    	if (tr.getTopic().equals(question.getTopic())) {
-	    		tr.setNumQuestions(tr.getNumQuestions()+1);
-	    		return;
-	    	}
 
-	    }
-	    
-	    TopicRow tr = new TopicRow();
-		tr.setTopic(question.getTopic());
-	    tr.setNumQuestions(1);
-	    tr.setSelect(false);  
-	    topicRows.add(tr);
+  public void updateTopicRow(Question question) {
+    for (TopicRow tr : topicRows) {
+      if (tr.getTopic().equals(question.getTopic())) {
+        tr.setNumQuestions(tr.getNumQuestions() + 1);
+        return;
+      }
+
+    }
+
+    TopicRow tr = new TopicRow();
+    tr.setTopic(question.getTopic());
+    tr.setNumQuestions(1);
+    tr.setSelect(false);
+    topicRows.add(tr);
   }
-  
+
   public LinkedList<TopicRow> getTopicRows() {
-	  return topicRows;
+    return topicRows;
   }
 
 }
