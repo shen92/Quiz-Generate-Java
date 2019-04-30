@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,8 +49,19 @@ public class ShowQuestionGUI {
 
 
   private void setup(Stage primaryStage) {
-
+    VBox questionDisplay = new VBox();
+    questionDisplay.setPrefWidth(1200);
+    questionDisplay.setPrefHeight(800);
+    questionDisplay.setAlignment(Pos.CENTER);
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setPrefWidth(1200);
+    scrollPane.setPrefHeight(800);
+    // scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+    scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
     VBox root = new VBox();
+    scrollPane.setContent(root);
+    questionDisplay.getChildren().add(scrollPane);
+
     // 1) Quiz Title Label
     BorderPane titlePane = new BorderPane();
     titlePane.setPadding(new Insets(20.0, 0.0, 0.0, 0));
@@ -65,7 +78,7 @@ public class ShowQuestionGUI {
 
     Question thisQuestion = quizQuestions.get(questionIndex - 1);
 
-    HBox questionHBox = new HBox();
+    VBox questionHBox = new VBox();
     questionHBox.setPadding(new Insets(40.0, 150.0, 25.0, 150.0));
     questionHBox.setSpacing(10);
 
@@ -79,7 +92,7 @@ public class ShowQuestionGUI {
     questionTextHBox.getChildren().add(questionText);
 
     HBox questionImageHBox = new HBox();
-    questionImageHBox.setAlignment(Pos.TOP_RIGHT);
+    questionImageHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionImageHBox);
     if (!thisQuestion.getImage().equals("none")) {
       Image img = new Image(thisQuestion.getImage());
@@ -208,7 +221,7 @@ public class ShowQuestionGUI {
     buttonHBox.getChildren().add(nextButton);
     root.getChildren().add(buttonHBox);
 
-    this.quizQuestionsScene = new Scene(root, 1200, 800);
+    this.quizQuestionsScene = new Scene(questionDisplay, 1200, 800);
     primaryStage.setScene(this.quizQuestionsScene);
 
   }
