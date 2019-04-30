@@ -39,7 +39,7 @@ public class QuizGeneratorGUI {
   private Scene quizGeneratorScene;
 
   // JavaFX Components
-  private TableView<Question> topicListTable;
+  private TableView<TopicRow> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
   private LinkedList<Question> quizQuestions;
 
@@ -101,17 +101,17 @@ public class QuizGeneratorGUI {
     topicListTable.setPrefHeight(400);
     topicListTable.setEditable(true);
 
-    TableColumn<Question, CheckBox> selectCol = new TableColumn<>("Select");
+    TableColumn<TopicRow, CheckBox> selectCol = new TableColumn<>("Select");
     selectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     selectCol.setPrefWidth(60);
     topicListTable.getColumns().add(selectCol);
 
-    TableColumn<Question, String> topicCol = new TableColumn<>("Topic");
+    TableColumn<TopicRow, String> topicCol = new TableColumn<>("Topic");
     topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
     topicCol.setPrefWidth(300);
     topicListTable.getColumns().add(topicCol);
 
-    TableColumn<Question, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
+    TableColumn<TopicRow, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
     topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>("numQuestions"));
     topicQuestionAmountCol.setPrefWidth(180);
     topicListTable.getColumns().add(topicQuestionAmountCol);
@@ -142,14 +142,15 @@ public class QuizGeneratorGUI {
           e.printStackTrace();
         }
         // Add topics to topic list
-        topicListTable.getItems().clear();
-        ArrayList<String> currentTopicInList = new ArrayList<String>();
-        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
-            continue;
-          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
-          currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
-        }
+//        topicListTable.getItems().clear();
+//        ArrayList<String> currentTopicInList = new ArrayList<String>();
+//        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+//          if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
+//            continue;
+//          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+//          currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
+//        }
+        addTopicRow();
         questionDatabaseCountLabel
             .setText("Total Questions: " + questionList.getAllQuestion().size());
       }
@@ -180,8 +181,10 @@ public class QuizGeneratorGUI {
     return root;
   }
 
-  private void addQuestionToQuestionList(Question question) {
-    topicListTable.getItems().add(question);
+  private void addTopicRow() {
+	topicListTable.getItems().clear();
+	for (TopicRow topicrow : questionList.getTopicRows())
+		topicListTable.getItems().add(topicrow);
 
   }
 
@@ -364,15 +367,14 @@ public class QuizGeneratorGUI {
         if (questionList == null) {
           questionList = new QuestionDatabase();
           questionList.addQuestion(newQuestion);
-          addQuestionToQuestionList(newQuestion);
           questionDatabaseCountLabel
               .setText("Total Questions: " + questionList.getAllQuestion().size());
         } else {
           questionList.addQuestion(newQuestion);
-          addQuestionToQuestionList(newQuestion);
           questionDatabaseCountLabel
               .setText("Total Questions: " + questionList.getAllQuestion().size());
         }
+        addTopicRow();
       }
     });
     buttonHBox.getChildren().add(confirmButton);

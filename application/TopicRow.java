@@ -41,4 +41,16 @@ public class TopicRow {
   public void setNumQuestions(int numQuestions) {
     this.numQuestions = numQuestions;
   }
+  
+  public boolean equals(Object o) {
+      if (!(o instanceof TopicRow)) {
+          return false;
+      }
+      TopicRow other = (TopicRow) o;
+      return this.topic.equals(other.getTopic());
+  }
+
+  public int hashCode() {
+      return topic.hashCode() * numQuestions;
+  }
 }
