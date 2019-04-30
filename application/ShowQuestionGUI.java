@@ -58,11 +58,13 @@ public class ShowQuestionGUI {
     scrollPane.setPrefWidth(1200);
     scrollPane.setPrefHeight(800);
     scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-    scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+    scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 
     VBox root = new VBox();
+    root.setPrefWidth(1200);
+    root.setPrefHeight(800);
     scrollPane.setContent(root);
-    questionDisplay.getChildren().add(scrollPane);
+    // questionDisplay.getChildren().add(scrollPane);
 
     // 1) Quiz Title Label
     BorderPane titlePane = new BorderPane();
@@ -138,7 +140,7 @@ public class ShowQuestionGUI {
 
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
-    buttonHBox.setPadding(new Insets(0.0, 40.0, 40.0, 80.0));
+    buttonHBox.setPadding(new Insets(40.0, 40.0, 20.0, 80.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(300);
 
@@ -234,7 +236,7 @@ public class ShowQuestionGUI {
     buttonHBox.getChildren().add(nextButton);
     root.getChildren().add(buttonHBox);
 
-    this.quizQuestionsScene = new Scene(questionDisplay, 1200, 800);
+    this.quizQuestionsScene = new Scene(scrollPane, 1200, 800);
     primaryStage.setScene(this.quizQuestionsScene);
 
   }
