@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -71,7 +72,8 @@ public class ShowQuestionGUI {
     HBox questionTextHBox = new HBox();
     questionTextHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionTextHBox);
-    Text questionText = new Text();
+    Label questionText = new Label();
+    questionText.setWrapText(true);
     questionText.setText(thisQuestion.getQuestionText());
     questionText.setFont(Font.font(20));
     questionTextHBox.getChildren().add(questionText);
@@ -103,7 +105,6 @@ public class ShowQuestionGUI {
       button.setToggleGroup(group);
       button.setFont(Font.font(18));
       choiceVBox.getChildren().add(button);
-
     }
     root.getChildren().add(choiceVBox);
 
@@ -220,8 +221,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */
