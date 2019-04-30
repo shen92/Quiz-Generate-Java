@@ -116,17 +116,14 @@ public class ShowQuestionGUI {
     ToggleGroup group = new ToggleGroup();
     RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
     for (int i = 0; i < currentQuestion.getChoice().size(); i++) {
-      choiceButton[i].setText(currentQuestion.getChoice().keySet().get(i));
+      choiceButton[i] = new RadioButton();
+      choiceButton[i].setSelected(false);
+      choiceButton[i].setText("Choice " + (char) ('A' + i));
       choiceButton[i].setToggleGroup(group);
       choiceButton[i].setFont(Font.font(18));
-      choiceButton[i].setOnAction(new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent arg0) {
-          choiceButton[i].setSelected(true);
-        }
-      });
       choiceVBox.getChildren().add(choiceButton[i]);
     }
+
     // total number of choices
     // int size = currentQuestion.getChoice().size();
     // for (String choice : currentQuestion.getChoice().keySet()) {
