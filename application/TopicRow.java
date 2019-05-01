@@ -2,11 +2,19 @@ package application;
 
 import javafx.scene.control.CheckBox;
 
+/**
+ * This class represent a row in the topic list TableView
+ * 
+ * @author Yingjie Shen, Kerui Wang
+ */
 public class TopicRow {
-  private CheckBox checkBox;
-  private String topic;
-  private int numQuestions;
+  private CheckBox checkBox;// CheckBox column
+  private String topic;// topic column
+  private int numQuestions;// numQuestions column, represent how may questions in a topic
 
+  /**
+   * default constructor of a topic row
+   */
   public TopicRow() {
     this.checkBox = new CheckBox();
     this.checkBox.setSelected(false);

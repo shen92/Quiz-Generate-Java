@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -20,11 +21,9 @@ import javafx.scene.control.ToggleGroup;
 public class ChoiceGroup {
 
   private Hashtable<String, Status> choiceGroup;
-  // Fields of a Choice in the Choice Group
-
-  private String choiceText;// key of a choice
-  private boolean isCorrect;
-
+  private ToggleGroup toggleGroup;
+  private ArrayList<String> keys;// ArrayList for iterating the HashTaable
+  private ArrayList<Status> values;
 
   /**
    * This class represent of the value object of a choice
@@ -72,6 +71,9 @@ public class ChoiceGroup {
    */
   public ChoiceGroup() {
     this.choiceGroup = new Hashtable<>();
+    this.toggleGroup = new ToggleGroup();
+    this.keys = new ArrayList<>();
+    this.values = new ArrayList<>();
   }
 
   /*
@@ -82,11 +84,14 @@ public class ChoiceGroup {
    * @param correctness used for updating the correctness field of the value in a node
    */
   public void addChoice(String choiceText, String correctness) {
-    Status initStatus = new Status();
+    Status status = new Status();
+    status.getRadioButton().setToggleGroup(toggleGroup);
     if (correctness.equals("T")) {
-      initStatus.setCorrectness(true);
+      status.setCorrectness(true);
     }
-    this.choiceGroup.put(choiceText, initStatus);
+    this.choiceGroup.put(choiceText, status);
+    this.keys.add(choiceText);
+    this.values.add(status);
   }
 
   /**
@@ -101,11 +106,12 @@ public class ChoiceGroup {
 
   /**
    * This method returns if the question is answered(user selected the answer)
+   * 
+   * @return true if the question is answered
    */
   public boolean isAnswered() {
-    Enumeration<Status> choiceStatus = this.choiceGroup.elements();
-    while (choiceStatus.hasMoreElements()) {
-      if (choiceStatus.nextElement().isSelected()) {
+    for (String key : this.keys) {
+      if (this.choiceGroup.get(key).isSelected()) {
         return true;
       }
     }
@@ -121,15 +127,44 @@ public class ChoiceGroup {
     return this.choiceGroup.size();
   }
 
-  public Enumeration<String> getChoiceKeys() {
-    return this.choiceGroup.keys();
-  }
-
-  public Hashtable<String, Status> getChoices() {
+  /**
+   * This method returns the whole choice group of a question.
+   * 
+   * This method can be called to in the ShowQuestionGUI class
+   * 
+   * @return HashTabel<String,Status> of a question
+   */
+  public Hashtable<String, Status> getChoiceGroup() {
     return this.choiceGroup;
   }
 
+  /*
+   * This method gets the RadioButton of a choice in a choiceGroup
+   * 
+   * @param String choiceText key of the choice
+   * 
+   * @return RadioBox radioBox of the choice
+   */
   public RadioButton getRadioButton(String choiceText) {
     return this.choiceGroup.get(choiceText).getRadioButton();
   }
+
+  /**
+   * This method clears the select status when the quiz is submitted
+   */
+  public void reset() {
+    for (String key : this.keys) {
+      this.choiceGroup.get(key).setSelected(false);
+    }
+  }
+
+  /**
+   * This class is used for external iteration for quiz
+   * 
+   * @return ArrayList<String> keys of the hastabel
+   */
+  public ArrayList<String> getChoiceGroupKeys() {
+    return this.keys;
+  }
+
 }
