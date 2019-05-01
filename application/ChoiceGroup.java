@@ -69,6 +69,13 @@ public class ChoiceGroup {
     this.choiceGroup = new Hashtable<>();
   }
 
+  /*
+   * * This method adds a new choice to the choiceGroup
+   * 
+   * @param choiceText key of a node in HashTable
+   * 
+   * @param correctness used for updating the correctness field of the value in a node
+   */
   public void addChoice(String choiceText, String correctness) {
     Status initStatus = new Status();
     if (correctness.equals("T")) {
@@ -77,7 +84,11 @@ public class ChoiceGroup {
     this.choiceGroup.put(choiceText, initStatus);
   }
 
-  /** IF AND ONLY IF status is isSelected and is Correct can return true */
+  /**
+   * IF AND ONLY IF status is isSelected and is Correct can return true.
+   * 
+   * This method is used for count number of correct in the quiz section
+   */
   public boolean isCorrect(String choiceText) {
     return this.choiceGroup.get(choiceText).isSelected()
         && this.choiceGroup.get(choiceText).isCorrect();
