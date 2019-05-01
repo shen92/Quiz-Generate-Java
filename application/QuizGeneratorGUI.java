@@ -62,13 +62,13 @@ public class QuizGeneratorGUI {
 
     // Setups for the Quiz Generator Scene
     HBox upper = new HBox();
-    upper.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
+    upper.setPadding(new Insets(25.0, 25.0, 0.0, 40.0));
     upper.setSpacing(30);
     upper.getChildren().addAll(addQuestionListComponet(primaryStage), addQuestionFormComponent());
     root.getChildren().add(upper);
 
     VBox lower = new VBox();
-    lower.setPadding(new Insets(25.0, 25.0, 40.0, 40.0));
+    lower.setPadding(new Insets(10.0, 25.0, 10.0, 40.0));
     lower.getChildren().addAll(addStartQuizComponent(primaryStage));
     root.getChildren().add(lower);
 
@@ -87,7 +87,6 @@ public class QuizGeneratorGUI {
    */
   private VBox addQuestionListComponet(Stage primaryStage) {
     VBox root = new VBox();
-
 
     // 1) Question List Label
     Label questionListLabel = new Label("Topic List");
@@ -204,7 +203,7 @@ public class QuizGeneratorGUI {
     questionListLabel.setFont(Font.font(20));
     root.getChildren().add(questionListLabel);
 
-    // 2) Get Question VBox
+    // 2) Get Question Infomation VBox
     VBox getQuestionVBox = new VBox();
     getQuestionVBox.setPadding(new Insets(26.0, 0.0, 62, 0.0));
     getQuestionVBox.setSpacing(10);
@@ -411,24 +410,26 @@ public class QuizGeneratorGUI {
   private VBox addStartQuizComponent(Stage primaryStage) {
     VBox root = new VBox();
     root.setAlignment(Pos.CENTER);
-    root.setPadding(new Insets(20, 0, 0, 0));
+    root.setPadding(new Insets(25, 0, 0, 0));
+    root.setSpacing(55);
 
-    HBox buttonHBox = new HBox();
-    buttonHBox.setAlignment(Pos.CENTER);
-    buttonHBox.setSpacing(120);
+    // 1) Get number of questions in quiz
+    HBox numQuizQuesitonHBox = new HBox();// Filter Box
+    numQuizQuesitonHBox.setAlignment(Pos.TOP_LEFT);
 
-    HBox searchHBox = new HBox();// Filter Box
-
-    searchHBox.setSpacing(20);
-    searchHBox.setAlignment(Pos.TOP_LEFT);
     Label numOfQuestionLabel = new Label("Number of Questions In Quiz:");
     numOfQuestionLabel.setFont(Font.font(18));
-    searchHBox.getChildren().add(numOfQuestionLabel);
+    numQuizQuesitonHBox.getChildren().add(numOfQuestionLabel);
 
     TextField numQuestionTextField = new TextField();
     numQuestionTextField.setPrefWidth(200);
-    searchHBox.getChildren().add(numQuestionTextField);
-    root.getChildren().add(searchHBox);
+    numQuizQuesitonHBox.getChildren().add(numQuestionTextField);
+    root.getChildren().add(numQuizQuesitonHBox);
+
+    // 2) Save to file and start quiz button
+    HBox buttonHBox = new HBox();
+    buttonHBox.setAlignment(Pos.CENTER);
+    buttonHBox.setSpacing(120);
 
     Button saveToFileButton = addButton("Save to File", 180, 40);
     Tooltip saveToFileTooltip = new Tooltip();
