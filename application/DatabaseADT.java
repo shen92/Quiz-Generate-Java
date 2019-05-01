@@ -1,15 +1,21 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import org.json.simple.parser.ParseException;
 
 public interface DatabaseADT {
   /**
    * This method adds a question to the database from an external json file
    * 
    * @param File jsonFile external file
+   * @throws ParseException
+   * @throws IOException
+   * @throws FileNotFoundException
    */
-  void addQuestionFromFile(File jsonFile);
+  void addQuestionFromFile(File jsonFile) throws FileNotFoundException, IOException, ParseException;
 
   /**
    * This method saves the questions in the questionDatabase

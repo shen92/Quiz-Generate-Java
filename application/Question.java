@@ -9,7 +9,7 @@ public class Question {
   private String topic;
   private String questionText;
 
-  private LinkedHashMap<String, String> choice;
+  private ChoiceGroup choiceGroup;
   private String imageFile;
 
   private CheckBox checkBox = new CheckBox();
@@ -22,15 +22,8 @@ public class Question {
     this.meta_data = null;
     this.topic = null;
     this.questionText = null;
-    this.choice = null;
+    this.choiceGroup = null;
     this.imageFile = null;
-  }
-
-  public Question(String topic, String questionText, String imageFile) {
-    this.topic = topic;
-    this.questionText = questionText;
-    this.imageFile = imageFile;
-    this.checkBox.setSelected(false);
   }
 
   public void setMetaData(String metaData) {
@@ -45,8 +38,8 @@ public class Question {
     this.questionText = questionText;
   }
 
-  public void setChoice(LinkedHashMap<String, String> choice) {
-    this.choice = choice;
+  public void setChoice(ChoiceGroup choiceGroup) {
+    this.choiceGroup = choiceGroup;
   }
 
   public void setImage(String imageFile) {
@@ -69,8 +62,8 @@ public class Question {
     return this.questionText;
   }
 
-  public LinkedHashMap<String, String> getChoice() {
-    return this.choice;
+  public ChoiceGroup getChoiceGroup() {
+    return this.choiceGroup;
   }
 
   public String getImage() {

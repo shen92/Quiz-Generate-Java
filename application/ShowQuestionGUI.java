@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -115,16 +116,28 @@ public class ShowQuestionGUI {
     choiceVBox.setSpacing(25);
 
     // TODO Choice class added
-    ToggleGroup group = new ToggleGroup();
-    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
-    for (int i = 0; i < currentQuestion.getChoice().size(); i++) {
+    ToggleGroup toggleGroup = new ToggleGroup();
+    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoiceGroup().size()];
+    Enumeration<String> choiceText = currentQuestion.getChoiceGroup().getChoices();
+    int i = 0;
+    while (choiceText.hasMoreElements()) {
       choiceButton[i] = new RadioButton();
       choiceButton[i].setSelected(false);
-      choiceButton[i].setText("Choice " + (char) ('A' + i));
-      choiceButton[i].setToggleGroup(group);
+      choiceButton[i].setText(choiceText.nextElement());
+      choiceButton[i].setToggleGroup(toggleGroup);
       choiceButton[i].setFont(Font.font(18));
       choiceVBox.getChildren().add(choiceButton[i]);
+      i++;
     }
+
+    // for (int i = 0; i < currentQuestion.getChoiceGroup().size(); i++) {
+    // choiceButton[i] = new RadioButton();
+    // choiceButton[i].setSelected(false);
+    // choiceButton[i].setText("Choice " + (char) ('A' + i));
+    // choiceButton[i].setToggleGroup(toggleGroup);
+    // choiceButton[i].setFont(Font.font(18));
+    // choiceVBox.getChildren().add(choiceButton[i]);
+    // }
 
     // total number of choices
     // int size = currentQuestion.getChoice().size();

@@ -111,4 +111,17 @@ public class ChoiceGroup {
     }
     return false;
   }
+
+  /**
+   * This method returns the number of choices in the choice group
+   * 
+   * @return int size of the choiceGroup
+   */
+  public int size() {
+    return this.choiceGroup.size();
+  }
+
+  public Enumeration<String> getChoices() {
+    return this.choiceGroup.keys();
+  }
 }

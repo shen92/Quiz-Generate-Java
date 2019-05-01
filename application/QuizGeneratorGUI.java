@@ -332,16 +332,16 @@ public class QuizGeneratorGUI {
           newQuestion.setImage("none");
         else
           newQuestion.setImage(imageTextField.getText());
-        LinkedHashMap<String, String> choices = new LinkedHashMap<String, String>();
+        ChoiceGroup choiceGroup = new ChoiceGroup();
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
           if (!choiceTextFields[i].getText().isEmpty()) {
             if (choiceButtons[i].hasProperties() == true)
 
-              choices.put(choiceTextFields[i].getText(), "T");
+              choiceGroup.addChoice(choiceTextFields[i].getText(), "T");
 
             else {
-              choices.put(choiceTextFields[i].getText(), "F");
+              choiceGroup.addChoice(choiceTextFields[i].getText(), "F");
             }
           } else {
             choiceEmptyCount++;
@@ -363,7 +363,7 @@ public class QuizGeneratorGUI {
             return;
           }
         }
-        newQuestion.setChoice(choices);
+        newQuestion.setChoice(choiceGroup);
         if (questionList == null) {
           questionList = new QuestionDatabase();
           questionList.addQuestion(newQuestion);
@@ -478,19 +478,24 @@ public class QuizGeneratorGUI {
             allSelectedTopicQues.add(questionList.getAllQuestion().get(i));
           }
         }
-        int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
-        Random rand = new Random();
-        if (quizQuestionAmount > allSelectedTopicQues.size())
-          quizQuestionAmount = allSelectedTopicQues.size();
-        for (int i = 0; i < quizQuestionAmount; i++) {
-          int randomIndex = rand.nextInt(allSelectedTopicQues.size());
-          quizQuestions.add(allSelectedTopicQues.get(randomIndex));
-          allSelectedTopicQues.remove(randomIndex);
-        }
+        // TODO
+        try {
+          int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
 
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
-        primaryStage.setScene(showQuestionGUI.getScene());
-        primaryStage.setTitle("Quiz");
+          Random rand = new Random();
+          if (quizQuestionAmount > allSelectedTopicQues.size())
+            quizQuestionAmount = allSelectedTopicQues.size();
+          for (int i = 0; i < quizQuestionAmount; i++) {
+            int randomIndex = rand.nextInt(allSelectedTopicQues.size());
+            quizQuestions.add(allSelectedTopicQues.get(randomIndex));
+            allSelectedTopicQues.remove(randomIndex);
+          }
+
+          ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
+          primaryStage.setScene(showQuestionGUI.getScene());
+          primaryStage.setTitle("Quiz");
+        } catch (NumberFormatException e) {
+        }
       }
     });
     buttonHBox.getChildren().add(startQuizButton);
