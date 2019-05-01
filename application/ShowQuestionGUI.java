@@ -1,7 +1,8 @@
 package application;
 
-import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -61,7 +62,7 @@ public class ShowQuestionGUI {
 
     VBox root = new VBox();
     root.setPrefWidth(1200);
-    // root.setPrefHeight(800);
+    root.setPrefHeight(800);
     scrollPane.setContent(root);
     // questionDisplay.getChildren().add(scrollPane);
 
@@ -114,29 +115,16 @@ public class ShowQuestionGUI {
     choiceVBox.setSpacing(25);
 
     // TODO Choice class added
-    ToggleGroup toggleGroup = new ToggleGroup();
-    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoiceGroup().size()];
-    Enumeration<String> choiceText = currentQuestion.getChoiceGroup().getChoiceKeys();
-    int i = 0;
-    while (choiceText.hasMoreElements()) {
-      choiceButton[i] = currentQuestion.getChoiceGroup().getRadioButton(choiceText.nextElement());
-      choiceButton[i].setText(choiceText.nextElement());
-      choiceButton[i].setToggleGroup(toggleGroup);
+    ToggleGroup group = new ToggleGroup();
+    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
+    for (int i = 0; i < currentQuestion.getChoice().size(); i++) {
+      choiceButton[i] = new RadioButton();
+      choiceButton[i].setSelected(false);
+      choiceButton[i].setText("Choice " + (char) ('A' + i));
+      choiceButton[i].setToggleGroup(group);
       choiceButton[i].setFont(Font.font(18));
       choiceVBox.getChildren().add(choiceButton[i]);
-      i++;
     }
-    // edit
-
-
-    // for (int i = 0; i < currentQuestion.getChoiceGroup().size(); i++) {
-    // choiceButton[i] = new RadioButton();
-    // choiceButton[i].setSelected(false);
-    // choiceButton[i].setText("Choice " + (char) ('A' + i));
-    // choiceButton[i].setToggleGroup(toggleGroup);
-    // choiceButton[i].setFont(Font.font(18));
-    // choiceVBox.getChildren().add(choiceButton[i]);
-    // }
 
     // total number of choices
     // int size = currentQuestion.getChoice().size();
@@ -165,8 +153,8 @@ public class ShowQuestionGUI {
         if (questionIndex == 1) {
           Stage window = new Stage();
           window.setTitle("First Question");
-          window.setMinWidth(480);
-          window.setMinHeight(320);
+          window.setMinWidth(320);
+          window.setMinHeight(240);
 
           Text remind = new Text("This is the first Question!");
           remind.setFont(Font.font(20));
@@ -204,8 +192,8 @@ public class ShowQuestionGUI {
         if (questionIndex == quizQuestions.size()) {
           Stage window = new Stage();
           window.setTitle("Last question");
-          window.setMinWidth(480);
-          window.setMinHeight(320);
+          window.setMinWidth(320);
+          window.setMinHeight(240);
           Text remind = new Text("Would you like to submit?");
           remind.setFont(Font.font(20));
           Button confirmButton = new Button("confirm");
@@ -276,7 +264,6 @@ public class ShowQuestionGUI {
   /**
    * WARNING: Developer use only.
    */
-  @SuppressWarnings("unused")
   private void test(String func) {
     Stage window = new Stage();
     window.setTitle(func);

@@ -15,15 +15,16 @@ import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+import javafx.scene.control.CheckBox;
 
 public class QuestionDatabase {
-  //
   private HashMap<String, ArrayList<Question>> questionBank;
-  private LinkedList<TopicRow> topicRows;
+  private CheckBox checkBox = new CheckBox();
+  private LinkedList<TopicRow> topicRows = topicRows = new LinkedList<TopicRow>();
 
   public QuestionDatabase() {
-    this.questionBank = new HashMap<String, ArrayList<Question>>();
-    this.topicRows = new LinkedList<TopicRow>();
+    questionBank = new HashMap<String, ArrayList<Question>>();
+    this.checkBox.setSelected(false);
   }
 
   public void addQuestion(Question question) {
@@ -34,6 +35,7 @@ public class QuestionDatabase {
       newQuestionList.add(question);
       questionBank.put(question.getTopic(), newQuestionList);
     }
+
     updateTopicRow(question);
   }
 
@@ -49,38 +51,38 @@ public class QuestionDatabase {
 
   @SuppressWarnings("unchecked")
   public void writeQuestions(ArrayList<Question> question) throws FileNotFoundException {
-    // JSONObject jo1 = new JSONObject();
-    //
-    // JSONArray ja1 = new JSONArray();
-    //
-    // for (int i = 0; i < question.size(); i++) {
-    // JSONObject jo2 = new JSONObject();
-    //
-    // jo2.put("meta-data", question.get(i).getMetaData());
-    // jo2.put("questionText", question.get(i).getQuestionText());
-    // jo2.put("topic", question.get(i).getTopic());
-    // jo2.put("image", question.get(i).getImage());
-    //
-    // JSONArray ja2 = new JSONArray();
-    // Iterator<String> it = question.get(i).getChoice().keySet().iterator();
-    // Map<String, String> questionChoice = new LinkedHashMap<String, String>();
-    // while (it.hasNext()) {
-    // String key = it.next();
-    // questionChoice.put(key, question.get(i).getChoice().get(key));
-    // }
-    //
-    // ja2.add(questionChoice);
-    // jo2.put("choiceArray", ja2);
-    // ja1.add(jo2);
-    // }
-    //
-    // jo1.put("questionArray", ja1);
-    //
-    // PrintWriter pw = new PrintWriter("JSONExample.json");
-    // pw.write(jo1.toJSONString());
-    //
-    // pw.flush();
-    // pw.close();
+    JSONObject jo1 = new JSONObject();
+
+    JSONArray ja1 = new JSONArray();
+
+    for (int i = 0; i < question.size(); i++) {
+      JSONObject jo2 = new JSONObject();
+
+      jo2.put("meta-data", question.get(i).getMetaData());
+      jo2.put("questionText", question.get(i).getQuestionText());
+      jo2.put("topic", question.get(i).getTopic());
+      jo2.put("image", question.get(i).getImage());
+
+      JSONArray ja2 = new JSONArray();
+      Iterator<String> it = question.get(i).getChoice().keySet().iterator();
+      Map<String, String> questionChoice = new LinkedHashMap<String, String>();
+      while (it.hasNext()) {
+        String key = it.next();
+        questionChoice.put(key, question.get(i).getChoice().get(key));
+      }
+
+      ja2.add(questionChoice);
+      jo2.put("choiceArray", ja2);
+      ja1.add(jo2);
+    }
+
+    jo1.put("questionArray", ja1);
+
+    PrintWriter pw = new PrintWriter("JSONExample.json");
+    pw.write(jo1.toJSONString());
+
+    pw.flush();
+    pw.close();
   }
 
   public void loadQuestions(File jsonFile)
@@ -104,19 +106,18 @@ public class QuestionDatabase {
       String topic = (String) jo2.get("topic");
       String image = (String) jo2.get("image");
       JSONArray choiceArray = (JSONArray) jo2.get("choiceArray");
-      ChoiceGroup choiceGroup = new ChoiceGroup();
-      // LinkedHashMap<String, String> questionChoice = new LinkedHashMap<String, String>();
+      LinkedHashMap<String, String> questionChoice = new LinkedHashMap<String, String>();
       for (int j = 0; j < choiceArray.size(); j++) {
         Object obj3 = new JSONParser().parse(choiceArray.get(j).toString());
         JSONObject jo3 = (JSONObject) obj3;
         String correctness = (String) jo3.get("isCorrect");
         String choiceText = (String) jo3.get("choice");
-        choiceGroup.addChoice(choiceText, correctness);
+        questionChoice.put(choiceText, correctness);
       }
 
       newQuestion.setQuestionText(questionText);
       newQuestion.setMetaData(meta_data);
-      newQuestion.setChoice(choiceGroup);
+      newQuestion.setChoice(questionChoice);
       newQuestion.setImage(image);
       newQuestion.setTopic(topic);
 

@@ -1,5 +1,4 @@
 package application;
-//
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,7 +39,7 @@ public class QuizGeneratorGUI {
   private Scene quizGeneratorScene;
 
   // JavaFX Components
-  private TableView<TopicRow> topicListTable;
+  private TableView<Question> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
   private LinkedList<Question> quizQuestions;
 
@@ -68,7 +67,7 @@ public class QuizGeneratorGUI {
     root.getChildren().add(upper);
 
     VBox lower = new VBox();
-    lower.setPadding(new Insets(10.0, 25.0, 10.0, 40.0));
+    lower.setPadding(new Insets(10, 25.0, 10.0, 40.0));
     lower.getChildren().addAll(addStartQuizComponent(primaryStage));
     root.getChildren().add(lower);
 
@@ -88,6 +87,7 @@ public class QuizGeneratorGUI {
   private VBox addQuestionListComponet(Stage primaryStage) {
     VBox root = new VBox();
 
+
     // 1) Question List Label
     Label questionListLabel = new Label("Topic List");
     questionListLabel.setFont(Font.font(20));
@@ -101,17 +101,17 @@ public class QuizGeneratorGUI {
     topicListTable.setPrefHeight(400);
     topicListTable.setEditable(true);
 
-    TableColumn<TopicRow, CheckBox> selectCol = new TableColumn<>("Select");
+    TableColumn<Question, CheckBox> selectCol = new TableColumn<>("Select");
     selectCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
     selectCol.setPrefWidth(60);
     topicListTable.getColumns().add(selectCol);
 
-    TableColumn<TopicRow, String> topicCol = new TableColumn<>("Topic");
+    TableColumn<Question, String> topicCol = new TableColumn<>("Topic");
     topicCol.setCellValueFactory(new PropertyValueFactory<>("topic"));
     topicCol.setPrefWidth(300);
     topicListTable.getColumns().add(topicCol);
 
-    TableColumn<TopicRow, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
+    TableColumn<Question, Integer> topicQuestionAmountCol = new TableColumn<>("Question Amount");
     topicQuestionAmountCol.setCellValueFactory(new PropertyValueFactory<>("numQuestions"));
     topicQuestionAmountCol.setPrefWidth(180);
     topicListTable.getColumns().add(topicQuestionAmountCol);
@@ -142,15 +142,14 @@ public class QuizGeneratorGUI {
           e.printStackTrace();
         }
         // Add topics to topic list
-        // topicListTable.getItems().clear();
-        // ArrayList<String> currentTopicInList = new ArrayList<String>();
-        // for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
-        // if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
-        // continue;
-        // addQuestionToQuestionList(questionList.getAllQuestion().get(i));
-        // currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
-        // }
-        addTopicRow();
+        topicListTable.getItems().clear();
+        ArrayList<String> currentTopicInList = new ArrayList<String>();
+        for (int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          if (currentTopicInList.contains(questionList.getAllQuestion().get(i).getTopic()))
+            continue;
+          addQuestionToQuestionList(questionList.getAllQuestion().get(i));
+          currentTopicInList.add(questionList.getAllQuestion().get(i).getTopic());
+        }
         questionDatabaseCountLabel
             .setText("Total Questions: " + questionList.getAllQuestion().size());
       }
@@ -181,10 +180,8 @@ public class QuizGeneratorGUI {
     return root;
   }
 
-  private void addTopicRow() {
-    topicListTable.getItems().clear();
-    for (TopicRow topicrow : questionList.getTopicRows())
-      topicListTable.getItems().add(topicrow);
+  private void addQuestionToQuestionList(Question question) {
+    topicListTable.getItems().add(question);
 
   }
 
@@ -203,7 +200,7 @@ public class QuizGeneratorGUI {
     questionListLabel.setFont(Font.font(20));
     root.getChildren().add(questionListLabel);
 
-    // 2) Get Question Infomation VBox
+    // 2) Get Question VBox
     VBox getQuestionVBox = new VBox();
     getQuestionVBox.setPadding(new Insets(26.0, 0.0, 62, 0.0));
     getQuestionVBox.setSpacing(10);
@@ -332,16 +329,16 @@ public class QuizGeneratorGUI {
           newQuestion.setImage("none");
         else
           newQuestion.setImage(imageTextField.getText());
-        ChoiceGroup choiceGroup = new ChoiceGroup();
+        LinkedHashMap<String, String> choices = new LinkedHashMap<String, String>();
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
           if (!choiceTextFields[i].getText().isEmpty()) {
             if (choiceButtons[i].hasProperties() == true)
 
-              choiceGroup.addChoice(choiceTextFields[i].getText(), "T");
+              choices.put(choiceTextFields[i].getText(), "T");
 
             else {
-              choiceGroup.addChoice(choiceTextFields[i].getText(), "F");
+              choices.put(choiceTextFields[i].getText(), "F");
             }
           } else {
             choiceEmptyCount++;
@@ -363,18 +360,19 @@ public class QuizGeneratorGUI {
             return;
           }
         }
-        newQuestion.setChoice(choiceGroup);
+        newQuestion.setChoice(choices);
         if (questionList == null) {
           questionList = new QuestionDatabase();
           questionList.addQuestion(newQuestion);
+          addQuestionToQuestionList(newQuestion);
           questionDatabaseCountLabel
               .setText("Total Questions: " + questionList.getAllQuestion().size());
         } else {
           questionList.addQuestion(newQuestion);
+          addQuestionToQuestionList(newQuestion);
           questionDatabaseCountLabel
               .setText("Total Questions: " + questionList.getAllQuestion().size());
         }
-        addTopicRow();
       }
     });
     buttonHBox.getChildren().add(confirmButton);
@@ -383,6 +381,7 @@ public class QuizGeneratorGUI {
     resetButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
+        metaDataTextField.clear();
         questionTextArea.clear();
         topicTextField.clear();
         imageTextField.clear();
@@ -413,23 +412,22 @@ public class QuizGeneratorGUI {
     root.setPadding(new Insets(25, 0, 0, 0));
     root.setSpacing(55);
 
-    // 1) Get number of questions in quiz
-    HBox numQuizQuesitonHBox = new HBox();// Filter Box
-    numQuizQuesitonHBox.setAlignment(Pos.TOP_LEFT);
-
-    Label numOfQuestionLabel = new Label("Number of Questions In Quiz:");
-    numOfQuestionLabel.setFont(Font.font(18));
-    numQuizQuesitonHBox.getChildren().add(numOfQuestionLabel);
-
-    TextField numQuestionTextField = new TextField();
-    numQuestionTextField.setPrefWidth(200);
-    numQuizQuesitonHBox.getChildren().add(numQuestionTextField);
-    root.getChildren().add(numQuizQuesitonHBox);
-
-    // 2) Save to file and start quiz button
     HBox buttonHBox = new HBox();
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(120);
+
+    HBox searchHBox = new HBox();// Filter Box
+
+    searchHBox.setSpacing(20);
+    searchHBox.setAlignment(Pos.TOP_LEFT);
+    Label numOfQuestionLabel = new Label("Number of Questions In Quiz:");
+    numOfQuestionLabel.setFont(Font.font(18));
+    searchHBox.getChildren().add(numOfQuestionLabel);
+
+    TextField numQuestionTextField = new TextField();
+    numQuestionTextField.setPrefWidth(200);
+    searchHBox.getChildren().add(numQuestionTextField);
+    root.getChildren().add(searchHBox);
 
     Button saveToFileButton = addButton("Save to File", 180, 40);
     Tooltip saveToFileTooltip = new Tooltip();
@@ -478,24 +476,19 @@ public class QuizGeneratorGUI {
             allSelectedTopicQues.add(questionList.getAllQuestion().get(i));
           }
         }
-        // TODO
-        try {
-          int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
-
-          Random rand = new Random();
-          if (quizQuestionAmount > allSelectedTopicQues.size())
-            quizQuestionAmount = allSelectedTopicQues.size();
-          for (int i = 0; i < quizQuestionAmount; i++) {
-            int randomIndex = rand.nextInt(allSelectedTopicQues.size());
-            quizQuestions.add(allSelectedTopicQues.get(randomIndex));
-            allSelectedTopicQues.remove(randomIndex);
-          }
-
-          ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
-          primaryStage.setScene(showQuestionGUI.getScene());
-          primaryStage.setTitle("Quiz");
-        } catch (NumberFormatException e) {
+        int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+        Random rand = new Random();
+        if (quizQuestionAmount > allSelectedTopicQues.size())
+          quizQuestionAmount = allSelectedTopicQues.size();
+        for (int i = 0; i < quizQuestionAmount; i++) {
+          int randomIndex = rand.nextInt(allSelectedTopicQues.size());
+          quizQuestions.add(allSelectedTopicQues.get(randomIndex));
+          allSelectedTopicQues.remove(randomIndex);
         }
+
+        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
+        primaryStage.setScene(showQuestionGUI.getScene());
+        primaryStage.setTitle("Quiz");
       }
     });
     buttonHBox.getChildren().add(startQuizButton);
