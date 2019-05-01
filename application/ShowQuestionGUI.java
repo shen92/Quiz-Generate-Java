@@ -126,6 +126,8 @@ public class ShowQuestionGUI {
       choiceVBox.getChildren().add(choiceButton[i]);
       i++;
     }
+    // edit
+
 
     // for (int i = 0; i < currentQuestion.getChoiceGroup().size(); i++) {
     // choiceButton[i] = new RadioButton();
