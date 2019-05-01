@@ -20,7 +20,7 @@ import javafx.scene.control.CheckBox;
 public class QuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;
   private CheckBox checkBox = new CheckBox();
-  private LinkedList<TopicRow> topicRows = topicRows = new LinkedList<TopicRow>();
+  private LinkedList<TopicRow> topicRows = new LinkedList<TopicRow>();
 
   public QuestionDatabase() {
     questionBank = new HashMap<String, ArrayList<Question>>();
@@ -39,16 +39,6 @@ public class QuestionDatabase {
     updateTopicRow(question);
   }
 
-  public void checkUnselected(String topic) {
-    for (int i = 0; i < questionBank.get(topic).size(); i++) {
-      questionBank.get(topic).get(i).setSelected(true);
-    }
-  }
-
-  private int getQuestionAmountForSpecificTopic(String topic) {
-    return questionBank.get(topic).size();
-  }
-
   @SuppressWarnings("unchecked")
   public void writeQuestions(ArrayList<Question> question) throws FileNotFoundException {
     JSONObject jo1 = new JSONObject();
@@ -64,11 +54,16 @@ public class QuestionDatabase {
       jo2.put("image", question.get(i).getImage());
 
       JSONArray ja2 = new JSONArray();
-      Iterator<String> it = question.get(i).getChoice().keySet().iterator();
+      Iterator<String> it = question.get(i).getChoiceGroup().getChoiceGroup().keySet().iterator();
       Map<String, String> questionChoice = new LinkedHashMap<String, String>();
       while (it.hasNext()) {
         String key = it.next();
-        questionChoice.put(key, question.get(i).getChoice().get(key));
+        String correctness;
+        if(question.get(i).getChoiceGroup().isCorrect())
+          correctness = "T";
+        else
+          correctness = "F";
+        questionChoice.put(key, correctness);
       }
 
       ja2.add(questionChoice);
@@ -106,18 +101,18 @@ public class QuestionDatabase {
       String topic = (String) jo2.get("topic");
       String image = (String) jo2.get("image");
       JSONArray choiceArray = (JSONArray) jo2.get("choiceArray");
-      LinkedHashMap<String, String> questionChoice = new LinkedHashMap<String, String>();
+      ChoiceGroup questionChoice = new ChoiceGroup();
       for (int j = 0; j < choiceArray.size(); j++) {
         Object obj3 = new JSONParser().parse(choiceArray.get(j).toString());
         JSONObject jo3 = (JSONObject) obj3;
         String correctness = (String) jo3.get("isCorrect");
         String choiceText = (String) jo3.get("choice");
-        questionChoice.put(choiceText, correctness);
+        questionChoice.addChoice(choiceText, correctness);
       }
 
       newQuestion.setQuestionText(questionText);
       newQuestion.setMetaData(meta_data);
-      newQuestion.setChoice(questionChoice);
+      newQuestion.setChoiceGroup(questionChoice);
       newQuestion.setImage(image);
       newQuestion.setTopic(topic);
 

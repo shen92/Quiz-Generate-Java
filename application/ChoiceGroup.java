@@ -36,6 +36,7 @@ public class ChoiceGroup {
       this.correctness = false;
       this.radioButton = new RadioButton();
       this.radioButton.setSelected(false);
+      
     }
 
     /**
@@ -180,5 +181,5 @@ public class ChoiceGroup {
   public ArrayList<String> getChoiceGroupKeys() {
     return this.keys;
   }
-
+  
 }

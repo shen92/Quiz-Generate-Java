@@ -47,7 +47,6 @@ public class ShowQuestionGUI {
     this.quizQuestions = quizQuestions;
   }
 
-
   private void setup(Stage primaryStage) {
     VBox questionDisplay = new VBox();
     // questionDisplay.setPrefWidth(1200);
@@ -116,24 +115,18 @@ public class ShowQuestionGUI {
 
     // TODO Choice class added
     ToggleGroup group = new ToggleGroup();
-    RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
-    for (int i = 0; i < currentQuestion.getChoice().size(); i++) {
-      choiceButton[i] = new RadioButton();
-      choiceButton[i].setSelected(false);
-      choiceButton[i].setText("Choice " + (char) ('A' + i));
-      choiceButton[i].setToggleGroup(group);
-      choiceButton[i].setFont(Font.font(18));
-      choiceVBox.getChildren().add(choiceButton[i]);
-    }
+    int i = 0;
+    //RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
 
-    // total number of choices
-    // int size = currentQuestion.getChoice().size();
-    // for (String choice : currentQuestion.getChoice().keySet()) {
-    // RadioButton button = new RadioButton(choice);
-    // button.setToggleGroup(group);
-    // button.setFont(Font.font(18));
-    // choiceVBox.getChildren().add(button);
-    // }
+
+     //total number of choices
+//     int size = currentQuestion.getChoice().size();
+//     for (String choice : currentQuestion.getChoice().keySet()) {
+//     RadioButton button = new RadioButton(choice);
+//     button.setToggleGroup(group);
+//     button.setFont(Font.font(18));
+//     choiceVBox.getChildren().add(button);
+//     }
     root.getChildren().add(choiceVBox);
 
 
