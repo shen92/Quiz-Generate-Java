@@ -36,7 +36,7 @@ public class ChoiceGroup {
       this.correctness = false;
       this.radioButton = new RadioButton();
       this.radioButton.setSelected(false);
-      
+
     }
 
     /**
@@ -153,6 +153,17 @@ public class ChoiceGroup {
     return this.choiceGroup;
   }
 
+  /**
+   * This method returns the toggle group of a question.
+   * 
+   * This method can be called to in the ShowQuestionGUI class
+   * 
+   * @return ToggleGroup toggleGroup
+   */
+  public ToggleGroup getToggleGroup() {
+    return this.toggleGroup;
+  }
+
   /*
    * This method gets the RadioButton of a choice in a choiceGroup
    * 
@@ -181,5 +192,5 @@ public class ChoiceGroup {
   public ArrayList<String> getChoiceGroupKeys() {
     return this.keys;
   }
-  
+
 }

@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,19 +115,15 @@ public class ShowQuestionGUI {
     choiceVBox.setSpacing(25);
 
     // TODO Choice class added
-    ToggleGroup group = new ToggleGroup();
-    int i = 0;
-    //RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoice().size()];
-
-
-     //total number of choices
-//     int size = currentQuestion.getChoice().size();
-//     for (String choice : currentQuestion.getChoice().keySet()) {
-//     RadioButton button = new RadioButton(choice);
-//     button.setToggleGroup(group);
-//     button.setFont(Font.font(18));
-//     choiceVBox.getChildren().add(button);
-//     }
+    ChoiceGroup choiceGroup = currentQuestion.getChoiceGroup();
+    // ToggleGroup toggleGroup = currentQuestion.getChoiceGroup().getToggleGroup();
+    RadioButton[] choice = new RadioButton[choiceGroup.size()];
+    ArrayList<String> choiceGroupKeys = choiceGroup.getChoiceGroupKeys();
+    for (int i = 0; i < choiceGroupKeys.size(); i++) {
+      choice[i] = choiceGroup.getRadioButton(choiceGroupKeys.get(i));
+      choice[i].setText(choiceGroupKeys.get(i));
+      choiceVBox.getChildren().add(choice[i]);
+    }
     root.getChildren().add(choiceVBox);
 
 
