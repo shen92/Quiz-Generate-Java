@@ -3,6 +3,10 @@ package application;
 
 import javafx.scene.control.CheckBox;
 
+/**
+ * This class represents the 
+ * 
+ * */
 public class TopicRow {
   private CheckBox checkBox;
   private String topic;
@@ -42,16 +46,16 @@ public class TopicRow {
   public void setNumQuestions(int numQuestions) {
     this.numQuestions = numQuestions;
   }
-  
+
   public boolean equals(Object o) {
-      if (!(o instanceof TopicRow)) {
-          return false;
-      }
-      TopicRow other = (TopicRow) o;
-      return this.topic.equals(other.getTopic());
+    if (!(o instanceof TopicRow)) {
+      return false;
+    }
+    TopicRow other = (TopicRow) o;
+    return this.topic.equals(other.getTopic());
   }
 
   public int hashCode() {
-      return topic.hashCode() * numQuestions;
+    return topic.hashCode() * numQuestions;
   }
 }

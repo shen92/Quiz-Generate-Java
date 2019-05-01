@@ -1,7 +1,12 @@
 package application;
 
+import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * Every ChoiceGroup of a question can be presented as a HashTable.
@@ -19,7 +24,7 @@ public class ChoiceGroup {
 
   private String choiceText;// key of a choice
   private boolean isCorrect;
-  private Object choiceBox;
+
 
   /**
    * This class represent of the value object of a choice
@@ -92,6 +97,18 @@ public class ChoiceGroup {
   public boolean isCorrect(String choiceText) {
     return this.choiceGroup.get(choiceText).isSelected()
         && this.choiceGroup.get(choiceText).isCorrect();
+  }
 
+  /**
+   * This method returns if the question is answered(user selected the answer)
+   */
+  public boolean isAnswered() {
+    Enumeration<Status> choiceStatus = this.choiceGroup.elements();
+    while (choiceStatus.hasMoreElements()) {
+      if (choiceStatus.nextElement().isSelected()) {
+        return true;
+      }
+    }
+    return false;
   }
 }
