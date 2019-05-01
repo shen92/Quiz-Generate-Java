@@ -62,7 +62,7 @@ public class ShowQuestionGUI {
 
     VBox root = new VBox();
     root.setPrefWidth(1200);
-    root.setPrefHeight(800);
+    // root.setPrefHeight(800);
     scrollPane.setContent(root);
     // questionDisplay.getChildren().add(scrollPane);
 
@@ -153,8 +153,8 @@ public class ShowQuestionGUI {
         if (questionIndex == 1) {
           Stage window = new Stage();
           window.setTitle("First Question");
-          window.setMinWidth(400);
-          window.setMinHeight(200);
+          window.setMinWidth(480);
+          window.setMinHeight(320);
 
           Text remind = new Text("This is the first Question!");
           remind.setFont(Font.font(20));
@@ -192,9 +192,9 @@ public class ShowQuestionGUI {
         if (questionIndex == quizQuestions.size()) {
           Stage window = new Stage();
           window.setTitle("Last question");
-          window.setMinWidth(400);
-          window.setMinHeight(200);
-          Text remind = new Text("This is the the last question, would you like to submit?");
+          window.setMinWidth(480);
+          window.setMinHeight(320);
+          Text remind = new Text("Would you like to submit?");
           remind.setFont(Font.font(20));
           Button confirmButton = new Button("confirm");
 
