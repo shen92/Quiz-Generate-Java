@@ -1,9 +1,7 @@
 package application;
 
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -118,11 +116,10 @@ public class ShowQuestionGUI {
     // TODO Choice class added
     ToggleGroup toggleGroup = new ToggleGroup();
     RadioButton[] choiceButton = new RadioButton[currentQuestion.getChoiceGroup().size()];
-    Enumeration<String> choiceText = currentQuestion.getChoiceGroup().getChoices();
+    Enumeration<String> choiceText = currentQuestion.getChoiceGroup().getChoiceKeys();
     int i = 0;
     while (choiceText.hasMoreElements()) {
-      choiceButton[i] = new RadioButton();
-      choiceButton[i].setSelected(false);
+      choiceButton[i] = currentQuestion.getChoiceGroup().getRadioButton(choiceText.nextElement());
       choiceButton[i].setText(choiceText.nextElement());
       choiceButton[i].setToggleGroup(toggleGroup);
       choiceButton[i].setFont(Font.font(18));
@@ -277,6 +274,7 @@ public class ShowQuestionGUI {
   /**
    * WARNING: Developer use only.
    */
+  @SuppressWarnings("unused")
   private void test(String func) {
     Stage window = new Stage();
     window.setTitle(func);

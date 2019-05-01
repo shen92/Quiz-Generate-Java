@@ -121,7 +121,15 @@ public class ChoiceGroup {
     return this.choiceGroup.size();
   }
 
-  public Enumeration<String> getChoices() {
+  public Enumeration<String> getChoiceKeys() {
     return this.choiceGroup.keys();
+  }
+
+  public Hashtable<String, Status> getChoices() {
+    return this.choiceGroup;
+  }
+
+  public RadioButton getRadioButton(String choiceText) {
+    return this.choiceGroup.get(choiceText).getRadioButton();
   }
 }
