@@ -105,6 +105,20 @@ public class ChoiceGroup {
   }
 
   /**
+   * IF AND ONLY IF status is isSelected and is Correct can return true.
+   * 
+   * This method is used for count number of correct in the quiz section
+   */
+  public boolean isCorrect() {
+    for (String key : keys) {
+      if (this.choiceGroup.get(key).isSelected() && this.choiceGroup.get(key).isCorrect()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * This method returns if the question is answered(user selected the answer)
    * 
    * @return true if the question is answered

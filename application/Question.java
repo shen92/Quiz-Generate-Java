@@ -84,4 +84,5 @@ public class Question {
   public boolean getSelected() {
     return this.checkBox.isSelected();
   }
+
 }

@@ -123,5 +123,12 @@ public class NewQuestion {
     return this.choiceGroup;
   }
 
-
+  /**
+   * This method checks if the question is answered correctly
+   * 
+   * @return boolean true is correct choice is selected
+   */
+  public boolean isCorrect() {
+    return this.choiceGroup.isCorrect();
+  }
 }
