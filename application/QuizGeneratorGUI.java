@@ -56,8 +56,7 @@ public class QuizGeneratorGUI {
   // Back-End Fields
   private QuestionDatabase questionList;
 
-  public QuizGeneratorGUI(Stage primaryStage, QuestionDatabase questionList) {
-	this.questionList = questionList;
+  public QuizGeneratorGUI(Stage primaryStage) {
     setup(primaryStage);
   }
 
@@ -97,6 +96,7 @@ public class QuizGeneratorGUI {
    */
   private VBox addQuestionListComponent(Stage primaryStage) {
     VBox root = new VBox();
+
 
     // 1) Question List Label
     Label questionListLabel = new Label("Topic List");
@@ -265,23 +265,24 @@ public class QuizGeneratorGUI {
 
     ToggleGroup group = new ToggleGroup();
 
-    TextField[] choiceTextFields = new TextField[5];
-    RadioButton[] choiceButtons = new RadioButton[5];
+
+    ArrayList<RadioButton> choiceButtons = new ArrayList<>(5);
+    ArrayList<TextField> choiceTextFields = new ArrayList<>(5);
     for (int i = 0; i < 5; i++) {
       HBox choice = new HBox();
       choice.setSpacing(10);
       choice.setAlignment(Pos.CENTER_RIGHT);
-      choiceButtons[i] = new RadioButton();
-      choiceButtons[i].setToggleGroup(group);
-      choiceButtons[i].setSelected(false);
-      choice.getChildren().add(choiceButtons[i]);
+      choiceButtons.add(new RadioButton());
+      choiceButtons.get(i).setToggleGroup(group);
+      choiceButtons.get(i).setSelected(false);
+      choice.getChildren().add(choiceButtons.get(i));
       Label choiceLabel = new Label();
       choiceLabel.setText((char) ('A' + i) + ": ");
       choiceLabel.setFont(Font.font(18));
       choice.getChildren().add(choiceLabel);
-      choiceTextFields[i] = new TextField();
-      choiceTextFields[i].setPrefWidth(450);
-      choice.getChildren().add(choiceTextFields[i]);
+      choiceTextFields.add(new TextField());
+      choiceTextFields.get(i).setPrefWidth(450);
+      choice.getChildren().add(choiceTextFields.get(i));
       getQuestionVBox.getChildren().add(choice);
     }
 
@@ -335,13 +336,13 @@ public class QuizGeneratorGUI {
           newQuestion.setImage(imageTextField.getText());
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
-          if (!choiceTextFields[i].getText().isEmpty()) {
-            if (choiceButtons[i].isSelected())
+          if (!choiceTextFields.get(i).getText().isEmpty()) {
+            if (choiceButtons.get(i).isSelected())
 
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields[i].getText(), "T");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "T");
 
             else {
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields[i].getText(), "F");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "F");
             }
           } else {
             choiceEmptyCount++;
@@ -377,8 +378,8 @@ public class QuizGeneratorGUI {
         metaDataTextField.setText("unused");
 
         for (int i = 0; i < 5; i++) {
-          choiceTextFields[i].clear();
-          choiceButtons[i].setSelected(false);
+          choiceTextFields.get(i).clear();
+          choiceButtons.get(i).setSelected(false);
         }
       }
     });
@@ -394,8 +395,8 @@ public class QuizGeneratorGUI {
         imageTextField.setText("none");
         metaDataTextField.setText("unused");
         for (int i = 0; i < 5; i++) {
-          choiceButtons[i].setSelected(false);
-          choiceTextFields[i].clear();
+          choiceButtons.get(i).setSelected(false);
+          choiceTextFields.get(i).clear();
         }
       }
 
@@ -479,7 +480,6 @@ public class QuizGeneratorGUI {
       public void handle(ActionEvent arg0) {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
-        int count = 0;
         // TODO
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
@@ -491,10 +491,9 @@ public class QuizGeneratorGUI {
         }
         int quizQuestionAmount = 0;
 
+
         try {
           quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
-          if (quizQuestionAmount <= 0)
-            throw new NumberFormatException();
 
         } catch (NumberFormatException e) {
           Alert alert = new Alert(AlertType.WARNING);
@@ -505,17 +504,6 @@ public class QuizGeneratorGUI {
           return;
         }
 
-        for (int i = 0; i < questionList.getTopicRows().size(); i++) {
-          if (questionList.getTopicRows().get(i).getSelect())
-            count++;
-        }
-        if (count < 1) {
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.setTitle("Warning Dialog");
-          alert.setContentText("Please select at least one topic!");
-          alert.showAndWait();
-          return;
-        }
 
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
@@ -526,7 +514,7 @@ public class QuizGeneratorGUI {
           allSelectedTopicQues.remove(randomIndex);
         }
 
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
+        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }
@@ -547,8 +535,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */
