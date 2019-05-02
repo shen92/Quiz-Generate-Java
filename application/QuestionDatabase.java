@@ -31,18 +31,29 @@ import org.json.simple.parser.*;
 import javafx.scene.control.CheckBox;
 
 public class QuestionDatabase {
-  private HashMap<String, ArrayList<Question>> questionBank;
-  private CheckBox checkBox = new CheckBox();
-  private LinkedList<TopicRow> topicRows = new LinkedList<TopicRow>();
+  private HashMap<String, ArrayList<Question>> questionBank;// bank of question, grouped by topic
+  private CheckBox checkBox = new CheckBox();// checkbox
+  private LinkedList<TopicRow> topicRows = new LinkedList<TopicRow>();// linkedlist for topicRow
 
+  /**
+   * Default no-argument constructor
+   */
   public QuestionDatabase() {
     questionBank = new HashMap<String, ArrayList<Question>>();
     this.checkBox.setSelected(false);
   }
 
+  /**
+   * Add question to question bank.
+   * 
+   * @param question
+   */
   public void addQuestion(Question question) {
+    // if topic is already included in the questionBank, add the question to the corresponding
+    // arraylist
     if (questionBank.containsKey(question.getTopic()))
       questionBank.get(question.getTopic()).add(question);
+    // if topic is not included, create a new arraylist to add question, add topic
     else {
       ArrayList<Question> newQuestionList = new ArrayList<Question>();
       newQuestionList.add(question);
@@ -52,6 +63,12 @@ public class QuestionDatabase {
     updateTopicRow(question);
   }
 
+  /**
+   * write the json file of the questions from a specific topic
+   * 
+   * @param question
+   * @throws FileNotFoundException
+   */
   @SuppressWarnings("unchecked")
   public void writeQuestions(ArrayList<Question> question) throws FileNotFoundException {
     JSONObject jo1 = new JSONObject();
@@ -95,6 +112,14 @@ public class QuestionDatabase {
     pw.close();
   }
 
+  /**
+   * load questions from a json file add questions to questionBank
+   * 
+   * @param jsonFile
+   * @throws FileNotFoundException
+   * @throws IOException
+   * @throws ParseException
+   */
   public void loadQuestions(File jsonFile)
       throws FileNotFoundException, IOException, ParseException {
 
@@ -131,9 +156,11 @@ public class QuestionDatabase {
       newQuestion.setImage(image);
       newQuestion.setTopic(topic);
 
-
+      // if topic is already included in the questionBank, add the question to the corresponding
+      // arraylist
       if (questionBank.containsKey(topic))
         questionBank.get(topic).add(newQuestion);
+      // if topic is not included, create a new arraylist to add question, add topic
       else {
         ArrayList<Question> questionList = new ArrayList<Question>();
         questionBank.put(topic, questionList);
@@ -143,10 +170,21 @@ public class QuestionDatabase {
     }
   }
 
+  /**
+   * get all the topics in questionBank
+   * 
+   * @return set of all topics
+   */
   public Set<String> getAllTopic() {
     return questionBank.keySet();
   }
 
+  /**
+   * iterate all the questions in questionBank
+   * add all the questions to allQuestionSet
+   *
+   * @return ArrayList<ArrayList<Question>>
+   */
   public ArrayList<ArrayList<Question>> getAllQuestionSets() {
     ArrayList<ArrayList<Question>> allQuestionSet = new ArrayList<ArrayList<Question>>();
     Iterator<String> it = getAllTopic().iterator();
@@ -156,6 +194,11 @@ public class QuestionDatabase {
     return allQuestionSet;
   }
 
+  /**
+   * convert allQuestionSet to a single arrayList allQuestions
+   * 
+   * @return an arrayList of questions
+   */
   public ArrayList<Question> getAllQuestion() {
     ArrayList<Question> allQuestions = new ArrayList<Question>();
     for (int i = 0; i < getAllQuestionSets().size(); i++) {
@@ -167,10 +210,21 @@ public class QuestionDatabase {
     return allQuestions;
   }
 
+  /**
+   * get the arrayList of questions corresponding to the filtered topic
+   * 
+   * @param filteredTopic
+   * @return the arrayList of questions
+   */
   public ArrayList<Question> filteredQuestionList(String filteredTopic) {
     return questionBank.get(filteredTopic);
   }
 
+  /**
+   * update the number of topic rows when the number of topics increases
+   * 
+   * @param question
+   */
   public void updateTopicRow(Question question) {
     for (TopicRow tr : topicRows) {
       if (tr.getTopic().equals(question.getTopic())) {
@@ -187,12 +241,17 @@ public class QuestionDatabase {
     topicRows.add(tr);
   }
 
+  /**
+   * get topicRows
+   * 
+   * @return topicRows
+   */
   public LinkedList<TopicRow> getTopicRows() {
-	Collections.sort(topicRows, new Comparator<TopicRow>() {
-	    public int compare(TopicRow a, TopicRow b) {
-	        return a.getTopic().compareTo(b.getTopic());
-	    }
-	});
+    Collections.sort(topicRows, new Comparator<TopicRow>() {
+      public int compare(TopicRow a, TopicRow b) {
+        return a.getTopic().compareTo(b.getTopic());
+      }
+    });
     return topicRows;
   }
 
