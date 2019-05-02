@@ -48,6 +48,7 @@ import javafx.stage.Stage;
 public class QuizGeneratorGUI {
   private Scene quizGeneratorScene;
 
+  //
   // JavaFX Components
   private TableView<TopicRow> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
@@ -56,7 +57,8 @@ public class QuizGeneratorGUI {
   // Back-End Fields
   private QuestionDatabase questionList;
 
-  public QuizGeneratorGUI(Stage primaryStage) {
+  public QuizGeneratorGUI(Stage primaryStage, QuestionDatabase questionList) {
+    this.questionList = questionList;
     setup(primaryStage);
   }
 
@@ -67,7 +69,6 @@ public class QuizGeneratorGUI {
    */
   private void setup(Stage primaryStage) {
     VBox root = new VBox();
-    questionList = new QuestionDatabase();
 
     // Setups for the Quiz Generator Scene
     HBox upper = new HBox();
@@ -96,7 +97,6 @@ public class QuizGeneratorGUI {
    */
   private VBox addQuestionListComponent(Stage primaryStage) {
     VBox root = new VBox();
-
 
     // 1) Question List Label
     Label questionListLabel = new Label("Topic List");
@@ -127,7 +127,7 @@ public class QuizGeneratorGUI {
     root.getChildren().add(topicListTable);
 
     // 3) Question Count Label
-    questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
+    questionDatabaseCountLabel.setText("Total Questions: " + 0 /* TODO */);
     questionDatabaseCountLabel.setPadding(new Insets(25, 0, 10, 0));
     questionDatabaseCountLabel.setFont(Font.font(18));
     root.getChildren().add(questionDatabaseCountLabel);
@@ -480,6 +480,7 @@ public class QuizGeneratorGUI {
       public void handle(ActionEvent arg0) {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
+        int count = 0;
         // TODO
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
@@ -491,9 +492,10 @@ public class QuizGeneratorGUI {
         }
         int quizQuestionAmount = 0;
 
-
         try {
           quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+          if (quizQuestionAmount <= 0)
+            throw new NumberFormatException();
 
         } catch (NumberFormatException e) {
           Alert alert = new Alert(AlertType.WARNING);
@@ -504,6 +506,17 @@ public class QuizGeneratorGUI {
           return;
         }
 
+        for (int i = 0; i < questionList.getTopicRows().size(); i++) {
+          if (questionList.getTopicRows().get(i).getSelect())
+            count++;
+        }
+        if (count < 1) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setContentText("Please select at least one topic!");
+          alert.showAndWait();
+          return;
+        }
 
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
@@ -514,7 +527,8 @@ public class QuizGeneratorGUI {
           allSelectedTopicQues.remove(randomIndex);
         }
 
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
+        ShowQuestionGUI showQuestionGUI =
+            new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }

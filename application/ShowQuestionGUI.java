@@ -7,10 +7,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,17 +26,19 @@ import javafx.stage.Stage;
 public class ShowQuestionGUI {
   private Scene quizQuestionsScene;
 
-  // JavaFX Components
-  // TODO
+
   private Text questionIndexLabel = new Text();
 
   // Back-End Fields
   // TODO
+  QuestionDatabase questionList;
   private int questionIndex;
   private LinkedList<Question> quizQuestions;
   private int[] result;// 0=>numQuestions, 1=> numAnswered, 2=> numCorrect
 
-  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
+  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions,
+      QuestionDatabase questionList) {
+    this.questionList = questionList;
     this.result = new int[3];
     loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
@@ -98,7 +102,16 @@ public class ShowQuestionGUI {
     questionImageHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionImageHBox);
     if (!currentQuestion.getImage().equals("none")) {
-      Image img = new Image(currentQuestion.getImage());
+      Image img = null;
+      try {
+        img = new Image(currentQuestion.getImage());
+      } catch (IllegalArgumentException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setContentText("Cannot find image!");
+        alert.showAndWait();
+        return;
+      }
       ImageView questionImageView = new ImageView();
       // questionImageView.setAlignment(Pos.TOP_RIGHT);
       questionImageView.setImage(img);
@@ -115,25 +128,22 @@ public class ShowQuestionGUI {
 
     // TODO Choice class added
     ChoiceGroup choiceGroup = currentQuestion.getChoiceGroup();
-    ArrayList<RadioButton> choiceButtons = new ArrayList<>(choiceGroup.size());
+    ArrayList<RadioButton> choice = new ArrayList<RadioButton>(choiceGroup.size());
     ArrayList<String> choiceGroupKeys = choiceGroup.getChoiceGroupKeys();
     for (int i = 0; i < choiceGroupKeys.size(); i++) {
-      choiceButtons.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
-      choiceButtons.get(i).setText(choiceGroupKeys.get(i));
-      choiceButtons.get(i).setWrapText(true);
-      choiceVBox.getChildren().add(choiceButtons.get(i));
+      choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
+      choice.get(i).setText(choiceGroupKeys.get(i));
+      choiceVBox.getChildren().add(choice.get(i));
     }
     root.getChildren().add(choiceVBox);
-
-
 
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
     buttonHBox.setPadding(new Insets(40.0, 40.0, 20.0, 80.0));
     buttonHBox.setAlignment(Pos.CENTER);
-    buttonHBox.setSpacing(300);
+    buttonHBox.setSpacing(200);
 
-    Button prevButton = addButton("Previous", 270, 40);
+    Button prevButton = addButton("Previous", 180, 40);
     prevButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -172,7 +182,29 @@ public class ShowQuestionGUI {
     });
     buttonHBox.getChildren().add(prevButton);
 
-    Button nextButton = addButton("Next", 270, 40);
+    Button checkButton = addButton("check", 180, 40);
+    checkButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        Alert alert;
+        if (currentQuestion.isCorrect()) {
+          alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is correct!");
+          alert.showAndWait();
+        } else {
+          alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is incorrect!");
+          alert.showAndWait();
+        }
+      }
+    });
+    buttonHBox.getChildren().add(checkButton);
+
+    Button nextButton = addButton("Next", 180, 40);
     nextButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -190,7 +222,8 @@ public class ShowQuestionGUI {
           confirmButton.setOnAction(e -> {
             window.close();
             getResult(result);
-            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result);
+
+            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
 
@@ -227,6 +260,7 @@ public class ShowQuestionGUI {
     });
     buttonHBox.getChildren().add(nextButton);
     root.getChildren().add(buttonHBox);
+
 
     this.quizQuestionsScene = new Scene(scrollPane, 1200, 800);
     primaryStage.setScene(this.quizQuestionsScene);
