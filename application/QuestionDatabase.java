@@ -1,3 +1,16 @@
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title:   QuestionDatabase class
+// Files:   ChoiceGroup.java Main.java Question.java QuestionDatabase.java
+//          QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
+// Course:  CS400
+//
+// Author:  Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+// Email:   zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu, 
+//          kwang392@wisc.edu, bxu57@wisc.edu
+// Lecturer's Name: Deb Deppeler
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 package application;
 
 import java.io.File;
@@ -8,9 +21,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -54,19 +65,21 @@ public class QuestionDatabase {
       jo2.put("image", question.get(i).getImage());
 
       JSONArray ja2 = new JSONArray();
-      Iterator<String> it = question.get(i).getChoiceGroup().getChoiceGroup().keySet().iterator();
-      Map<String, String> questionChoice = new LinkedHashMap<String, String>();
+      Iterator<String> it = question.get(i).getChoiceGroup().getChoiceGroupKeys().iterator();
+      JSONObject jo3;
       while (it.hasNext()) {
+        jo3 = new JSONObject();
         String key = it.next();
         String correctness;
-        if(question.get(i).getChoiceGroup().isCorrect())
+        if (question.get(i).getChoiceGroup().checkCorrectness(key))
           correctness = "T";
         else
           correctness = "F";
-        questionChoice.put(key, correctness);
+        jo3.put("isCorrect", correctness);
+        jo3.put("choice", key);
+        ja2.add(jo3);
       }
 
-      ja2.add(questionChoice);
       jo2.put("choiceArray", ja2);
       ja1.add(jo2);
     }
@@ -153,12 +166,6 @@ public class QuestionDatabase {
 
   public ArrayList<Question> filteredQuestionList(String filteredTopic) {
     return questionBank.get(filteredTopic);
-  }
-
-
-
-  public int getQuestionNum() {
-    return questionBank.size();
   }
 
   public void updateTopicRow(Question question) {
