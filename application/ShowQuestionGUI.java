@@ -134,9 +134,8 @@ public class ShowQuestionGUI {
       choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
       choice.get(i).setText(choiceGroupKeys.get(i));
       try {
-      choiceVBox.getChildren().add(choice.get(i));
-      }
-      catch(IllegalArgumentException e) {
+        choiceVBox.getChildren().add(choice.get(i));
+      } catch (IllegalArgumentException e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setContentText("Do not put same content in different choices!");
@@ -230,6 +229,9 @@ public class ShowQuestionGUI {
 
           confirmButton.setOnAction(e -> {
             window.close();
+            for (Question q : quizQuestions) {
+              q.reset();
+            }
             getResult(result);
 
             QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
@@ -297,8 +299,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */

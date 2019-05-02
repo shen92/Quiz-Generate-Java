@@ -131,7 +131,10 @@ public class QuestionDatabase {
     if (jsonFile == null)
       return;
 
-    Object obj1 = new JSONParser().parse(new FileReader(jsonFile));
+    Object obj1 = null;
+    try {
+      obj1 = new JSONParser().parse(new FileReader(jsonFile));
+    }catch(ParseException e) {System.out.println("Json File invalid format!!!");return;}
 
     JSONObject jo = (JSONObject) obj1;
 

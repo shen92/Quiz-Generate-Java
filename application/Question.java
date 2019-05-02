@@ -153,4 +153,7 @@ public class Question implements IQuestion {
     return this.choiceGroup.isAnswered();
   }
 
+  public void reset() {
+    this.choiceGroup.reset();
+  }
 }
