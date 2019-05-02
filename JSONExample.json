@@ -1,1 +1,1 @@
-{"questionArray":[{"image":"none","choiceArray":[{"choice":"Yes","isCorrect":"T"},{"choice":"No","isCorrect":"F"}],"meta-data":"sda","topic":"sdsa","questionText":"Is jACK A GAY"}]}
+{"questionArray":[{"image":"none","choiceArray":[{"choice":"yes","isCorrect":"T"},{"choice":"no","isCorrect":"F"}],"meta-data":"no","topic":"Gay","questionText":"吴老板是gay"},{"image":"none","choiceArray":[{"choice":"Yes","isCorrect":"T"},{"choice":"No","isCorrect":"F"}],"meta-data":"no","topic":"Gay","questionText":"Frank 是 gay"}]}

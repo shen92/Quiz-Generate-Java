@@ -36,7 +36,6 @@ public class ShowQuestionGUI {
 
   public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
     this.result = new int[3];
-    result[2] = 2;
     loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
   }
@@ -123,9 +122,6 @@ public class ShowQuestionGUI {
       choice[i].setText(choiceGroupKeys.get(i));
       choiceVBox.getChildren().add(choice[i]);
     }
-    // if (currentQuestion.isCorrect()) {
-    // result[2]++;
-    // }
     root.getChildren().add(choiceVBox);
 
 
@@ -192,6 +188,7 @@ public class ShowQuestionGUI {
 
           confirmButton.setOnAction(e -> {
             window.close();
+            getResult(result);
             QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
@@ -224,6 +221,8 @@ public class ShowQuestionGUI {
         }
 
       }
+
+
     });
     buttonHBox.getChildren().add(nextButton);
     root.getChildren().add(buttonHBox);
@@ -235,6 +234,19 @@ public class ShowQuestionGUI {
 
   public Scene getScene() {
     return this.quizQuestionsScene;
+  }
+
+  private void getResult(int[] result) {
+    for (Question q : quizQuestions) {
+      if (q.isCorrect()) {
+        result[2]++;
+      }
+    }
+    for (Question q : quizQuestions) {
+      if (q.isAnswered()) {
+        result[1]++;
+      }
+    }
   }
 
   /**

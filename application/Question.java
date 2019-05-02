@@ -15,6 +15,9 @@ public class Question {
   private String imageFile;
   private ChoiceGroup choiceGroup;
 
+  // Status fields for the question
+  private boolean isAnswered;
+
   /**
    * Default no-argument constructor of a Question object
    * 
@@ -26,6 +29,8 @@ public class Question {
     this.questionText = null;
     this.choiceGroup = new ChoiceGroup();
     this.imageFile = null;
+
+    this.isAnswered = false;
   }
 
   /**
@@ -130,6 +135,10 @@ public class Question {
    */
   public boolean isCorrect() {
     return this.choiceGroup.isCorrect();
+  }
+
+  public boolean isAnswered() {
+    return this.choiceGroup.isAnswered();
   }
 
 }

@@ -1,6 +1,5 @@
 package application;
 
-import java.text.DecimalFormat;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,7 +7,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -54,7 +52,7 @@ public class QuizResultsGUI {
     resultsLabelVBox.getChildren().add(totalQuestionLabel);
 
     Label answeredQuestionLabel = new Label();
-    answeredQuestionLabel.setText("Correct Questions: " + result[1]);
+    answeredQuestionLabel.setText("Answered Questions: " + result[1]);
     answeredQuestionLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(answeredQuestionLabel);
 
@@ -64,10 +62,10 @@ public class QuizResultsGUI {
     resultsLabelVBox.getChildren().add(correctQuestionLabel);
 
 
-    DecimalFormat df = new DecimalFormat("#.00");
 
     Label quizScoreLabel = new Label();
-    quizScoreLabel.setText("Quiz Score: " + df.format((double) (100 * result[2] / result[0])));
+    quizScoreLabel
+        .setText("Quiz Score: " + String.format("%.2f", (double) (100 * result[2] / result[0])));
     quizScoreLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(quizScoreLabel);
     root.getChildren().add(resultsLabelVBox);
