@@ -1,5 +1,6 @@
 package application;
 
+import java.text.DecimalFormat;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,8 +24,10 @@ public class QuizResultsGUI {
 
   // Back-End Fields
   // TODO
+  int[] result;
 
-  public QuizResultsGUI(Stage primaryStage) {
+  public QuizResultsGUI(Stage primaryStage, int[] result) {
+    this.result = result;
     setup(primaryStage);
   }
 
@@ -46,17 +49,25 @@ public class QuizResultsGUI {
     resultsLabelVBox.setSpacing(10);
 
     Label totalQuestionLabel = new Label();
-    totalQuestionLabel.setText("Total Questions: "/* TODO */);
+    totalQuestionLabel.setText("Total Questions: " + result[0]);
     totalQuestionLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(totalQuestionLabel);
 
+    Label answeredQuestionLabel = new Label();
+    answeredQuestionLabel.setText("Correct Questions: " + result[1]);
+    answeredQuestionLabel.setFont(Font.font(25));
+    resultsLabelVBox.getChildren().add(answeredQuestionLabel);
+
     Label correctQuestionLabel = new Label();
-    correctQuestionLabel.setText("Correct Questions: "/* TODO */);
+    correctQuestionLabel.setText("Correct Questions: " + result[2]);
     correctQuestionLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(correctQuestionLabel);
 
+
+    DecimalFormat df = new DecimalFormat("#.00");
+
     Label quizScoreLabel = new Label();
-    quizScoreLabel.setText("Quiz Score: "/* TODO */);
+    quizScoreLabel.setText("Quiz Score: " + df.format((double) (100 * result[2] / result[0])));
     quizScoreLabel.setFont(Font.font(25));
     resultsLabelVBox.getChildren().add(quizScoreLabel);
     root.getChildren().add(resultsLabelVBox);

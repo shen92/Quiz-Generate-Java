@@ -1,9 +1,7 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -35,9 +32,11 @@ public class ShowQuestionGUI {
   // TODO
   private int questionIndex;
   private LinkedList<Question> quizQuestions;
-
+  private int[] result;// 0=>numQuestions, 1=> numAnswered, 2=> numCorrect
 
   public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
+    this.result = new int[3];
+    result[2] = 2;
     loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
   }
@@ -46,6 +45,7 @@ public class ShowQuestionGUI {
     this.questionIndex = 1;
     this.quizQuestions = new LinkedList<>();
     this.quizQuestions = quizQuestions;
+    result[0] = this.quizQuestions.size();
   }
 
   private void setup(Stage primaryStage) {
@@ -116,7 +116,6 @@ public class ShowQuestionGUI {
 
     // TODO Choice class added
     ChoiceGroup choiceGroup = currentQuestion.getChoiceGroup();
-    // ToggleGroup toggleGroup = currentQuestion.getChoiceGroup().getToggleGroup();
     RadioButton[] choice = new RadioButton[choiceGroup.size()];
     ArrayList<String> choiceGroupKeys = choiceGroup.getChoiceGroupKeys();
     for (int i = 0; i < choiceGroupKeys.size(); i++) {
@@ -124,6 +123,9 @@ public class ShowQuestionGUI {
       choice[i].setText(choiceGroupKeys.get(i));
       choiceVBox.getChildren().add(choice[i]);
     }
+    // if (currentQuestion.isCorrect()) {
+    // result[2]++;
+    // }
     root.getChildren().add(choiceVBox);
 
 
@@ -190,7 +192,7 @@ public class ShowQuestionGUI {
 
           confirmButton.setOnAction(e -> {
             window.close();
-            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage);
+            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
 
