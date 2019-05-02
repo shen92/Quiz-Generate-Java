@@ -7,7 +7,7 @@ import javafx.scene.control.CheckBox;
  * 
  * @author Yingjie Shen, Kerui Wang
  */
-public class TopicRow {
+public class TopicRow implements ITopicR{
   private CheckBox checkBox;// CheckBox column
   private String topic;// topic column
   private int numQuestions;// numQuestions column, represent how may questions in a topic
