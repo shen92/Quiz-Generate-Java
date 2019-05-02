@@ -1,13 +1,13 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-// Title:   QuizGeneratorGUI class
-// Files:   ChoiceGroup.java Main.java Question.java QuestionDatabase.java
-//          QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
-// Course:  CS400
+// Title: QuizGeneratorGUI class
+// Files: ChoiceGroup.java Main.java Question.java QuestionDatabase.java
+// QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
+// Course: CS400
 //
-// Author:  Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
-// Email:   zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu, 
-//          kwang392@wisc.edu, bxu57@wisc.edu
+// Author: Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+// Email: zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu,
+// kwang392@wisc.edu, bxu57@wisc.edu
 // Lecturer's Name: Deb Deppeler
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
@@ -361,21 +361,23 @@ public class QuizGeneratorGUI {
             return;
           }
         }
-        
-          questionList.addQuestion(newQuestion);
-          topicListTable.getItems().clear();
-          for(int i = 0; i < questionList.getTopicRows().size(); i++)
-            topicListTable.getItems().add(questionList.getTopicRows().get(i));
-          questionDatabaseCountLabel
-              .setText("Total Questions: " + questionList.getAllQuestion().size());
-          
-          questionTextArea.clear();
-          topicTextField.clear();
-          imageTextField.clear();
-          metaDataTextField.clear();
-          
-          for(int i = 0; i < 5; i ++)
-            choiceTextFields[i].clear();
+
+        questionList.addQuestion(newQuestion);
+        topicListTable.getItems().clear();
+        for (int i = 0; i < questionList.getTopicRows().size(); i++)
+          topicListTable.getItems().add(questionList.getTopicRows().get(i));
+        questionDatabaseCountLabel
+            .setText("Total Questions: " + questionList.getAllQuestion().size());
+
+        questionTextArea.clear();
+        topicTextField.clear();
+        imageTextField.clear();
+        metaDataTextField.clear();
+
+        for (int i = 0; i < 5; i++) {
+          choiceTextFields[i].clear();
+          choiceButtons[i].setSelected(false);
+        }
       }
     });
     buttonHBox.getChildren().add(confirmButton);
@@ -383,23 +385,25 @@ public class QuizGeneratorGUI {
     Button resetButton = addButton("Reset", 180, 40);
     resetButton.setOnAction(new EventHandler<ActionEvent>() {
 
-  @Override
-  public void handle(ActionEvent arg0) {
-    metaDataTextField.clear();
-    questionTextArea.clear();
-    topicTextField.clear();
-    imageTextField.clear();
-    for (int i = 0; i < 5; i++) {
-      choiceButtons[i].setSelected(false);
-      choiceTextFields[i].clear();
-    }
+      @Override
+      public void handle(ActionEvent arg0) {
+        metaDataTextField.clear();
+        questionTextArea.clear();
+        topicTextField.clear();
+        imageTextField.clear();
+        for (int i = 0; i < 5; i++) {
+          choiceButtons[i].setSelected(false);
+          choiceTextFields[i].clear();
+        }
+      }
+
+    });
+    buttonHBox.getChildren().add(resetButton);
+
+    root.getChildren().add(buttonHBox);
+
+    return root;
   }
-
-  });buttonHBox.getChildren().add(resetButton);
-
-  root.getChildren().add(buttonHBox);
-
-  return root;}
 
   /**
    * This method adds save to file and start quiz to the quizGeneratorScene
@@ -463,6 +467,7 @@ public class QuizGeneratorGUI {
 
     buttonHBox.getChildren().add(saveToFileButton);
 
+
     Button startQuizButton = addButton("Start Quiz", 180, 40);
     Tooltip startQuizTooltip = new Tooltip();
     startQuizTooltip.setText("Add selected topic questions and start quiz");
@@ -475,23 +480,28 @@ public class QuizGeneratorGUI {
         // TODO
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
-            for(int j = 0; j < questionList.filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).size(); j++)
-              allSelectedTopicQues.add(questionList.filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).get(j));
+            for (int j = 0; j < questionList
+                .filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).size(); j++)
+              allSelectedTopicQues.add(questionList
+                  .filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).get(j));
           }
         }
         int quizQuestionAmount = 0;
-        
-        try {quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
-    
-    }catch(NumberFormatException e) {
-    	Alert alert = new Alert(AlertType.WARNING);
-        alert.setTitle("Warning Dialog");
-        alert.setHeaderText("Wrong Input!");
-        alert.setContentText("Please enter correct number of questions in Quiz!");
-        alert.showAndWait();
-        return;
-    }
 
+        
+        try {
+          quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+
+        } catch (NumberFormatException e) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText("Wrong Input!");
+          alert.setContentText("Please enter correct number of questions in Quiz!");
+          alert.showAndWait();
+          return;
+        }
+        
+        
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
           quizQuestionAmount = allSelectedTopicQues.size();
