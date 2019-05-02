@@ -90,6 +90,7 @@ public class QuizGeneratorGUI {
       topicListTable.getItems().add(questionList.getTopicRows().get(i));
       questionList.getTopicRows().get(i).getCheckBox().setSelected(false);
     }
+    questionDatabaseCountLabel.setText("Total Questions: " + questionList.getAllQuestion().size());
   }
 
   /**
