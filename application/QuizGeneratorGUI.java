@@ -479,7 +479,19 @@ public class QuizGeneratorGUI {
               allSelectedTopicQues.add(questionList.filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).get(j));
           }
         }
-        int quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+        int quizQuestionAmount = 0;
+        
+        try {quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+    
+    }catch(NumberFormatException e) {
+    	Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning Dialog");
+        alert.setHeaderText("Wrong Input!");
+        alert.setContentText("Please enter correct number of questions in Quiz!");
+        alert.showAndWait();
+        return;
+    }
+
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
           quizQuestionAmount = allSelectedTopicQues.size();
