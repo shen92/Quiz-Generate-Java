@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
@@ -76,6 +77,9 @@ public class QuestionDisplayGUI implements IGUI {
         buttonHBox.setSpacing(60);
 
         Button quitButton = addButton("Exit", 80, 20);
+        Tooltip quitTooltip = new Tooltip();
+        quitTooltip.setText("Exit quiz generator"/* TODO if necessary */);
+        quitButton.setTooltip(quitTooltip);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
@@ -86,6 +90,9 @@ public class QuestionDisplayGUI implements IGUI {
         buttonHBox.getChildren().add(quitButton);
 
         Button cancelButton = addButton("Cancel", 80, 20);
+        Tooltip cancelTooltip = new Tooltip();
+        cancelTooltip.setText("Back to quiz"/* TODO if necessary */);
+        cancelButton.setTooltip(cancelTooltip);
         cancelButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {

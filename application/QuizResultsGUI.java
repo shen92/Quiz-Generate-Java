@@ -44,7 +44,7 @@ public class QuizResultsGUI implements IGUI {
             event.consume();
           }
         });
-        window.setTitle("Quit");
+        window.setTitle("Exit");
         window.setMinWidth(320);
         window.setMinHeight(180);
         VBox root = new VBox();
@@ -67,6 +67,9 @@ public class QuizResultsGUI implements IGUI {
         buttonHBox.setSpacing(60);
 
         Button saveButton = addButton("Save File", 80, 20);
+        Tooltip saveFileTooltip = new Tooltip();
+        saveFileTooltip.setText("Save file"/* TODO if necessary */);
+        saveButton.setTooltip(saveFileTooltip);
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
@@ -78,6 +81,9 @@ public class QuizResultsGUI implements IGUI {
         buttonHBox.getChildren().add(saveButton);
 
         Button quitButton = addButton("Exit", 80, 20);
+        Tooltip quitTooltip = new Tooltip();
+        quitTooltip.setText("Exit without save"/* TODO if necessary */);
+        quitButton.setTooltip(quitTooltip);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {

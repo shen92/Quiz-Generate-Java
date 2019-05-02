@@ -118,6 +118,9 @@ public class QuizGeneratorGUI implements IGUI {
         buttonHBox.setSpacing(60);
 
         Button saveButton = addButton("Save File", 80, 20);
+        Tooltip saveFileTooltip = new Tooltip();
+        saveFileTooltip.setText("Save file"/* TODO if necessary */);
+        saveButton.setTooltip(saveFileTooltip);
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
@@ -129,6 +132,9 @@ public class QuizGeneratorGUI implements IGUI {
         buttonHBox.getChildren().add(saveButton);
 
         Button quitButton = addButton("Exit", 80, 20);
+        Tooltip quitTooltip = new Tooltip();
+        quitTooltip.setText("Exit without save"/* TODO if necessary */);
+        quitButton.setTooltip(quitTooltip);
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
