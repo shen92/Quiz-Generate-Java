@@ -60,10 +60,11 @@
 /ChoiceGroup.class
 /NewQuestion.class
 /QuestionDatabase$1.class
-<<<<<<< HEAD
-/ITopicRow.class
-=======
 /Iquestion.class
 /QuestionMethods.class
 /IQuestion.class
->>>>>>> branch 'master' of https://github.com/shen92/p6_project.git
+/ITopicRow.class
+/GUIMethods.class
+/IGUI.class
+/IChoiceGroup.class
+/IQuestionDatabase.class

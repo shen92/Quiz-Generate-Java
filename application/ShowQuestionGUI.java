@@ -133,50 +133,19 @@ public class ShowQuestionGUI {
     for (int i = 0; i < choiceGroupKeys.size(); i++) {
       choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
       choice.get(i).setText(choiceGroupKeys.get(i));
+      try {
       choiceVBox.getChildren().add(choice.get(i));
+      }
+      catch(IllegalArgumentException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setContentText("Do not put same content in different choices!");
+        alert.showAndWait();
+        return;
+      }
     }
     root.getChildren().add(choiceVBox);
 
-<<<<<<< HEAD
-    // check box
-    HBox checkButtonBox = new HBox();
-    checkButtonBox.setPadding(new Insets(20.0, 160.0, 20.0, 80.0));
-    checkButtonBox.setAlignment(Pos.CENTER);
-    Button checkButton = addButton("check", 200, 40);
-    checkButtonBox.getChildren().add(checkButton);
-    root.getChildren().add(checkButtonBox);
-
-    checkButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent arg0) {
-        Alert alert;
-        if (currentQuestion.isCorrect()) {
-
-          alert = new Alert(AlertType.INFORMATION);
-          alert.setTitle("Result Dialog");
-          alert.setHeaderText(null);
-          alert.setContentText("Your answer is correct!");
-          alert.showAndWait();
-        }
-
-        else {
-          alert = new Alert(AlertType.WARNING);
-          alert.setTitle("Result Dialog");
-          alert.setHeaderText(null);
-          alert.setContentText("Your answer is incorrect!");
-          alert.showAndWait();
-
-        }
-
-
-      }
-
-    });
-
-
-
-=======
->>>>>>> branch 'master' of https://github.com/shen92/p6_project.git
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
     buttonHBox.setPadding(new Insets(40.0, 40.0, 20.0, 80.0));
@@ -328,8 +297,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int    width
-   * @param int    height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */

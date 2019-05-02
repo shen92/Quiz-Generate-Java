@@ -1,12 +1,15 @@
 package application;
 
+import java.io.FileNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -81,6 +84,24 @@ public class QuizResultsGUI {
       public void handle(ActionEvent arg0) {
         // TODO RESET NEEDED
         primaryStage.setTitle("Save to File");
+        if (questionList == null) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setHeaderText("Cannot write the file!");
+          alert.setContentText("There is no questions in the question list!");
+          alert.showAndWait();
+          return;
+        } else
+          try {
+            questionList.writeQuestions(questionList.getAllQuestion());
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("File Written Complete!");
+            alert.setContentText("All questions have been successfully written");
+            alert.showAndWait();
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+          }
       }
     });
     finishQuizHBox.getChildren().add(saveToFileButton);

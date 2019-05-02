@@ -235,9 +235,7 @@ public class QuestionDatabase {
         tr.setNumQuestions(tr.getNumQuestions() + 1);
         return;
       }
-
     }
-
     TopicRow tr = new TopicRow();
     tr.setTopic(question.getTopic());
     tr.setNumQuestions(1);
@@ -258,5 +256,4 @@ public class QuestionDatabase {
     });
     return topicRows;
   }
-
 }

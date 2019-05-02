@@ -85,6 +85,11 @@ public class QuizGeneratorGUI {
     primaryStage.setTitle("Quiz Generator");
 
     this.quizGeneratorScene = new Scene(root, 1200, 800);
+    
+    for (int i = 0; i < questionList.getTopicRows().size(); i++) {
+      topicListTable.getItems().add(questionList.getTopicRows().get(i));
+      questionList.getTopicRows().get(i).getCheckBox().setSelected(false);
+    }
   }
 
   /**
@@ -526,6 +531,8 @@ public class QuizGeneratorGUI {
           quizQuestions.add(allSelectedTopicQues.get(randomIndex));
           allSelectedTopicQues.remove(randomIndex);
         }
+        
+        topicListTable.getItems().clear();
 
         ShowQuestionGUI showQuestionGUI =
             new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
