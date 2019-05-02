@@ -181,7 +181,7 @@ public class ShowQuestionGUI implements IGUI {
 
     // 3) Choice VBox
     VBox choiceVBox = new VBox();
-    choiceVBox.setPadding(new Insets(0.0, 40.0, 0.0, 150.0));
+    choiceVBox.setPadding(new Insets(0.0, 150.0, 0.0, 150.0));
     choiceVBox.setPrefHeight(360);
     choiceVBox.setAlignment(Pos.TOP_LEFT);
     choiceVBox.setSpacing(25);
@@ -194,6 +194,7 @@ public class ShowQuestionGUI implements IGUI {
       choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
       choice.get(i).setText(choiceGroupKeys.get(i));
       choice.get(i).setFont(Font.font(16));
+      choice.get(i).setWrapText(true);
       try {
         choiceVBox.getChildren().add(choice.get(i));
       } catch (IllegalArgumentException e) {
