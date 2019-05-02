@@ -342,6 +342,15 @@ public class QuizGeneratorGUI {
           newQuestion.setImage(imageTextField.getText());
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
+          if(choiceTextFields.get(i).getText().isEmpty() && choiceButtons.get(i).isSelected()) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("The correct answer has no content!");
+            alert.showAndWait();
+            return;
+          }
+            
           if (!choiceTextFields.get(i).getText().isEmpty()) {
             if (choiceButtons.get(i).isSelected())
 
