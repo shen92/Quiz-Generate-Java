@@ -240,6 +240,7 @@ public class QuizGeneratorGUI {
     h3.getChildren().add(imageLabel);
     TextField imageTextField = new TextField();
     imageTextField.setPrefWidth(450);
+    imageTextField.setText("none");
     h3.getChildren().add(imageTextField);
     getQuestionVBox.getChildren().add(h3);
 
@@ -252,6 +253,7 @@ public class QuizGeneratorGUI {
     h4.getChildren().add(metaDataLabel);
     TextField metaDataTextField = new TextField();
     metaDataTextField.setPrefWidth(450);
+    metaDataTextField.setText("unused");
     h4.getChildren().add(metaDataTextField);
     getQuestionVBox.getChildren().add(h4);
 
@@ -370,8 +372,8 @@ public class QuizGeneratorGUI {
 
         questionTextArea.clear();
         topicTextField.clear();
-        imageTextField.clear();
-        metaDataTextField.clear();
+        imageTextField.setText("none");
+        metaDataTextField.setText("unused");
 
         for (int i = 0; i < 5; i++) {
           choiceTextFields[i].clear();
@@ -386,10 +388,10 @@ public class QuizGeneratorGUI {
 
       @Override
       public void handle(ActionEvent arg0) {
-        metaDataTextField.clear();
         questionTextArea.clear();
         topicTextField.clear();
-        imageTextField.clear();
+        imageTextField.setText("none");
+        metaDataTextField.setText("unused");
         for (int i = 0; i < 5; i++) {
           choiceButtons[i].setSelected(false);
           choiceTextFields[i].clear();
@@ -488,10 +490,9 @@ public class QuizGeneratorGUI {
         }
         int quizQuestionAmount = 0;
 
-        
         try {
           quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
-          if(quizQuestionAmount <= 0)
+          if (quizQuestionAmount <= 0)
             throw new NumberFormatException();
 
         } catch (NumberFormatException e) {
@@ -502,19 +503,19 @@ public class QuizGeneratorGUI {
           alert.showAndWait();
           return;
         }
-        
-        for(int i = 0; i < questionList.getTopicRows().size(); i++) {
-          if(questionList.getTopicRows().get(i).getSelect())
+
+        for (int i = 0; i < questionList.getTopicRows().size(); i++) {
+          if (questionList.getTopicRows().get(i).getSelect())
             count++;
         }
-        if(count < 1) {
+        if (count < 1) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
           alert.setContentText("Please select at least one topic!");
           alert.showAndWait();
           return;
         }
-          
+
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
           quizQuestionAmount = allSelectedTopicQues.size();
