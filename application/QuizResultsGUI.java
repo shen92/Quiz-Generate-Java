@@ -184,8 +184,8 @@ public class QuizResultsGUI implements IGUI {
     restartQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        ShowQuestionGUI showQuestionGUI =
-            new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
+        QuestionDisplayGUI showQuestionGUI =
+            new QuestionDisplayGUI(primaryStage, quizQuestions, questionList);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }

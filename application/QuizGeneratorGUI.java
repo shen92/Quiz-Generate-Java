@@ -609,8 +609,8 @@ public class QuizGeneratorGUI implements IGUI {
 
         topicListTable.getItems().clear();
 
-        ShowQuestionGUI showQuestionGUI =
-            new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
+        QuestionDisplayGUI showQuestionGUI =
+            new QuestionDisplayGUI(primaryStage, quizQuestions, questionList);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }

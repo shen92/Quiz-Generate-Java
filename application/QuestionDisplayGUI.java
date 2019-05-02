@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class ShowQuestionGUI implements IGUI {
+public class QuestionDisplayGUI implements IGUI {
   private Scene quizQuestionsScene;
 
 
@@ -37,7 +37,7 @@ public class ShowQuestionGUI implements IGUI {
   private LinkedList<Question> quizQuestions;
   private int[] result;// 0=>numQuestions, 1=> numAnswered, 2=> numCorrect
 
-  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions,
+  public QuestionDisplayGUI(Stage primaryStage, LinkedList<Question> quizQuestions,
       QuestionDatabase questionList) {
     this.questionList = questionList;
     this.result = new int[3];
