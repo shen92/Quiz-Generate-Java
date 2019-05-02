@@ -1,11 +1,23 @@
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: Question class
+// Files: ChoiceGroup.java Main.java Question.java QuestionDatabase.java
+// QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
+// Course: CS400
+//
+// Author: Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+// Email: zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu,
+// kwang392@wisc.edu, bxu57@wisc.edu
+// Lecturer's Name: Deb Deppeler
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 package application;
 
 /**
- * This class represent the question in the question database
+ * This class represents the question in the question database
  * 
- * @Author Bojun Xu, Kerui Wang, Yingjie Shen
+ * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
  */
-
 public class Question {
   // Fields of the question
   // Sorted by json file

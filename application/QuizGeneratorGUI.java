@@ -97,7 +97,6 @@ public class QuizGeneratorGUI {
   private VBox addQuestionListComponent(Stage primaryStage) {
     VBox root = new VBox();
 
-
     // 1) Question List Label
     Label questionListLabel = new Label("Topic List");
     questionListLabel.setFont(Font.font(20));
@@ -479,6 +478,7 @@ public class QuizGeneratorGUI {
       public void handle(ActionEvent arg0) {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
+        int count = 0;
         // TODO
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
@@ -490,9 +490,10 @@ public class QuizGeneratorGUI {
         }
         int quizQuestionAmount = 0;
 
-
         try {
           quizQuestionAmount = Integer.parseInt(numQuestionTextField.getText());
+          if (quizQuestionAmount <= 0)
+            throw new NumberFormatException();
 
         } catch (NumberFormatException e) {
           Alert alert = new Alert(AlertType.WARNING);
@@ -503,6 +504,17 @@ public class QuizGeneratorGUI {
           return;
         }
 
+        for (int i = 0; i < questionList.getTopicRows().size(); i++) {
+          if (questionList.getTopicRows().get(i).getSelect())
+            count++;
+        }
+        if (count < 1) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Warning Dialog");
+          alert.setContentText("Please select at least one topic!");
+          alert.showAndWait();
+          return;
+        }
 
         Random rand = new Random();
         if (quizQuestionAmount > allSelectedTopicQues.size())
@@ -534,8 +546,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */

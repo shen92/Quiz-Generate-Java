@@ -103,7 +103,16 @@ public class ShowQuestionGUI {
     questionImageHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionImageHBox);
     if (!currentQuestion.getImage().equals("none")) {
-      Image img = new Image(currentQuestion.getImage());
+      Image img = null;
+      try {
+        img = new Image(currentQuestion.getImage());
+      }catch(IllegalArgumentException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setContentText("Cannot find image!");
+        alert.showAndWait();
+        return;
+      }
       ImageView questionImageView = new ImageView();
       // questionImageView.setAlignment(Pos.TOP_RIGHT);
       questionImageView.setImage(img);
