@@ -37,9 +37,10 @@ public class ShowQuestionGUI {
   private LinkedList<Question> quizQuestions;
   private int[] result;// 0=>numQuestions, 1=> numAnswered, 2=> numCorrect
 
-  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions, QuestionDatabase questionList) {
+  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions,
+      QuestionDatabase questionList) {
     this.questionList = questionList;
-	this.result = new int[3];
+    this.result = new int[3];
     loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
   }
@@ -105,7 +106,7 @@ public class ShowQuestionGUI {
       Image img = null;
       try {
         img = new Image(currentQuestion.getImage());
-      }catch(IllegalArgumentException e) {
+      } catch (IllegalArgumentException e) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setContentText("Cannot find image!");
@@ -144,32 +145,32 @@ public class ShowQuestionGUI {
     Button checkButton = addButton("check", 200, 40);
     checkButtonBox.getChildren().add(checkButton);
     root.getChildren().add(checkButtonBox);
-    
-    checkButton.setOnAction(new EventHandler<ActionEvent>() {
-    	@Override
-        public void handle(ActionEvent arg0) {
-    		Alert alert;
-    		if (currentQuestion.isCorrect()) {
-    			
-    			alert = new Alert(AlertType.INFORMATION);
-    	        alert.setTitle("Result Dialog");
-    	        alert.setHeaderText(null);
-    	        alert.setContentText("Your answer is correct!");
-    	        alert.showAndWait();
-    		}
-    		
-    		else {
-    			alert = new Alert(AlertType.WARNING);
-    	        alert.setTitle("Result Dialog");
-    	        alert.setHeaderText(null);
-    	        alert.setContentText("Your answer is incorrect!");
-    	        alert.showAndWait();
-    			
-    		}
-    		
 
-    	}
-    	
+    checkButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        Alert alert;
+        if (currentQuestion.isCorrect()) {
+
+          alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is correct!");
+          alert.showAndWait();
+        }
+
+        else {
+          alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is incorrect!");
+          alert.showAndWait();
+
+        }
+
+
+      }
+
     });
 
 
@@ -237,8 +238,8 @@ public class ShowQuestionGUI {
           confirmButton.setOnAction(e -> {
             window.close();
             getResult(result);
-            
-			QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
+
+            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
 
@@ -275,7 +276,7 @@ public class ShowQuestionGUI {
     });
     buttonHBox.getChildren().add(nextButton);
     root.getChildren().add(buttonHBox);
-    
+
 
     this.quizQuestionsScene = new Scene(scrollPane, 1200, 800);
     primaryStage.setScene(this.quizQuestionsScene);
@@ -303,8 +304,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param int    width
+   * @param int    height
    * 
    * @return Button button
    */
