@@ -61,7 +61,7 @@ public class ShowQuestionGUI implements IGUI {
         VBox labelsVBox = new VBox();
         labelsVBox.setAlignment(Pos.CENTER);
         labelsVBox.setPadding(new Insets(40, 0, 10, 0));
-        Label warning1 = new Label("Would you like to quit?");
+        Label warning1 = new Label("Would you like to exit?");
         warning1.setFont(Font.font(16));
         labelsVBox.getChildren().add(warning1);
 
