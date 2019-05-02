@@ -19,6 +19,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -186,6 +188,11 @@ public class QuestionDatabase {
   }
 
   public LinkedList<TopicRow> getTopicRows() {
+	Collections.sort(topicRows, new Comparator<TopicRow>() {
+	    public int compare(TopicRow a, TopicRow b) {
+	        return a.getTopic().compareTo(b.getTopic());
+	    }
+	});
     return topicRows;
   }
 
