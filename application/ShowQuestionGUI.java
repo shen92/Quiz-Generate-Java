@@ -195,7 +195,13 @@ public class ShowQuestionGUI {
       @Override
       public void handle(ActionEvent arg0) {
         Alert alert;
-        if (currentQuestion.isCorrect()) {
+        if (!currentQuestion.isAnswered()) {
+          alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Question is not answered!");
+          alert.showAndWait();
+        } else if (currentQuestion.isCorrect()) {
           alert = new Alert(AlertType.INFORMATION);
           alert.setTitle("Result Dialog");
           alert.setHeaderText(null);
@@ -226,13 +232,13 @@ public class ShowQuestionGUI {
           Text remind = new Text("Would you like to submit?");
           remind.setFont(Font.font(20));
           Button confirmButton = new Button("confirm");
-
+          getResult(result);
           confirmButton.setOnAction(e -> {
             window.close();
             for (Question q : quizQuestions) {
               q.reset();
             }
-            getResult(result);
+
 
             QuizResultsGUI quizResultsGUI =
                 new QuizResultsGUI(primaryStage, result, questionList, quizQuestions);
