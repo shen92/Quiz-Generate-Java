@@ -1,5 +1,5 @@
 package application;
-
+//todo
 public interface IQuestion {
   
   /**
