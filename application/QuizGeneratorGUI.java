@@ -53,13 +53,15 @@ public class QuizGeneratorGUI {
   // JavaFX Components
   private TableView<TopicRow> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
-  private LinkedList<Question> quizQuestions;
+  TextField numQuestionTextField;
 
   // Back-End Fields
   private QuestionDatabase questionList;
+  private LinkedList<Question> quizQuestions;
 
   public QuizGeneratorGUI(Stage primaryStage, QuestionDatabase questionList) {
     this.questionList = questionList;
+    this.numQuestionTextField = new TextField();
     setup(primaryStage);
   }
 
@@ -225,6 +227,7 @@ public class QuizGeneratorGUI {
           totalQuestionNum += questionList.getTopicRows().get(i).getNumQuestions();
         }
         questionDatabaseCountLabel.setText("Total Questions: " + totalQuestionNum);
+        numQuestionTextField.setText("" + questionList.getAllQuestion().size());
       }
     });
 
@@ -447,6 +450,7 @@ public class QuizGeneratorGUI {
           topicListTable.getItems().add(questionList.getTopicRows().get(i));
         questionDatabaseCountLabel
             .setText("Total Questions: " + questionList.getAllQuestion().size());
+        numQuestionTextField.setText("" + questionList.getAllQuestion().size());
 
         questionTextArea.clear();
         topicTextField.clear();
@@ -510,8 +514,9 @@ public class QuizGeneratorGUI {
     numOfQuestionLabel.setFont(Font.font(18));
     searchHBox.getChildren().add(numOfQuestionLabel);
 
-    TextField numQuestionTextField = new TextField();
+
     numQuestionTextField.setPrefWidth(200);
+    numQuestionTextField.setText("" + questionList.getAllQuestion().size());
     searchHBox.getChildren().add(numQuestionTextField);
     root.getChildren().add(searchHBox);
 
