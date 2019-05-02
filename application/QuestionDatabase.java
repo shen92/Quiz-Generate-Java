@@ -35,7 +35,7 @@ import javafx.scene.control.CheckBox;
  * 
  * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
  */
-public class QuestionDatabase {
+public class QuestionDatabase implements IQuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;// bank of question, grouped by topic
   private CheckBox checkBox = new CheckBox();// checkbox
   private LinkedList<TopicRow> topicRows = new LinkedList<TopicRow>();// linkedlist for topicRow
@@ -134,7 +134,10 @@ public class QuestionDatabase {
     Object obj1 = null;
     try {
       obj1 = new JSONParser().parse(new FileReader(jsonFile));
-    }catch(ParseException e) {System.out.println("Json File invalid format!!!");return;}
+    } catch (ParseException e) {
+      System.out.println("Json File invalid format!!!");
+      return;
+    }
 
     JSONObject jo = (JSONObject) obj1;
 

@@ -38,7 +38,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -46,7 +45,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class QuizGeneratorGUI {
+public class QuizGeneratorGUI implements IGUI {
   private Scene quizGeneratorScene;
 
   //
@@ -642,27 +641,6 @@ public class QuizGeneratorGUI {
     button.setPrefWidth(width);
     button.setPrefHeight(height);
     return button;
-  }
-
-  /**
-   * WARNING: Developer use only.
-   */
-  private void test(String func) {
-    Stage window = new Stage();
-    window.setTitle(func);
-    window.setMinWidth(400);
-    window.setMinHeight(200);
-
-    Button button = new Button("Close");
-    button.setOnAction(e -> window.close());
-
-    BorderPane layout = new BorderPane();
-
-    layout.setCenter(button);
-
-    Scene scene = new Scene(layout);
-    window.setScene(scene);
-    window.showAndWait();
   }
 
 }

@@ -18,7 +18,7 @@ package application;
  * 
  * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
  */
-public class Question {
+public class Question implements IQuestion {
   // Fields of the question
   // Sorted by json file
   private String meta_data;
@@ -26,9 +26,6 @@ public class Question {
   private String topic;
   private String imageFile;
   private ChoiceGroup choiceGroup;
-
-  // Status fields for the question
-  private boolean isAnswered;
 
   /**
    * Default no-argument constructor of a Question object
@@ -41,8 +38,6 @@ public class Question {
     this.questionText = null;
     this.choiceGroup = new ChoiceGroup();
     this.imageFile = null;
-
-    this.isAnswered = false;
   }
 
   /**

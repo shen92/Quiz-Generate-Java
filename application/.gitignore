@@ -75,3 +75,8 @@
 /QuizGeneratorGUI$1$3.class
 /ShowQuestionGUI$1$3.class
 /QuizResultsGUI$1$3.class
+/GUIMethods.class
+/IChoiceGroup.class
+/IQuestionDatabase.class
+/IGUI.class
+/IQuestion.class

@@ -1,25 +1,21 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
 //
-// Title:   ChoiceGroup class
-// Files:   ChoiceGroup.java Main.java Question.java QuestionDatabase.java
-//          QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
-// Course:  CS400
+// Title: ChoiceGroup class
+// Files: ChoiceGroup.java Main.java Question.java QuestionDatabase.java
+// QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
+// Course: CS400
 //
-// Author:  Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
-// Email:   zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu, 
-//          kwang392@wisc.edu, bxu57@wisc.edu
+// Author: Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+// Email: zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu,
+// kwang392@wisc.edu, bxu57@wisc.edu
 // Lecturer's Name: Deb Deppeler
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 package application;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Map.Entry;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
 /**
@@ -31,7 +27,7 @@ import javafx.scene.control.ToggleGroup;
  * 
  * @author Yingjie Shen
  */
-public class ChoiceGroup {
+public class ChoiceGroup implements IChoiceGroup {
 
   private Hashtable<String, Status> choiceGroup;
   private ToggleGroup toggleGroup;
@@ -205,7 +201,7 @@ public class ChoiceGroup {
   public ArrayList<String> getChoiceGroupKeys() {
     return this.keys;
   }
-  
+
   public boolean checkCorrectness(String choiceContent) {
     return this.choiceGroup.get(choiceContent).correctness;
   }

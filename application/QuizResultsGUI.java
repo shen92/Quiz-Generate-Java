@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class QuizResultsGUI {
+public class QuizResultsGUI implements IGUI {
   private Scene quizResultScene;
 
 
@@ -230,24 +230,5 @@ public class QuizResultsGUI {
     return button;
   }
 
-  /**
-   * WARNING: Developer use only.
-   */
-  private void test(String func) {
-    Stage window = new Stage();
-    window.setTitle(func);
-    window.setMinWidth(400);
-    window.setMinHeight(200);
 
-    Button button = new Button("Close");
-    button.setOnAction(e -> window.close());
-
-    BorderPane layout = new BorderPane();
-
-    layout.setCenter(button);
-
-    Scene scene = new Scene(layout);
-    window.setScene(scene);
-    window.showAndWait();
-  }
 }
