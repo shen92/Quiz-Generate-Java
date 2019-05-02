@@ -7,10 +7,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -98,7 +100,16 @@ public class ShowQuestionGUI {
     questionImageHBox.setAlignment(Pos.TOP_LEFT);
     questionHBox.getChildren().add(questionImageHBox);
     if (!currentQuestion.getImage().equals("none")) {
-      Image img = new Image(currentQuestion.getImage());
+      Image img = null;
+      try {
+        img = new Image(currentQuestion.getImage());
+      }catch(IllegalArgumentException e) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setContentText("Cannot find image!");
+        alert.showAndWait();
+        return;
+      }
       ImageView questionImageView = new ImageView();
       // questionImageView.setAlignment(Pos.TOP_RIGHT);
       questionImageView.setImage(img);
