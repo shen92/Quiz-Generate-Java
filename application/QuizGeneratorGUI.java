@@ -48,7 +48,7 @@ import javafx.stage.Stage;
 public class QuizGeneratorGUI {
   private Scene quizGeneratorScene;
 
-  //
+  //todo
   // JavaFX Components
   private TableView<TopicRow> topicListTable;
   private Label questionDatabaseCountLabel = new Label();

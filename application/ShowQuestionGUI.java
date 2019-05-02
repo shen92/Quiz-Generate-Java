@@ -28,9 +28,8 @@ public class ShowQuestionGUI {
 
 
   private Text questionIndexLabel = new Text();
-
+  //todo
   // Back-End Fields
-  // TODO
   QuestionDatabase questionList;
   private int questionIndex;
   private LinkedList<Question> quizQuestions;

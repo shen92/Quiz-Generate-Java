@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class QuizResultsGUI {
   private Scene quizResultScene;
 
-  
+  //todo
   QuestionDatabase questionList;
   int[] result;
 
