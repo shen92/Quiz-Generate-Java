@@ -48,6 +48,7 @@ import javafx.stage.Stage;
 public class QuizGeneratorGUI {
   private Scene quizGeneratorScene;
 
+  //
   // JavaFX Components
   private TableView<TopicRow> topicListTable;
   private Label questionDatabaseCountLabel = new Label();
@@ -57,7 +58,7 @@ public class QuizGeneratorGUI {
   private QuestionDatabase questionList;
 
   public QuizGeneratorGUI(Stage primaryStage, QuestionDatabase questionList) {
-	this.questionList = questionList;
+    this.questionList = questionList;
     setup(primaryStage);
   }
 
@@ -68,7 +69,6 @@ public class QuizGeneratorGUI {
    */
   private void setup(Stage primaryStage) {
     VBox root = new VBox();
-    questionList = new QuestionDatabase();
 
     // Setups for the Quiz Generator Scene
     HBox upper = new HBox();
@@ -127,7 +127,7 @@ public class QuizGeneratorGUI {
     root.getChildren().add(topicListTable);
 
     // 3) Question Count Label
-    questionDatabaseCountLabel.setText("Total Questions: " + topicListTable.getItems().size());
+    questionDatabaseCountLabel.setText("Total Questions: " + 0 /* TODO */);
     questionDatabaseCountLabel.setPadding(new Insets(25, 0, 10, 0));
     questionDatabaseCountLabel.setFont(Font.font(18));
     root.getChildren().add(questionDatabaseCountLabel);
@@ -265,23 +265,24 @@ public class QuizGeneratorGUI {
 
     ToggleGroup group = new ToggleGroup();
 
-    TextField[] choiceTextFields = new TextField[5];
-    RadioButton[] choiceButtons = new RadioButton[5];
+
+    ArrayList<RadioButton> choiceButtons = new ArrayList<>(5);
+    ArrayList<TextField> choiceTextFields = new ArrayList<>(5);
     for (int i = 0; i < 5; i++) {
       HBox choice = new HBox();
       choice.setSpacing(10);
       choice.setAlignment(Pos.CENTER_RIGHT);
-      choiceButtons[i] = new RadioButton();
-      choiceButtons[i].setToggleGroup(group);
-      choiceButtons[i].setSelected(false);
-      choice.getChildren().add(choiceButtons[i]);
+      choiceButtons.add(new RadioButton());
+      choiceButtons.get(i).setToggleGroup(group);
+      choiceButtons.get(i).setSelected(false);
+      choice.getChildren().add(choiceButtons.get(i));
       Label choiceLabel = new Label();
       choiceLabel.setText((char) ('A' + i) + ": ");
       choiceLabel.setFont(Font.font(18));
       choice.getChildren().add(choiceLabel);
-      choiceTextFields[i] = new TextField();
-      choiceTextFields[i].setPrefWidth(450);
-      choice.getChildren().add(choiceTextFields[i]);
+      choiceTextFields.add(new TextField());
+      choiceTextFields.get(i).setPrefWidth(450);
+      choice.getChildren().add(choiceTextFields.get(i));
       getQuestionVBox.getChildren().add(choice);
     }
 
@@ -335,13 +336,13 @@ public class QuizGeneratorGUI {
           newQuestion.setImage(imageTextField.getText());
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
-          if (!choiceTextFields[i].getText().isEmpty()) {
-            if (choiceButtons[i].isSelected())
+          if (!choiceTextFields.get(i).getText().isEmpty()) {
+            if (choiceButtons.get(i).isSelected())
 
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields[i].getText(), "T");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "T");
 
             else {
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields[i].getText(), "F");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "F");
             }
           } else {
             choiceEmptyCount++;
@@ -377,8 +378,8 @@ public class QuizGeneratorGUI {
         metaDataTextField.setText("unused");
 
         for (int i = 0; i < 5; i++) {
-          choiceTextFields[i].clear();
-          choiceButtons[i].setSelected(false);
+          choiceTextFields.get(i).clear();
+          choiceButtons.get(i).setSelected(false);
         }
       }
     });
@@ -394,8 +395,8 @@ public class QuizGeneratorGUI {
         imageTextField.setText("none");
         metaDataTextField.setText("unused");
         for (int i = 0; i < 5; i++) {
-          choiceButtons[i].setSelected(false);
-          choiceTextFields[i].clear();
+          choiceButtons.get(i).setSelected(false);
+          choiceTextFields.get(i).clear();
         }
       }
 
@@ -526,7 +527,8 @@ public class QuizGeneratorGUI {
           allSelectedTopicQues.remove(randomIndex);
         }
 
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
+        ShowQuestionGUI showQuestionGUI =
+            new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }
@@ -547,8 +549,8 @@ public class QuizGeneratorGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */

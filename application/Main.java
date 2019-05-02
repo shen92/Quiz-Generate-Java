@@ -22,19 +22,19 @@ public class Main extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    
+
     for (String to : questionList.getAllTopic()) {
-    	System.out.print(to);
+      System.out.print(to);
     }
-    
+
   }
 
   private void setup(Stage primaryStage) {
-	questionList = new QuestionDatabase();
+    this.questionList = new QuestionDatabase();
     this.quizGeneratorGUI = new QuizGeneratorGUI(primaryStage, questionList);
-    
   }
 
+  //
   public static void main(String[] args) {
     launch(args);
   }

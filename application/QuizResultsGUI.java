@@ -17,11 +17,7 @@ import javafx.stage.Stage;
 public class QuizResultsGUI {
   private Scene quizResultScene;
 
-  // JavaFX Components
-  // TODO
-
-  // Back-End Fields
-  // TODO
+  
   QuestionDatabase questionList;
   int[] result;
 

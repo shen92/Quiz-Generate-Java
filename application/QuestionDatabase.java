@@ -79,7 +79,7 @@ public class QuestionDatabase {
     JSONObject jo1 = new JSONObject();
 
     JSONArray ja1 = new JSONArray();
-    
+
     for (int i = 0; i < question.size(); i++) {
       JSONObject jo2 = new JSONObject();
 
@@ -87,7 +87,7 @@ public class QuestionDatabase {
       jo2.put("questionText", question.get(i).getQuestionText());
       jo2.put("topic", question.get(i).getTopic());
       jo2.put("image", question.get(i).getImage());
-      
+
       JSONArray ja2 = new JSONArray();
       Iterator<String> it = question.get(i).getChoiceGroup().getChoiceGroupKeys().iterator();
       JSONObject jo3;
@@ -185,8 +185,7 @@ public class QuestionDatabase {
   }
 
   /**
-   * iterate all the questions in questionBank
-   * add all the questions to allQuestionSet
+   * iterate all the questions in questionBank add all the questions to allQuestionSet
    *
    * @return ArrayList<ArrayList<Question>>
    */

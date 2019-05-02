@@ -26,8 +26,7 @@ import javafx.stage.Stage;
 public class ShowQuestionGUI {
   private Scene quizQuestionsScene;
 
-  // JavaFX Components
-  // TODO
+
   private Text questionIndexLabel = new Text();
 
   // Back-End Fields
@@ -129,15 +128,16 @@ public class ShowQuestionGUI {
 
     // TODO Choice class added
     ChoiceGroup choiceGroup = currentQuestion.getChoiceGroup();
-    RadioButton[] choice = new RadioButton[choiceGroup.size()];
+    ArrayList<RadioButton> choice = new ArrayList<RadioButton>(choiceGroup.size());
     ArrayList<String> choiceGroupKeys = choiceGroup.getChoiceGroupKeys();
     for (int i = 0; i < choiceGroupKeys.size(); i++) {
-      choice[i] = choiceGroup.getRadioButton(choiceGroupKeys.get(i));
-      choice[i].setText(choiceGroupKeys.get(i));
-      choiceVBox.getChildren().add(choice[i]);
+      choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
+      choice.get(i).setText(choiceGroupKeys.get(i));
+      choiceVBox.getChildren().add(choice.get(i));
     }
     root.getChildren().add(choiceVBox);
 
+<<<<<<< HEAD
     // check box
     HBox checkButtonBox = new HBox();
     checkButtonBox.setPadding(new Insets(20.0, 160.0, 20.0, 80.0));
@@ -175,13 +175,15 @@ public class ShowQuestionGUI {
 
 
 
+=======
+>>>>>>> branch 'master' of https://github.com/shen92/p6_project.git
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
     buttonHBox.setPadding(new Insets(40.0, 40.0, 20.0, 80.0));
     buttonHBox.setAlignment(Pos.CENTER);
-    buttonHBox.setSpacing(300);
+    buttonHBox.setSpacing(200);
 
-    Button prevButton = addButton("Previous", 270, 40);
+    Button prevButton = addButton("Previous", 180, 40);
     prevButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -220,7 +222,29 @@ public class ShowQuestionGUI {
     });
     buttonHBox.getChildren().add(prevButton);
 
-    Button nextButton = addButton("Next", 270, 40);
+    Button checkButton = addButton("check", 180, 40);
+    checkButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        Alert alert;
+        if (currentQuestion.isCorrect()) {
+          alert = new Alert(AlertType.INFORMATION);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is correct!");
+          alert.showAndWait();
+        } else {
+          alert = new Alert(AlertType.WARNING);
+          alert.setTitle("Result Dialog");
+          alert.setHeaderText(null);
+          alert.setContentText("Your answer is incorrect!");
+          alert.showAndWait();
+        }
+      }
+    });
+    buttonHBox.getChildren().add(checkButton);
+
+    Button nextButton = addButton("Next", 180, 40);
     nextButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
