@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
   private QuizGeneratorGUI quizGeneratorGUI;
+  private QuestionDatabase questionList;
 
   @Override
   public void start(Stage primaryStage) {
@@ -21,10 +22,17 @@ public class Main extends Application {
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+    for (String to : questionList.getAllTopic()) {
+    	System.out.print(to);
+    }
+    
   }
 
   private void setup(Stage primaryStage) {
-    this.quizGeneratorGUI = new QuizGeneratorGUI(primaryStage);
+	questionList = new QuestionDatabase();
+    this.quizGeneratorGUI = new QuizGeneratorGUI(primaryStage, questionList);
+    
   }
 
   public static void main(String[] args) {

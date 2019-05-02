@@ -2,9 +2,6 @@ package application;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import javax.swing.JOptionPane;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,12 +32,14 @@ public class ShowQuestionGUI {
 
   // Back-End Fields
   // TODO
+  QuestionDatabase questionList;
   private int questionIndex;
   private LinkedList<Question> quizQuestions;
   private int[] result;// 0=>numQuestions, 1=> numAnswered, 2=> numCorrect
 
-  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions) {
-    this.result = new int[3];
+  public ShowQuestionGUI(Stage primaryStage, LinkedList<Question> quizQuestions, QuestionDatabase questionList) {
+    this.questionList = questionList;
+	this.result = new int[3];
     loadQuiz(primaryStage, quizQuestions);
     setup(primaryStage);
   }
@@ -238,7 +237,8 @@ public class ShowQuestionGUI {
           confirmButton.setOnAction(e -> {
             window.close();
             getResult(result);
-            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result);
+            
+			QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
 

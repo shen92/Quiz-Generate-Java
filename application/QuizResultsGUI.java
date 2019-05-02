@@ -22,9 +22,11 @@ public class QuizResultsGUI {
 
   // Back-End Fields
   // TODO
+  QuestionDatabase questionList;
   int[] result;
 
-  public QuizResultsGUI(Stage primaryStage, int[] result) {
+  public QuizResultsGUI(Stage primaryStage, int[] result, QuestionDatabase questionList) {
+	this.questionList = questionList;
     this.result = result;
     setup(primaryStage);
   }
@@ -91,7 +93,7 @@ public class QuizResultsGUI {
     finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        QuizGeneratorGUI quizGeneratorGUI = new QuizGeneratorGUI(primaryStage);
+        QuizGeneratorGUI quizGeneratorGUI = new QuizGeneratorGUI(primaryStage, questionList);
         primaryStage.setScene(quizGeneratorGUI.getScene());
         primaryStage.setTitle("Quiz Generator");
       }

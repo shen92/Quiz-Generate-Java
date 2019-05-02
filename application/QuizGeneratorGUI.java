@@ -56,7 +56,8 @@ public class QuizGeneratorGUI {
   // Back-End Fields
   private QuestionDatabase questionList;
 
-  public QuizGeneratorGUI(Stage primaryStage) {
+  public QuizGeneratorGUI(Stage primaryStage, QuestionDatabase questionList) {
+	this.questionList = questionList;
     setup(primaryStage);
   }
 
@@ -525,7 +526,7 @@ public class QuizGeneratorGUI {
           allSelectedTopicQues.remove(randomIndex);
         }
 
-        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions);
+        ShowQuestionGUI showQuestionGUI = new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
         primaryStage.setScene(showQuestionGUI.getScene());
         primaryStage.setTitle("Quiz");
       }
