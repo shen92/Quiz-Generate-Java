@@ -119,13 +119,13 @@ public class ShowQuestionGUI implements IGUI {
 
     ScrollPane scrollPane = new ScrollPane();
     scrollPane.setPrefWidth(1200);
-    scrollPane.setPrefHeight(800);
-    scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+    // scrollPane.setPrefHeight(800);
+    scrollPane.setHbarPolicy(ScrollBarPolicy.ALWAYS);
     scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
 
     VBox root = new VBox();
     root.setPrefWidth(1200);
-    root.setPrefHeight(800);
+    root.setPadding(new Insets(0, 0, 30, 0));
     scrollPane.setContent(root);
     // questionDisplay.getChildren().add(scrollPane);
 
@@ -155,7 +155,7 @@ public class ShowQuestionGUI implements IGUI {
     Label questionText = new Label();
     questionText.setWrapText(true);
     questionText.setText(currentQuestion.getQuestionText());
-    questionText.setFont(Font.font(20));
+    questionText.setFont(Font.font(25));
     questionTextHBox.getChildren().add(questionText);
 
     HBox questionImageHBox = new HBox();
@@ -193,6 +193,7 @@ public class ShowQuestionGUI implements IGUI {
     for (int i = 0; i < choiceGroupKeys.size(); i++) {
       choice.add(choiceGroup.getRadioButton(choiceGroupKeys.get(i)));
       choice.get(i).setText(choiceGroupKeys.get(i));
+      choice.get(i).setFont(Font.font(16));
       try {
         choiceVBox.getChildren().add(choice.get(i));
       } catch (IllegalArgumentException e) {
@@ -207,7 +208,7 @@ public class ShowQuestionGUI implements IGUI {
 
     // 4) Previous and Next Buttons
     HBox buttonHBox = new HBox();
-    buttonHBox.setPadding(new Insets(40.0, 40.0, 20.0, 80.0));
+    buttonHBox.setPadding(new Insets(40.0, 00.0, 0.0, 00.0));
     buttonHBox.setAlignment(Pos.CENTER);
     buttonHBox.setSpacing(200);
 
