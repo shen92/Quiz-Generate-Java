@@ -30,6 +30,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import javafx.scene.control.CheckBox;
 
+/**
+ * This class represents the question database
+ * 
+ * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+ */
 public class QuestionDatabase {
   private HashMap<String, ArrayList<Question>> questionBank;// bank of question, grouped by topic
   private CheckBox checkBox = new CheckBox();// checkbox
