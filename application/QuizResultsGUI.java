@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class QuizResultsGUI {
   private Scene quizResultScene;
@@ -33,6 +34,65 @@ public class QuizResultsGUI {
     this.questionList = questionList;
     this.result = result;
     setup(primaryStage);
+    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+      @Override
+      public void handle(WindowEvent event) {
+        Stage window = new Stage();
+        window.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          @Override
+          public void handle(WindowEvent event) {
+            event.consume();
+          }
+        });
+        window.setTitle("Quit");
+        window.setMinWidth(320);
+        window.setMinHeight(180);
+        VBox root = new VBox();
+
+        VBox labelsVBox = new VBox();
+        labelsVBox.setAlignment(Pos.CENTER);
+        labelsVBox.setPadding(new Insets(40, 0, 10, 0));
+        Label warning1 = new Label("Would you like to quit?");
+        warning1.setFont(Font.font(16));
+        labelsVBox.getChildren().add(warning1);
+
+        Label warning2 = new Label("Your unsaved changes will lost!");
+        warning2.setFont(Font.font(16));
+        labelsVBox.getChildren().add(warning2);
+        root.getChildren().add(labelsVBox);
+
+        HBox buttonHBox = new HBox();
+        buttonHBox.setAlignment(Pos.CENTER);
+        buttonHBox.setPadding(new Insets(40, 0, 20, 0));
+        buttonHBox.setSpacing(60);
+
+        Button saveButton = addButton("Save File", 80, 20);
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent arg0) {
+            event.consume();
+            window.close();
+            return;
+          }
+        });
+        buttonHBox.getChildren().add(saveButton);
+
+        Button quitButton = addButton("Exit", 80, 20);
+        quitButton.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent arg0) {
+            System.exit(0);
+            return;
+          }
+        });
+        buttonHBox.getChildren().add(quitButton);
+        root.getChildren().add(buttonHBox);
+
+        Scene alert = new Scene(root, 320, 180);
+        window.setScene(alert);
+        window.showAndWait();
+      }
+    });
   }
 
   private void setup(Stage primaryStage) {
