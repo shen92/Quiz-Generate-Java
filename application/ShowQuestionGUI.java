@@ -28,8 +28,9 @@ public class ShowQuestionGUI {
 
 
   private Text questionIndexLabel = new Text();
-  //todo
+
   // Back-End Fields
+  // TODO
   QuestionDatabase questionList;
   private int questionIndex;
   private LinkedList<Question> quizQuestions;
@@ -233,7 +234,8 @@ public class ShowQuestionGUI {
             }
             getResult(result);
 
-            QuizResultsGUI quizResultsGUI = new QuizResultsGUI(primaryStage, result, questionList);
+            QuizResultsGUI quizResultsGUI =
+                new QuizResultsGUI(primaryStage, result, questionList, quizQuestions);
             primaryStage.setScene(quizResultsGUI.getScene());
             primaryStage.setTitle("Quiz Results");
 
@@ -298,8 +300,8 @@ public class ShowQuestionGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param        int width
-   * @param        int height
+   * @param int width
+   * @param int height
    * 
    * @return Button button
    */

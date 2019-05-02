@@ -18,7 +18,7 @@ package application;
  * 
  * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
  */
-public class Question implements IQuestion {
+public class Question {
   // Fields of the question
   // Sorted by json file
   private String meta_data;

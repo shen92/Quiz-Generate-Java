@@ -20,31 +20,4 @@
 		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>application/IChoiceGroup.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Users/frank/Documents/WeChat%20Files/frank_xuxy/FileStorage/File/2019-05/IChoiceGroup.java</locationURI>
-		</link>
-		<link>
-			<name>application/IGUI.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Users/frank/Documents/WeChat%20Files/frank_xuxy/FileStorage/File/2019-05/Archive/IGUI.java</locationURI>
-		</link>
-		<link>
-			<name>application/IQuestionDatabase.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Users/frank/Documents/WeChat%20Files/frank_xuxy/FileStorage/File/2019-05/Archive/IQuestionDatabase.java</locationURI>
-		</link>
-		<link>
-			<name>application/ITopicRow.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Users/frank/Documents/WeChat%20Files/frank_xuxy/FileStorage/File/2019-05/ITopicRow.java</locationURI>
-		</link>
-		<link>
-			<name>application/TopicRow.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Users/frank/Documents/WeChat%20Files/frank_xuxy/FileStorage/File/2019-05/TopicRow.java</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

@@ -1,6 +1,6 @@
 package application;
-//todo
-public interface IQuestion {
+
+public interface QuestionMethods {
   
   /**
    * This method sets the meta_data field during adding new question to the question database

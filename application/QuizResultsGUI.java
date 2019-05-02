@@ -1,6 +1,7 @@
 package application;
 
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -20,12 +22,15 @@ import javafx.stage.Stage;
 public class QuizResultsGUI {
   private Scene quizResultScene;
 
-  //todo
+
   QuestionDatabase questionList;
+  private LinkedList<Question> quizQuestions;
   int[] result;
 
-  public QuizResultsGUI(Stage primaryStage, int[] result, QuestionDatabase questionList) {
-	this.questionList = questionList;
+  public QuizResultsGUI(Stage primaryStage, int[] result, QuestionDatabase questionList,
+      LinkedList<Question> quizQuestions) {
+    this.quizQuestions = quizQuestions;
+    this.questionList = questionList;
     this.result = result;
     setup(primaryStage);
   }
@@ -75,10 +80,13 @@ public class QuizResultsGUI {
     // 3) Finish Quiz Button HBox
     HBox finishQuizHBox = new HBox();
     finishQuizHBox.setAlignment(Pos.CENTER);
-    finishQuizHBox.setSpacing(300);
+    finishQuizHBox.setSpacing(200);
     finishQuizHBox.setPadding(new Insets(150.0, 0.0, 0.0, 0.0));
 
-    Button saveToFileButton = addButton("Save to File", 270, 40);
+    Button saveToFileButton = addButton("Save to File", 180, 40);
+    Tooltip saveToFileTooltip = new Tooltip();
+    saveToFileTooltip.setText("Exit with saving to file");
+    saveToFileButton.setTooltip(saveToFileTooltip);
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
@@ -102,11 +110,32 @@ public class QuizResultsGUI {
           } catch (FileNotFoundException e) {
             e.printStackTrace();
           }
+        QuizGeneratorGUI quizGeneratorGUI = new QuizGeneratorGUI(primaryStage, questionList);
+        primaryStage.setScene(quizGeneratorGUI.getScene());
+        primaryStage.setTitle("Quiz Generator");
       }
     });
     finishQuizHBox.getChildren().add(saveToFileButton);
 
-    Button finishQuizButton = addButton("Finish", 270, 40);
+    Button restartQuizButton = addButton("Restart", 180, 40);
+    Tooltip restartQuizTooltip = new Tooltip();
+    restartQuizTooltip.setText("Restart quiz");
+    restartQuizButton.setTooltip(restartQuizTooltip);
+    restartQuizButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent arg0) {
+        ShowQuestionGUI showQuestionGUI =
+            new ShowQuestionGUI(primaryStage, quizQuestions, questionList);
+        primaryStage.setScene(showQuestionGUI.getScene());
+        primaryStage.setTitle("Quiz");
+      }
+    });
+    finishQuizHBox.getChildren().add(restartQuizButton);
+
+    Button finishQuizButton = addButton("Finish", 180, 40);
+    Tooltip finishQuizTooltip = new Tooltip();
+    finishQuizTooltip.setText("Exit without saving");
+    finishQuizButton.setTooltip(finishQuizTooltip);
     finishQuizButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {

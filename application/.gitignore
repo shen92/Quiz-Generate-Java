@@ -62,9 +62,4 @@
 /QuestionDatabase$1.class
 /Iquestion.class
 /QuestionMethods.class
-/IQuestion.class
-/ITopicRow.class
-/GUIMethods.class
-/IGUI.class
-/IChoiceGroup.class
-/IQuestionDatabase.class
+/QuizResultsGUI$3.class
