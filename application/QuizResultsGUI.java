@@ -1,3 +1,23 @@
+//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+// Title: Quiz Generator
+//
+// Files: ChoiceGroup.java, IChoiceGroup.java, IGUI.java, IQuestion.java,
+// IQuestionDatabase.java, ITopicR.java, Main.java, Question.java,
+// QuestionDatabase.java, QuestionDisplayGUI.java, QuizGeneratorGUI.java,
+// QuizResultsGUI.java, TopicRow.java, application.css
+//
+// Course: CS400 Spring 2019 Sec 001 & 002
+//
+// Author, E-mail:
+// Bojun Xu, bxu57@wisc.edu
+// Yingjie Shen, shen92@wisc.edu
+// Kerui Wang, kwang392@wisc.edu
+// Dongxia Wu, dwu93@wisc.edu
+// Zhelai Chen, zchen743@wisc.edu
+//
+// Lecturer's Name: Deb Deppeler
+//
+/////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
 package application;
 
 import java.io.FileNotFoundException;
@@ -79,7 +99,8 @@ public class QuizResultsGUI implements IGUI {
               Alert alert = new Alert(AlertType.WARNING);
               alert.setTitle("Warning Dialog");
               alert.setHeaderText("Cannot write the file!");
-              alert.setContentText("There is no questions in the question list! \nProgram will exit without saving the file!");
+              alert.setContentText(
+                  "There is no questions in the question list! \nProgram will exit without saving the file!");
               alert.getButtonTypes().setAll(exitButton);
               alert.showAndWait();
               System.exit(0);

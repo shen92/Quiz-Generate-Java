@@ -1,13 +1,20 @@
 //////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+// Title: Quiz Generator
 //
-// Title: QuizGeneratorGUI class
-// Files: ChoiceGroup.java Main.java Question.java QuestionDatabase.java
-// QuizGeneratorGUI.java QuizResultsGUI.java TopicRow.java
-// Course: CS400
+// Files: ChoiceGroup.java, IChoiceGroup.java, IGUI.java, IQuestion.java,
+// IQuestionDatabase.java, ITopicR.java, Main.java, Question.java,
+// QuestionDatabase.java, QuestionDisplayGUI.java, QuizGeneratorGUI.java,
+// QuizResultsGUI.java, TopicRow.java, application.css
 //
-// Author: Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
-// Email: zchen743@wisc.edu, shen92@wisc.edu, dwu93@wisc.edu,
-// kwang392@wisc.edu, bxu57@wisc.edu
+// Course: CS400 Spring 2019 Sec 001 & 002
+//
+// Author, E-mail:
+// Bojun Xu, bxu57@wisc.edu
+// Yingjie Shen, shen92@wisc.edu
+// Kerui Wang, kwang392@wisc.edu
+// Dongxia Wu, dwu93@wisc.edu
+// Zhelai Chen, zchen743@wisc.edu
+//
 // Lecturer's Name: Deb Deppeler
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
