@@ -27,6 +27,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -38,6 +39,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -124,9 +126,29 @@ public class QuizGeneratorGUI implements IGUI {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
-            event.consume();
-            window.close();
-            return;
+            if (questionList.getAllQuestion().size() == 0) {
+              ButtonType exitButton = new ButtonType("Exit");
+              Alert alert = new Alert(AlertType.WARNING);
+              alert.setTitle("Warning Dialog");
+              alert.setHeaderText("Cannot write the file!");
+              alert.setContentText("There is no questions in the question list! \nProgram will exit without saving the file!");
+              alert.getButtonTypes().setAll(exitButton);
+              alert.showAndWait();
+              System.exit(0);
+            } else
+              try {
+                questionList.writeQuestions(questionList.getAllQuestion());
+                ButtonType exitButton = new ButtonType("Exit");
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("File Written Complete!");
+                alert.setContentText("All questions have been successfully written");
+                alert.getButtonTypes().setAll(exitButton);
+                alert.showAndWait();
+              } catch (FileNotFoundException e) {
+                e.printStackTrace();
+              }
+            System.exit(0);
           }
         });
         buttonHBox.getChildren().add(saveButton);
@@ -402,13 +424,13 @@ public class QuizGeneratorGUI implements IGUI {
           return;
         }
         // all required fields are filled
-        newQuestion.setQuestionText(questionTextArea.getText());
-        newQuestion.setMetaData(metaDataTextField.getText());
-        newQuestion.setTopic(topicTextField.getText());
+        newQuestion.setQuestionText(questionTextArea.getText().trim());
+        newQuestion.setMetaData(metaDataTextField.getText().trim());
+        newQuestion.setTopic(topicTextField.getText().trim());
         if (imageTextField.getText().isEmpty())
           newQuestion.setImage("none");
         else
-          newQuestion.setImage(imageTextField.getText());
+          newQuestion.setImage(imageTextField.getText().trim());
         int choiceEmptyCount = 0;
         for (int i = 0; i < 5; i++) {
           if (choiceTextFields.get(i).getText().isEmpty() && choiceButtons.get(i).isSelected()) {
@@ -423,10 +445,10 @@ public class QuizGeneratorGUI implements IGUI {
           if (!choiceTextFields.get(i).getText().isEmpty()) {
             if (choiceButtons.get(i).isSelected())
 
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "T");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText().trim(), "T");
 
             else {
-              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText(), "F");
+              newQuestion.getChoiceGroup().addChoice(choiceTextFields.get(i).getText().trim(), "F");
             }
           } else {
             choiceEmptyCount++;
@@ -532,8 +554,8 @@ public class QuizGeneratorGUI implements IGUI {
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        // TODO
-        if (questionList == null) {
+        //Save the file to the project directory (file name:JSONExample.json)
+        if (questionList.getAllQuestion().size() == 0) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
           alert.setHeaderText("Cannot write the file!");
@@ -568,6 +590,17 @@ public class QuizGeneratorGUI implements IGUI {
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         int count = 0;
         // TODO
+        for(int i = 0; i < questionList.getAllQuestion().size(); i++) {
+          try {
+            Image img = new Image(questionList.getAllQuestion().get(i).getImage());
+          }catch(IllegalArgumentException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Cannot find image of one or more questions in database!");
+            alert.showAndWait();
+            return;
+          }
+        }
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
             for (int j = 0; j < questionList
@@ -575,6 +608,15 @@ public class QuizGeneratorGUI implements IGUI {
               allSelectedTopicQues.add(questionList
                   .filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).get(j));
           }
+        }
+        
+        if(questionList.getAllQuestion().size() == 0) {
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.setTitle("Error Dialog");
+          alert.setHeaderText("Cannot start the quiz!");
+          alert.setContentText("There is no question in the database!!!");
+          alert.showAndWait();
+          return;
         }
         int quizQuestionAmount = 0;
 
