@@ -39,7 +39,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -97,7 +96,7 @@ public class QuizGeneratorGUI implements IGUI {
             event.consume();
           }
         });
-        window.setTitle("Quit");
+        window.setTitle("Exit");
         window.setMinWidth(320);
         window.setMinHeight(180);
         VBox root = new VBox();

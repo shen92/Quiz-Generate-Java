@@ -54,7 +54,7 @@ public class QuestionDisplayGUI implements IGUI {
             event.consume();
           }
         });
-        window.setTitle("Quit");
+        window.setTitle("Exit");
         window.setMinWidth(320);
         window.setMinHeight(180);
         VBox root = new VBox();

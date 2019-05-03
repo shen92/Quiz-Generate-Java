@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
@@ -73,9 +74,29 @@ public class QuizResultsGUI implements IGUI {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent arg0) {
-            event.consume();
-            window.close();
-            return;
+            if (questionList.getAllQuestion().size() == 0) {
+              ButtonType exitButton = new ButtonType("Exit");
+              Alert alert = new Alert(AlertType.WARNING);
+              alert.setTitle("Warning Dialog");
+              alert.setHeaderText("Cannot write the file!");
+              alert.setContentText("There is no questions in the question list! \nProgram will exit without saving the file!");
+              alert.getButtonTypes().setAll(exitButton);
+              alert.showAndWait();
+              System.exit(0);
+            } else
+              try {
+                questionList.writeQuestions(questionList.getAllQuestion());
+                ButtonType exitButton = new ButtonType("Exit");
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("File Written Complete!");
+                alert.setContentText("All questions have been successfully written");
+                alert.getButtonTypes().setAll(exitButton);
+                alert.showAndWait();
+              } catch (FileNotFoundException e) {
+                e.printStackTrace();
+              }
+            System.exit(0);
           }
         });
         buttonHBox.getChildren().add(saveButton);
@@ -92,6 +113,8 @@ public class QuizResultsGUI implements IGUI {
           }
         });
         buttonHBox.getChildren().add(quitButton);
+
+
         root.getChildren().add(buttonHBox);
 
         Scene alert = new Scene(root, 320, 180);
