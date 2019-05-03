@@ -16,7 +16,9 @@ package application;
 /**
  * This class represents the question in the question database
  * 
- * @Author Zhelai Chen, Yingjie Shen, Dongxia Wu, Kerui Wang, Bojun Xu
+ * And implements the IQuestion interface
+ * 
+ * @Author Bojun Xu, Yingjie Shen
  */
 public class Question implements IQuestion {
   // Fields of the question

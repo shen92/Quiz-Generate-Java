@@ -46,6 +46,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * This class represents the quiz section of the program
+ * 
+ * And implements IGUI interface
+ * 
+ * @author Yingjie Shen, Bojun Xu, Kerui Wang, Dongxia Wu
+ */
 public class QuizGeneratorGUI implements IGUI {
   private Scene quizGeneratorScene;
 
@@ -130,7 +137,8 @@ public class QuizGeneratorGUI implements IGUI {
               Alert alert = new Alert(AlertType.WARNING);
               alert.setTitle("Warning Dialog");
               alert.setHeaderText("Cannot write the file!");
-              alert.setContentText("There is no questions in the question list! \nProgram will exit without saving the file!");
+              alert.setContentText(
+                  "There is no questions in the question list! \nProgram will exit without saving the file!");
               alert.getButtonTypes().setAll(exitButton);
               alert.showAndWait();
               System.exit(0);
@@ -553,7 +561,7 @@ public class QuizGeneratorGUI implements IGUI {
     saveToFileButton.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent arg0) {
-        //Save the file to the project directory (file name:JSONExample.json)
+        // Save the file to the project directory (file name:JSONExample.json)
         if (questionList.getAllQuestion().size() == 0) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setTitle("Warning Dialog");
@@ -588,7 +596,7 @@ public class QuizGeneratorGUI implements IGUI {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         int count = 0;
-     
+
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
             for (int j = 0; j < questionList
@@ -597,8 +605,8 @@ public class QuizGeneratorGUI implements IGUI {
                   .filteredQuestionList(questionList.getTopicRows().get(i).getTopic()).get(j));
           }
         }
-        
-        if(questionList.getAllQuestion().size() == 0) {
+
+        if (questionList.getAllQuestion().size() == 0) {
           Alert alert = new Alert(AlertType.ERROR);
           alert.setTitle("Error Dialog");
           alert.setHeaderText("Cannot start the quiz!");

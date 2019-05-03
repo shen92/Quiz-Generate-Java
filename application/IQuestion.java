@@ -1,5 +1,10 @@
 package application;
 
+/**
+ * This interface have the method the Question class should implement
+ * 
+ * @Author Bojun Xu, Yingjie Shen
+ */
 public interface IQuestion {
 
   /**

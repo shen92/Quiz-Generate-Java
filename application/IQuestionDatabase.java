@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.Set;
 import org.json.simple.parser.*;
 
+/**
+ * This interface contains the methods the Question Database class should implement
+ * 
+ * @Author Bojun Xu
+ */
 public interface IQuestionDatabase {
 
   /**

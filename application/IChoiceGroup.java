@@ -10,6 +10,8 @@ import javafx.scene.control.ToggleGroup;
  * In the HashTable, the Key is the choice text, and the value is the Choice Status.
  * 
  * The choice status is represented as an inner class with two fields, correctness and is checked
+ * 
+ * @Author Kerui Wang
  */
 public interface IChoiceGroup {
 

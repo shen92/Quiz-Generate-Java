@@ -25,14 +25,20 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * This class represents the quiz section of the program
+ * 
+ * And implements IGUI interface
+ * 
+ * @author Yingjie Shen, Kerui Wang, Zhelai Chen
+ */
 public class QuestionDisplayGUI implements IGUI {
   private Scene quizQuestionsScene;
 
-
+  // Front-End Fields
   private Text questionIndexLabel = new Text();
 
   // Back-End Fields
-  // TODO
   QuestionDatabase questionList;
   private int questionIndex;
   private LinkedList<Question> quizQuestions;

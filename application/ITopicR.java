@@ -2,6 +2,11 @@ package application;
 
 import javafx.scene.control.CheckBox;
 
+/**
+ * This interface contains the methods that TopicRow class should implement
+ *
+ * @Author Yingjie Shen, Kerui Wang
+ */
 interface ITopicR {
 
   /**
