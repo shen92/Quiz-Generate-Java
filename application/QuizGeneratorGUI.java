@@ -589,18 +589,7 @@ public class QuizGeneratorGUI implements IGUI {
         quizQuestions = new LinkedList<Question>();
         ArrayList<Question> allSelectedTopicQues = new ArrayList<Question>();
         int count = 0;
-        // TODO
-        for(int i = 0; i < questionList.getAllQuestion().size(); i++) {
-          try {
-            Image img = new Image(questionList.getAllQuestion().get(i).getImage());
-          }catch(IllegalArgumentException e) {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Dialog");
-            alert.setHeaderText("Cannot find image of one or more questions in database!");
-            alert.showAndWait();
-            return;
-          }
-        }
+     
         for (int i = 0; i < questionList.getTopicRows().size(); i++) {
           if (questionList.getTopicRows().get(i).getSelect()) {
             for (int j = 0; j < questionList
