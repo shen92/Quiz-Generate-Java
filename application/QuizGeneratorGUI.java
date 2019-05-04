@@ -483,6 +483,15 @@ public class QuizGeneratorGUI implements IGUI {
             alert.showAndWait();
             return;
           }
+          for (int j = i + 1; j < choiceTextFields.size(); j++) {
+            if (choiceTextFields.get(i).getText().equals(choiceTextFields.get(j).getText())) {
+              Alert alert = new Alert(AlertType.ERROR);
+              alert.setTitle("Error Dialog");
+              alert.setContentText("Do not put same content in different choices!");
+              alert.showAndWait();
+              return;
+            }
+          }
         }
 
         questionList.addQuestion(newQuestion);
@@ -682,8 +691,8 @@ public class QuizGeneratorGUI implements IGUI {
    * This method adds a Button component to a scene
    * 
    * @param String name
-   * @param int width
-   * @param int height
+   * @param        int width
+   * @param        int height
    * 
    * @return Button button
    */
